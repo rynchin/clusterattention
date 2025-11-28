@@ -1,0 +1,40 @@
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+def elu_feature_map(x):
+    return F.elu(x) + 1
+
+class LinearAttention(nn.Module):
+    def __init__(self, dim, heads, eps):
+        super().__init__()
+        assert dim % heads == 0
+        self.dim = dim
+        self.heads = heads
+        self.d = dim // heads
+        self.eps = eps
+    
+        self.WQ = nn.Linear(dim, dim)
+        self.WK = nn.Linear(dim, dim)
+        self.WV = nn.Linear(dim, dim)
+        self.WO = nn.Linear(dim, dim)
+
+    def forward(self, x):
+        B,T,dim = x.shape
+        # for elu R == D
+        Q = elu_feature_map(self.WQ(x).reshape(B,T,self.heads, self.d).transpose(1,2)) # BHTR
+        K = elu_feature_map(self.WK(x).reshape(B,T,self.heads, self.d).transpose(1,2)) # BHTR
+        V = self.WV(x).reshape(B,T,self.heads, self.d).transpose(1,2) # BHTD
+        
+        KV = torch.einsum('bhtr,bhtd->bhtrd', K, V) # BHTRD
+        S = KV.cumsum(dim=2) # BHTRD
+        Z = K.cumsum(dim=2).unsqueeze(-1) # BHTR1
+        
+        num = torch.einsum('bhtr,bhtrd->bhtd', Q, S) # BHTD
+        den = torch.einsum('bhtr,bhtrd->bhtd', Q, Z) # BHT1
+        out = num/(den + self.eps)
+        return self.WO(out.transpose(1,2).reshape(B,T,dim))
+
+x = torch.randn(2,20,128)
+y = LinearAttention(128, 8, 1e-6)
+print(y(x).shape)
