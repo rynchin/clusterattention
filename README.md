@@ -1,21 +1,53 @@
 # Cluster Attention
 
-Small Transformer language model for comparing three attention mechanisms:
+Small Transformer LM comparing three attention mechanisms:
 
 - **MHA**: standard causal softmax attention
 - **LinearAttention**: causal kernelized attention
 - **ClusterAttention**: block-based √N clustered attention
 
-## Usage
+## Data
 
-Train all variants with:
+- **Dataset**: `enwik8` (first 100M bytes of Wikipedia).
+
+Download into project:
+
+```bash
+curl -O https://data.deepai.org/enwik8.zip
+unzip enwik8.zip
+```
+
+## Local training
 
 ```bash
 python train.py
 ```
 
-## Structure
+This runs all three variants (MHA, LinearAttention, ClusterAttention) and reports bits-per-byte.
 
-- `transformer/` - Transformer blocks and language model
-- `variants/` - Attention implementations (MHA, LinearAttention, ClusterAttention)
-- `train.py` - Training script against Bigram model
+## Modal GPU training
+
+- **1. Upload `enwik8` into the Modal volume**
+
+```bash
+modal run modal_app.py::upload_enwik8_from_local
+```
+
+- **2. Deploy the training endpoint**
+
+```bash
+modal deploy modal_app.py
+```
+
+Open the URL shown in the deploy output, click the `run_training` web endpoint.
+
+## Project structure
+
+- `transformer/` – Transformer layers and language model wrapper
+- `variants/` – attention implementations (MHA, LinearAttention, ClusterAttention)
+- `train.py` – training + evaluation loop over enwik8
+- `modal_app.py` – Modal endpoints for remote training
+
+## Experiment
+
+- [Results](https://docs.google.com/spreadsheets/d/1GOvGsjI47orddke0ZIDvAB-HaFKg3dp0x8A_oxAO-Yk/edit?usp=sharing)
