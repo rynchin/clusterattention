@@ -4,7 +4,7 @@ Small Transformer LM comparing attention mechanisms:
 
 - **MHA**: standard causal softmax attention
 - **LinearAttention**: causal kernelized attention
-- **ClusterAttention**: block-based √N clustered attention
+- **ClusterAttention**: block-based √T clustered attention
 - **LearnedClusterAttention**: learned cluster assignments via Gumbel softmax
 - **ClusterKernelAttention**: cluster-based attention with low-rank cluster mixing (T√T scaling, O(Ck) mixing via low-rank decomposition)
 
