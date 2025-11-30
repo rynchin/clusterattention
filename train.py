@@ -9,6 +9,7 @@ from transformer.TransformerLM import TransformerLM
 from variants.MHA import MHA
 from variants.LinearAttention import LinearAttention
 from variants.ClusterAttention import ClusterAttention
+from variants.LearnedClusterAttention import LearnedClusterAttention
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
@@ -39,7 +40,7 @@ heads = 8
 ffdim = 4 * dim
 batch_size = 32
 steps = 20000
-n_layers = 8
+n_layers = 2
 
 lr = 3e-4
 weight_decay = 0.01
@@ -85,9 +86,10 @@ def evaluate_bpb(model, data, T, num_batches=200):
 
 def run_all_models():
     models = [
-        ('MHA', MHA, {}),
-        ('LinearAttention', LinearAttention, {'eps': 1e-6}),
-        ('ClusterAttention', ClusterAttention, {'cluster_scale': 1.0}),
+        # ('MHA', MHA, {}),
+        # ('LinearAttention', LinearAttention, {'eps': 1e-6}),
+        # ('ClusterAttention', ClusterAttention, {'cluster_scale': 1.0}),
+        ('LearnedClusterAttention', LearnedClusterAttention, {'T': T, 'cluster_scale': 4.0, 'tau': 1.0}),
     ]
     results = {}
     for name, attn_class, attn_args in models:

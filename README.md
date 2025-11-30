@@ -1,10 +1,11 @@
 # Cluster Attention
 
-Small Transformer LM comparing three attention mechanisms:
+Small Transformer LM comparing attention mechanisms:
 
 - **MHA**: standard causal softmax attention
 - **LinearAttention**: causal kernelized attention
 - **ClusterAttention**: block-based √N clustered attention
+- **LearnedClusterAttention**: learned cluster assignments via Gumbel softmax
 
 ## Data
 
@@ -44,7 +45,7 @@ Open the URL shown in the deploy output, click the `run_training` web endpoint.
 ## Project structure
 
 - `transformer/` – Transformer layers and language model wrapper
-- `variants/` – attention implementations (MHA, LinearAttention, ClusterAttention)
+- `variants/` – attention implementations (MHA, LinearAttention, ClusterAttention, LearnedClusterAttention)
 - `train.py` – training + evaluation loop over enwik8
 - `modal_app.py` – Modal endpoints for remote training
 
