@@ -11,6 +11,7 @@ from variants.LinearAttention import LinearAttention
 from variants.ClusterAttention import ClusterAttention
 from variants.LearnedClusterAttention import LearnedClusterAttention
 from variants.SuperClusterAttention import SuperClusterAttention
+from variants.ClusterKernelAttention import ClusterKernelAttention
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
@@ -91,7 +92,8 @@ def run_all_models():
         # ('LinearAttention', LinearAttention, {'eps': 1e-6}),
         # ('ClusterAttention', ClusterAttention, {'cluster_scale': 1.0}),
         #('LearnedClusterAttention', LearnedClusterAttention, {'T': T, 'cluster_scale': 4.0, 'tau': 1.0}),
-        ('SuperClusterAttention', SuperClusterAttention, {'T': T, 'cluster_scale': 4.0, 'tau': 1.0}),
+        #('SuperClusterAttention', SuperClusterAttention, {'T': T, 'cluster_scale': 4.0, 'tau': 1.0}),
+        ('ClusterKernelAttention', ClusterKernelAttention, {'T': T, 'cluster_scale': 4.0, 'tau': 1.0, 'r': 32}),
     ]
     results = {}
     for name, attn_class, attn_args in models:

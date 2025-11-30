@@ -1,6 +1,6 @@
 import modal
 
-app = modal.App("ClusterAttention_layers8")
+app = modal.App("CKA_scale4")
 
 image = (
     modal.Image.debian_slim()
@@ -17,12 +17,11 @@ volume = modal.Volume.from_name("enwik8-data", create_if_missing=True)
 
 @app.function(
     image=image,
-    gpu="A10G",
+    gpu="A100",
     timeout=60 * 60 * 4,
     volumes={"/data": volume},
 )
 
-@modal.web_endpoint()
 def run_training():
     import os
     import sys
