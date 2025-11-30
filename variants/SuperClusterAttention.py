@@ -10,8 +10,8 @@ def gumbel_softmax(logits, tau=1.0, eps=1e-9):
     y_hard = torch.zeros_like(y_soft).scatter_(-1, idx, 1.0) # BTc
     y = y_hard.detach() - y_soft.detach() + y_soft # straight through trick
     return y, idx.squeeze(-1) # BTc, BT
-    
-class LearnedClusterAttention(nn.Module):
+
+class SuperClusterAttention(nn.Module):
     def __init__(self, dim, heads, T, cluster_scale=1.0, tau=1.0):
         super().__init__()
         assert dim % heads == 0
@@ -21,7 +21,7 @@ class LearnedClusterAttention(nn.Module):
         self.cluster_scale = cluster_scale
         self.tau = tau
         self.T = T
-    
+        
         s = int(cluster_scale * T**0.5)
         s = max(1, min(s, T))
         self.num_clusters = (T + s - 1) // s
@@ -32,18 +32,39 @@ class LearnedClusterAttention(nn.Module):
         self.WO = nn.Linear(dim, dim)
         
         self.cluster_proj = nn.Linear(dim, self.num_clusters)
+        
+        # supernode projections
+        self.WQ_s = nn.Linear(dim, dim)
+        self.WK_s = nn.Linear(dim, dim)
+        self.WV_s = nn.Linear(dim, dim)
 
     def forward(self, x):
         B,T,dim = x.shape
         assert T == self.T
         
-        # project
-        Q = self.WQ(x).reshape(B,T,self.heads, self.d).transpose(1,2) # BHTD
-        K = self.WK(x).reshape(B,T,self.heads, self.d).transpose(1,2)
-        V = self.WV(x).reshape(B,T,self.heads, self.d).transpose(1,2)
-
+        # cluster assignments
         logits = self.cluster_proj(x) # BTc
         soft_assign, idx = gumbel_softmax(logits, self.tau) # BTc, BT
+        
+        # supernodes
+        S = torch.einsum('btc,btd->bcd', soft_assign, x) # BcD
+        Qs = self.WQ_s(S) #BcD
+        Ks = self.WK_s(S) #BcD
+        Vs = self.WV_s(S) #BcD
+
+        logits_s = torch.einsum('bcd,bkd->bck', Qs, Ks)/(dim ** 0.5) #Bcc
+        score_s = torch.softmax(logits_s, dim = -1) #Bcc
+        out_s = torch.einsum('bck,bkd->bcd', score_s, Vs) # BcD
+        
+        # broadcast supernode info to tokens
+        info = torch.einsum("btc,bcd->btd", soft_assign, out_s) # BTD
+        
+        x_aug = x + info # BTD
+        
+        # project
+        Q = self.WQ(x_aug).reshape(B,T,self.heads, self.d).transpose(1,2) # BHTD
+        K = self.WK(x_aug).reshape(B,T,self.heads, self.d).transpose(1,2)
+        V = self.WV(x_aug).reshape(B,T,self.heads, self.d).transpose(1,2)
     
         R_soft = torch.einsum('btc,buc->btu', soft_assign, soft_assign)
         R_hard = (idx.unsqueeze(-1)==idx.unsqueeze(-2)).float() # BTT (same cluster assignments)
@@ -62,5 +83,5 @@ class LearnedClusterAttention(nn.Module):
         return self.WO(out)
 
 x = torch.randn(2,20,128)
-y = LearnedClusterAttention(128, 8, 20)
+y = SuperClusterAttention(128, 8, 20)
 print(y(x).shape)
