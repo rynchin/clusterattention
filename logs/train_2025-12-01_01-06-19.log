@@ -1,0 +1,47 @@
+Loading enwik8...
+Total bytes: 100000000
+Starting training...
+
+----Training FastCKA_l2_s1----
+FastCKA_l2_s1: step 500/20000 | loss 2.7345
+FastCKA_l2_s1: step 1000/20000 | loss 2.8079
+FastCKA_l2_s1: step 1500/20000 | loss 2.6015
+FastCKA_l2_s1: step 2000/20000 | loss 2.5795
+FastCKA_l2_s1: step 2500/20000 | loss 2.6389
+FastCKA_l2_s1: step 3000/20000 | loss 2.5353
+FastCKA_l2_s1: step 3500/20000 | loss 2.5559
+FastCKA_l2_s1: step 4000/20000 | loss 2.4854
+FastCKA_l2_s1: step 4500/20000 | loss 2.5040
+FastCKA_l2_s1: step 5000/20000 | loss 2.3677
+FastCKA_l2_s1: step 5500/20000 | loss 2.4463
+FastCKA_l2_s1: step 6000/20000 | loss 2.4018
+FastCKA_l2_s1: step 6500/20000 | loss 2.4122
+FastCKA_l2_s1: step 7000/20000 | loss 2.4161
+FastCKA_l2_s1: step 7500/20000 | loss 2.3056
+FastCKA_l2_s1: step 8000/20000 | loss 2.3380
+FastCKA_l2_s1: step 8500/20000 | loss 2.2540
+FastCKA_l2_s1: step 9000/20000 | loss 2.2950
+FastCKA_l2_s1: step 9500/20000 | loss 2.2279
+FastCKA_l2_s1: step 10000/20000 | loss 2.2848
+FastCKA_l2_s1: step 10500/20000 | loss 2.2180
+FastCKA_l2_s1: step 11000/20000 | loss 2.0940
+FastCKA_l2_s1: step 11500/20000 | loss 2.0672
+FastCKA_l2_s1: step 12000/20000 | loss 2.1225
+FastCKA_l2_s1: step 12500/20000 | loss 2.0244
+FastCKA_l2_s1: step 13000/20000 | loss 2.0013
+FastCKA_l2_s1: step 13500/20000 | loss 1.9221
+FastCKA_l2_s1: step 14000/20000 | loss 1.9239
+FastCKA_l2_s1: step 14500/20000 | loss 1.8497
+FastCKA_l2_s1: step 15000/20000 | loss 1.8104
+FastCKA_l2_s1: step 15500/20000 | loss 1.8953
+FastCKA_l2_s1: step 16000/20000 | loss 1.8089
+FastCKA_l2_s1: step 16500/20000 | loss 1.7402
+FastCKA_l2_s1: step 17000/20000 | loss 1.6509
+FastCKA_l2_s1: step 17500/20000 | loss 1.7585
+FastCKA_l2_s1: step 18000/20000 | loss 1.7112
+FastCKA_l2_s1: step 18500/20000 | loss 1.6883
+FastCKA_l2_s1: step 19000/20000 | loss 1.6277
+FastCKA_l2_s1: step 19500/20000 | loss 1.7004
+FastCKA_l2_s1: step 20000/20000 | loss 1.6402
+FastCKA_l2_s1: train bpb=2.3740 | val bpb=2.3596
+Training completed successfully!

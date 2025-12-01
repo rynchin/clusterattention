@@ -4,6 +4,7 @@ import torch.optim as optim
 import torch.nn.functional as F
 import os
 import math
+from datetime import datetime
 
 from transformer.TransformerLM import TransformerLM
 from variants.MHA import MHA
@@ -13,6 +14,19 @@ from variants.LearnedClusterAttention import LearnedClusterAttention
 from variants.SuperClusterAttention import SuperClusterAttention
 from variants.ClusterKernelAttention import ClusterKernelAttention
 from variants.FastCKA import FastCKA
+
+# Setup logging to file with current date/time
+os.makedirs('logs', exist_ok=True)
+timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+log_file = open(f'logs/train_{timestamp}.log', 'w')
+
+def log(*args, **kwargs):
+    """Write to log file instead of printing"""
+    message = ' '.join(str(arg) for arg in args)
+    if kwargs:
+        message += ' ' + ' '.join(f'{k}={v}' for k, v in kwargs.items())
+    log_file.write(message + '\n')
+    log_file.flush()  # Ensure immediate write
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
@@ -27,10 +41,10 @@ def load_enwik8(path="enwik8"):
     data = torch.tensor(list(data), dtype=torch.long)
     return data
 
-print("Loading enwik8...")
+log("Loading enwik8...")
 full_data = load_enwik8(None)
 N = full_data.size(0)
-print("Total bytes:", N)
+log("Total bytes:", N)
 
 train_data = full_data[:90_000_000] # 90M
 val_data   = full_data[90_000_000:95_000_000] # 5M
@@ -43,7 +57,6 @@ heads = 8
 ffdim = 4 * dim
 batch_size = 32
 steps = 20000
-n_layers = 2
 
 lr = 3e-4
 weight_decay = 0.01
@@ -56,8 +69,12 @@ def get_batch(source, batch_size, T, device):
     y = torch.stack([source[i+1:i+T+1] for i in idx]) # B,T
     return x.to(device), y.to(device) # B,T
 
-def train(name, attn_class, attn_args, data, T):
-    print(f'\n----Training {name}----')
+def train(name, attn_class, attn_args, data, T, n_layers):
+    log(f'\n----Training {name}----')
+    # Clear CUDA cache before creating new model
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+    
     model = TransformerLM(dim=dim, heads=heads, ffdim=ffdim, V=V, T=T, n_layers=n_layers, attn_class=attn_class, attn_args=attn_args).to(device)
     optimizer = optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
 
@@ -71,7 +88,10 @@ def train(name, attn_class, attn_args, data, T):
         optimizer.step()
 
         if step_idx % 500 == 0:
-            print(f"{name}: step {step_idx}/{steps} | loss {loss.item():.4f}")
+            log(f"{name}: step {step_idx}/{steps} | loss {loss.item():.4f}")
+            # Periodically clear cache during training
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
 
     return model
 
@@ -88,23 +108,39 @@ def evaluate_bpb(model, data, T, num_batches=200):
     return bpb
 
 def run_all_models():
+    # each model is a tuple (name, attn_class, attn_args, n_layers)
     models = [
-        # ('MHA', MHA, {}),
-        # ('LinearAttention', LinearAttention, {'eps': 1e-6}),
-        # ('ClusterAttention', ClusterAttention, {'cluster_scale': 1.0}),
-        #('LearnedClusterAttention', LearnedClusterAttention, {'T': T, 'cluster_scale': 4.0, 'tau': 1.0}),
-        #('SuperClusterAttention', SuperClusterAttention, {'T': T, 'cluster_scale': 4.0, 'tau': 1.0}),
-        #('ClusterKernelAttention', ClusterKernelAttention, {'T': T, 'cluster_scale': 4.0, 'tau': 1.0, 'r': 32}),
-        ('FastCKA', FastCKA, {'T': T, 'cluster_scale': 4.0, 'tau': 1.0, 'r': 32}),
+        # ('MHA', MHA, {}, 2),
+        # ('LinearAttention', LinearAttention, {'eps': 1e-6}, 2),
+        # ('ClusterAttention', ClusterAttention, {'cluster_scale': 1.0}, 2),
+        #('LearnedClusterAttention', LearnedClusterAttention, {'T': T, 'cluster_scale': 4.0, 'tau': 1.0}, 2),
+        #('SuperClusterAttention', SuperClusterAttention, {'T': T, 'cluster_scale': 4.0, 'tau': 1.0}, 2),
+        #('ClusterKernelAttention', ClusterKernelAttention, {'T': T, 'cluster_scale': 4.0, 'tau': 1.0, 'r': 32}, 2),
+        # ('FastCKA_l2_s1', FastCKA, {'T': T, 'cluster_scale': 1.0, 'tau': 1.0, 'r': 32}, 2),
+        ('FastCKA_l2_s2', FastCKA, {'T': T, 'cluster_scale': 2.0, 'tau': 1.0, 'r': 32}, 2),
+        ('FastCKA_l1_s1', FastCKA, {'T': T, 'cluster_scale': 1.0, 'tau': 1.0, 'r': 32}, 1),
+        ('FastCKA_l4_s1', FastCKA, {'T': T, 'cluster_scale': 1.0, 'tau': 1.0, 'r': 32}, 4),
+        ('FastCKA_l2_s8', FastCKA, {'T': T, 'cluster_scale': 8.0, 'tau': 1.0, 'r': 32}, 2),
     ]
     results = {}
-    for name, attn_class, attn_args in models:
-        model = train(name, attn_class, attn_args, train_data, T)
+    for name, attn_class, attn_args, n_layers in models:
+        model = train(name, attn_class, attn_args, train_data, T, n_layers)
         train_bpb = evaluate_bpb(model, train_data, T, num_batches=100)
         val_bpb = evaluate_bpb(model, val_data, T, num_batches=100)
-        print(f"{name}: train bpb={train_bpb:.4f} | val bpb={val_bpb:.4f}")
+        log(f"{name}: train bpb={train_bpb:.4f} | val bpb={val_bpb:.4f}")
         results[name] = {
             'train_bpb': float(train_bpb),
             'val_bpb': float(val_bpb),
         }
     return results
+
+if __name__ == '__main__':
+    log('Starting training...')
+    try:
+        run_all_models()
+        log('Training completed successfully!')
+    except Exception as e:
+        log(f'Error during training: {e}')
+        raise
+    finally:
+        log_file.close()

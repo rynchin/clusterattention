@@ -1,5 +1,20 @@
 # Cluster Attention
 
+## Mechanism
+Self-attention can be viewed as message passing on a fully connected graph G with self-edges.
+
+Noncausal two-level attention with supernodes block design:
+
+|    Step|                                                        | Runtime      |
+|---|-------------------------------------------------------------|--------------|
+| 1 | Partition nodes invariantly into cliques via 1D proj + sort | O(n*logn)    |
+| 2 | Create supernode in each clique                             | O(sqrt(n))   |
+| 3 | Each supernode attends to its clique                        | O(n)         |
+| 4 | Inter-clique (supernode) attention                          | O(n)         |
+| 5 | Intra-clique attention                                      | O(n*sqrt(n)) |
+
+## Models
+
 Small Transformer LM comparing attention mechanisms:
 
 - **MHA**: standard causal softmax attention
