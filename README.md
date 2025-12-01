@@ -7,6 +7,13 @@ Small Transformer LM comparing attention mechanisms:
 - **ClusterAttention**: block-based √T clustered attention
 - **LearnedClusterAttention**: learned cluster assignments via Gumbel softmax
 - **ClusterKernelAttention**: cluster-based attention with low-rank cluster mixing (T√T scaling, O(Ck) mixing via low-rank decomposition)
+- **FastCKA**: fast variant of ClusterKernelAttention (use for training)
+
+| Mechanism             | Compute vs T | Memory vs T | Notes                                          |
+| --------------------- | ------------ | ----------- | ---------------------------------------------- |
+| Multi-Head Attention  | O(T²)        | O(T²)       | Exact softmax, most expressive                 |
+| Linear Attention      | O(T)         | O(1) in T   | Kernel prefix sums, single global summary      |
+| Clustered Kernel Attn | O(T^(3/2))   | O(T^(3/2))  | Clusters + low-rank mixing, mid expressiveness |
 
 ## Data
 
@@ -46,7 +53,7 @@ Open the URL shown in the deploy output, click the `run_training` web endpoint.
 ## Project structure
 
 - `transformer/` – Transformer layers and language model wrapper
-- `variants/` – attention implementations (MHA, LinearAttention, ClusterAttention, LearnedClusterAttention, ClusterKernelAttention)
+- `variants/` – attention implementations (MHA, LinearAttention, ClusterAttention, LearnedClusterAttention, ClusterKernelAttention, FastCKA)
 - `train.py` – training + evaluation loop over enwik8
 - `modal_app.py` – Modal endpoints for remote training
 

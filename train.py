@@ -12,6 +12,7 @@ from variants.ClusterAttention import ClusterAttention
 from variants.LearnedClusterAttention import LearnedClusterAttention
 from variants.SuperClusterAttention import SuperClusterAttention
 from variants.ClusterKernelAttention import ClusterKernelAttention
+from variants.FastCKA import FastCKA
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
@@ -93,7 +94,8 @@ def run_all_models():
         # ('ClusterAttention', ClusterAttention, {'cluster_scale': 1.0}),
         #('LearnedClusterAttention', LearnedClusterAttention, {'T': T, 'cluster_scale': 4.0, 'tau': 1.0}),
         #('SuperClusterAttention', SuperClusterAttention, {'T': T, 'cluster_scale': 4.0, 'tau': 1.0}),
-        ('ClusterKernelAttention', ClusterKernelAttention, {'T': T, 'cluster_scale': 4.0, 'tau': 1.0, 'r': 32}),
+        #('ClusterKernelAttention', ClusterKernelAttention, {'T': T, 'cluster_scale': 4.0, 'tau': 1.0, 'r': 32}),
+        ('FastCKA', FastCKA, {'T': T, 'cluster_scale': 4.0, 'tau': 1.0, 'r': 32}),
     ]
     results = {}
     for name, attn_class, attn_args in models:
