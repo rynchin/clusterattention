@@ -3,13 +3,13 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 def gumbel_softmax(logits, tau=1.0, eps=1e-9):
-    # logits: B,T,c
+    # logits: B,T,C
     gumbel = -torch.log(-torch.log(torch.rand_like(logits) + eps) + eps) # sample Gumbel noise
-    y_soft = F.softmax((logits + gumbel) / tau, dim=-1) # BTc
+    y_soft = F.softmax((logits + gumbel) / tau, dim=-1) # BTC
     idx = y_soft.argmax(dim=-1, keepdim=True) # BT1
-    y_hard = torch.zeros_like(y_soft).scatter_(-1, idx, 1.0) # BTc
+    y_hard = torch.zeros_like(y_soft).scatter_(-1, idx, 1.0) # BTC
     y = y_hard.detach() - y_soft.detach() + y_soft # straight through trick
-    return y, idx.squeeze(-1) # BTc, BT
+    return y, idx.squeeze(-1) # BTC, BT
 
 class SuperClusterAttention(nn.Module):
     def __init__(self, dim, heads, T, cluster_scale=1.0, tau=1.0):
@@ -43,22 +43,24 @@ class SuperClusterAttention(nn.Module):
         assert T == self.T
         
         # cluster assignments
-        logits = self.cluster_proj(x) # BTc
-        soft_assign, idx = gumbel_softmax(logits, self.tau) # BTc, BT
+        logits = self.cluster_proj(x) # BTC
+        soft_assign, idx = gumbel_softmax(logits, self.tau) # BTC, BT
+        cluster_probs = soft_assign.sum(dim=1, keepdim=False)  # BC
         
         # supernodes
-        S = torch.einsum('btc,btd->bcd', soft_assign, x) # BcD
-        Qs = self.WQ_s(S) #BcD
-        Ks = self.WK_s(S) #BcD
-        Vs = self.WV_s(S) #BcD
+        S = torch.einsum('btC,btd->bCd', soft_assign, x) # BCD
+        S = S / (cluster_probs.unsqueeze(-1) + 1e-8)  # BCD, normalize by cluster probabilities
+        Qs = self.WQ_s(S) #BCD
+        Ks = self.WK_s(S) #BCD
+        Vs = self.WV_s(S) #BCD
 
-        logits_s = torch.einsum('bcd,bkd->bck', Qs, Ks)/(dim ** 0.5) #Bcc
+        logits_s = torch.einsum('bcd,bkd->bck', Qs, Ks)/(dim ** 0.5) #BCC
         score_s = torch.softmax(logits_s, dim = -1) #Bcc
         out_s = torch.einsum('bck,bkd->bcd', score_s, Vs) # BcD
         
         # broadcast supernode info to tokens
         info = torch.einsum("btc,bcd->btd", soft_assign, out_s) # BTD
-        
+        #TODO add a projection here?
         x_aug = x + info # BTD
         
         # project

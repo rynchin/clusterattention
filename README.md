@@ -1,5 +1,11 @@
 # Cluster Attention
 
+## Papers
+- Attention is all you need
+- Linear attention
+- Gumbel softmax + straight through trick
+- Cluster attention paper and sparse attention paper
+
 ## Mechanism
 Self-attention can be viewed as message passing on a fully connected graph G with self-edges.
 

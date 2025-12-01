@@ -34,15 +34,15 @@ class ClusterAttention(nn.Module):
         V = self.WV(x).reshape(B,T,self.heads, self.d).transpose(1,2)
 
         scores = self.cluster_proj(x).squeeze(-1) # BT
-        sorted_scores, idx = torch.sort(scores, dim = -1) # idx contains original indices
+        sorted_scores, idx = torch.sort(scores, dim = -1) # idx (BT) contains original indices
         
         # inverse index to unsort
         inv_idx = torch.zeros_like(idx) # BT
         arange = torch.arange(T, device=x.device).unsqueeze(0).expand(B, -1)
         inv_idx.scatter_(1, idx, arange)
         
-        # reorder along dim 2
-        idx_shape = idx[:, None, :, None].expand(B, self.heads, T, self.d) # broadcast
+        # reorder along token dimension according to idx
+        idx_shape = idx[:, None, :, None].expand(B, self.heads, T, self.d) # broadcast to BHTD
         Qs = torch.gather(Q, 2, idx_shape) # BHTD
         Ks = torch.gather(K, 2, idx_shape)
         Vs = torch.gather(V, 2, idx_shape)
@@ -57,11 +57,12 @@ class ClusterAttention(nn.Module):
             
             pos = idx[:, start:end]
 
-            # causal wrt initial pos
-            future = (pos[:,None,:] > pos[:,:,None]).bool() # Bcc
-            causal_mask = future[:,None,:,:] # B1cc
+            # Compute causal mask wrt initial pos
+            # s = end - start = cluster size
+            future = (pos[:,None,:] > pos[:,:,None]).bool() # Bss
+            causal_mask = future[:,None,:,:] # B1ss
             
-            att = torch.einsum('bhtd,bhkd->bhtk', Qc, Kc)/(self.d ** 0.5) # BHcc
+            att = torch.einsum('bhtd,bhkd->bhtk', Qc, Kc)/(self.d ** 0.5) # BHss
             att = att.masked_fill(causal_mask, float('-inf'))
             att = torch.softmax(att, dim = -1)
             out_c = torch.einsum('bhtk,bhkd->bhtd', att, Vc)

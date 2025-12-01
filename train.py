@@ -56,7 +56,8 @@ dim = 256
 heads = 8
 ffdim = 4 * dim
 batch_size = 32
-steps = 20000
+steps = 50000
+log('number of training steps:', steps)
 
 lr = 3e-4
 weight_decay = 0.01
@@ -116,11 +117,11 @@ def run_all_models():
         #('LearnedClusterAttention', LearnedClusterAttention, {'T': T, 'cluster_scale': 4.0, 'tau': 1.0}, 2),
         #('SuperClusterAttention', SuperClusterAttention, {'T': T, 'cluster_scale': 4.0, 'tau': 1.0}, 2),
         #('ClusterKernelAttention', ClusterKernelAttention, {'T': T, 'cluster_scale': 4.0, 'tau': 1.0, 'r': 32}, 2),
-        # ('FastCKA_l2_s1', FastCKA, {'T': T, 'cluster_scale': 1.0, 'tau': 1.0, 'r': 32}, 2),
-        ('FastCKA_l2_s2', FastCKA, {'T': T, 'cluster_scale': 2.0, 'tau': 1.0, 'r': 32}, 2),
-        ('FastCKA_l1_s1', FastCKA, {'T': T, 'cluster_scale': 1.0, 'tau': 1.0, 'r': 32}, 1),
-        ('FastCKA_l4_s1', FastCKA, {'T': T, 'cluster_scale': 1.0, 'tau': 1.0, 'r': 32}, 4),
-        ('FastCKA_l2_s8', FastCKA, {'T': T, 'cluster_scale': 8.0, 'tau': 1.0, 'r': 32}, 2),
+        ('FastCKA_l2_s1', FastCKA, {'T': T, 'cluster_scale': 1.0, 'tau': 1.0, 'r': 32}, 2),
+        # ('FastCKA_l2_s2', FastCKA, {'T': T, 'cluster_scale': 2.0, 'tau': 1.0, 'r': 32}, 2),
+        # ('FastCKA_l1_s1', FastCKA, {'T': T, 'cluster_scale': 1.0, 'tau': 1.0, 'r': 32}, 1),
+        # ('FastCKA_l4_s1', FastCKA, {'T': T, 'cluster_scale': 1.0, 'tau': 1.0, 'r': 32}, 4),
+        # ('FastCKA_l2_s8', FastCKA, {'T': T, 'cluster_scale': 8.0, 'tau': 1.0, 'r': 32}, 2),
     ]
     results = {}
     for name, attn_class, attn_args, n_layers in models:

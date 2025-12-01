@@ -3,13 +3,13 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 def gumbel_softmax(logits, tau=1.0, eps=1e-9):
-    # logits: B,T,c
+    # logits: B,T,C
     gumbel = -torch.log(-torch.log(torch.rand_like(logits) + eps) + eps) # sample Gumbel noise
-    y_soft = F.softmax((logits + gumbel) / tau, dim=-1) # BTc
+    y_soft = F.softmax((logits + gumbel) / tau, dim=-1) # BTC
     idx = y_soft.argmax(dim=-1, keepdim=True) # BT1
     y_hard = torch.zeros_like(y_soft).scatter_(-1, idx, 1.0) # BTc
     y = y_hard.detach() - y_soft.detach() + y_soft # straight through trick
-    return y, idx.squeeze(-1) # BTc, BT
+    return y, idx.squeeze(-1) # BTC, BT
     
 class LearnedClusterAttention(nn.Module):
     def __init__(self, dim, heads, T, cluster_scale=1.0, tau=1.0):
@@ -42,11 +42,12 @@ class LearnedClusterAttention(nn.Module):
         K = self.WK(x).reshape(B,T,self.heads, self.d).transpose(1,2)
         V = self.WV(x).reshape(B,T,self.heads, self.d).transpose(1,2)
 
-        logits = self.cluster_proj(x) # BTc
-        soft_assign, idx = gumbel_softmax(logits, self.tau) # BTc, BT
+        logits = self.cluster_proj(x) # BTC
+        soft_assign, idx = gumbel_softmax(logits, self.tau) # BTC, BT
     
         R_soft = torch.einsum('btc,buc->btu', soft_assign, soft_assign)
         R_hard = (idx.unsqueeze(-1)==idx.unsqueeze(-2)).float() # BTT (same cluster assignments)
+        # straight through trick
         R = R_hard.detach() - R_soft.detach() + R_soft # BTT
         
         ar = torch.arange(T, device=x.device)
