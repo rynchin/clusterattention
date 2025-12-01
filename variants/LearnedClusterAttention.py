@@ -33,17 +33,14 @@ class LearnedClusterAttention(nn.Module):
         
         self.cluster_proj = nn.Linear(dim, self.num_clusters)
 
-    def forward(self, x):
+    def _token_attention(self, x, soft_assign, idx):
+        """Token-level cluster-masked attention."""
         B,T,dim = x.shape
-        assert T == self.T
         
         # project
         Q = self.WQ(x).reshape(B,T,self.heads, self.d).transpose(1,2) # BHTD
         K = self.WK(x).reshape(B,T,self.heads, self.d).transpose(1,2)
         V = self.WV(x).reshape(B,T,self.heads, self.d).transpose(1,2)
-
-        logits = self.cluster_proj(x) # BTC
-        soft_assign, idx = gumbel_softmax(logits, self.tau) # BTC, BT
     
         R_soft = torch.einsum('btc,buc->btu', soft_assign, soft_assign)
         R_hard = (idx.unsqueeze(-1)==idx.unsqueeze(-2)).float() # BTT (same cluster assignments)
@@ -61,6 +58,15 @@ class LearnedClusterAttention(nn.Module):
         out = torch.einsum('bhtk,bhkd->bhtd', score, V) # BHTD
         out = out.transpose(1,2).reshape(B,T,dim)
         return self.WO(out)
+
+    def forward(self, x):
+        B,T,dim = x.shape
+        assert T == self.T
+        
+        logits = self.cluster_proj(x) # BTC
+        soft_assign, idx = gumbel_softmax(logits, self.tau) # BTC, BT
+        
+        return self._token_attention(x, soft_assign, idx)
 
 x = torch.randn(2,20,128)
 y = LearnedClusterAttention(128, 8, 20)
