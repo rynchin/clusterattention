@@ -6,9 +6,12 @@ def phi(x):
     return F.elu(x) + 1
 
 class ClusterKernelAttention(nn.Module):
-    def __init__(self, dim, heads, T, cluster_scale=1.0, tau=1.0, r=32, mix_rank=8):
+    def __init__(self, dim, heads, T, cluster_scale=1.0, tau=1.0, r=32, mix_rank=8, causal=True):
         super().__init__()
         assert dim % heads == 0
+        
+        if not causal:
+            raise NotImplementedError("ClusterKernelAttention does not yet support non-causal attention (causal=False).")
 
         self.dim = dim
         self.heads = heads
@@ -17,6 +20,7 @@ class ClusterKernelAttention(nn.Module):
         self.r = r # feature dim
         self.tau = tau
         self.mix_rank = mix_rank # low-rank mixing dim
+        self.causal = causal
 
         s = int(cluster_scale * T**0.5)
         s = max(1, min(s, T))

@@ -3,13 +3,14 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 class ClusterAttention(nn.Module):
-    def __init__(self, dim, heads, cluster_scale=1.0):
+    def __init__(self, dim, heads, cluster_scale=1.0, causal=True):
         super().__init__()
         assert dim % heads == 0
         self.dim = dim
         self.heads = heads
         self.d = dim // heads
         self.cluster_scale = cluster_scale
+        self.causal = causal
         
         self.WQ = nn.Linear(dim, dim)
         self.WK = nn.Linear(dim, dim)
@@ -57,13 +58,14 @@ class ClusterAttention(nn.Module):
             
             pos = idx[:, start:end]
 
-            # Compute causal mask wrt initial pos
-            # s = end - start = cluster size
-            future = (pos[:,None,:] > pos[:,:,None]).bool() # Bss
-            causal_mask = future[:,None,:,:] # B1ss
-            
             att = torch.einsum('bhtd,bhkd->bhtk', Qc, Kc)/(self.d ** 0.5) # BHss
-            att = att.masked_fill(causal_mask, float('-inf'))
+            
+            if self.causal:
+                # Compute causal mask wrt initial pos
+                # s = end - start = cluster size
+                future = (pos[:,None,:] > pos[:,:,None]).bool() # Bss
+                causal_mask = future[:,None,:,:] # B1ss
+                att = att.masked_fill(causal_mask, float('-inf'))
             att = torch.softmax(att, dim = -1)
             out_c = torch.einsum('bhtk,bhkd->bhtd', att, Vc)
         

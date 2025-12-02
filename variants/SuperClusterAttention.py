@@ -5,8 +5,10 @@ import torch.nn.functional as F
 from LearnedClusterAttention import LearnedClusterAttention, gumbel_softmax
 
 class SuperClusterAttention(LearnedClusterAttention):
-    def __init__(self, dim, heads, T, cluster_scale=1.0, tau=1.0):
-        super().__init__(dim, heads, T, cluster_scale, tau)
+    def __init__(self, dim, heads, T, cluster_scale=1.0, tau=1.0, causal=False):
+        if causal:
+            raise ValueError("SuperClusterAttention requires causal=False. Causal attention is not supported.")
+        super().__init__(dim, heads, T, cluster_scale, tau, causal)
         
         # supernode projections
         self.WQ_s = nn.Linear(dim, dim)

@@ -12,7 +12,7 @@ def gumbel_softmax(logits, tau=1.0, eps=1e-9):
     return y, idx.squeeze(-1) # BTC, BT
     
 class LearnedClusterAttention(nn.Module):
-    def __init__(self, dim, heads, T, cluster_scale=1.0, tau=1.0):
+    def __init__(self, dim, heads, T, cluster_scale=1.0, tau=1.0, causal=True):
         super().__init__()
         assert dim % heads == 0
         self.dim = dim
@@ -21,6 +21,7 @@ class LearnedClusterAttention(nn.Module):
         self.cluster_scale = cluster_scale
         self.tau = tau
         self.T = T
+        self.causal = causal
     
         s = int(cluster_scale * T**0.5)
         s = max(1, min(s, T))
@@ -47,9 +48,10 @@ class LearnedClusterAttention(nn.Module):
         # straight through trick
         R = R_hard.detach() - R_soft.detach() + R_soft # BTT
         
-        ar = torch.arange(T, device=x.device)
-        causal = (ar[None,:] <= ar[:,None]).float() # TT
-        R = R * causal # BTT
+        if self.causal:
+            ar = torch.arange(T, device=x.device)
+            causal_mask = (ar[None,:] <= ar[:,None]).float() # TT
+            R = R * causal_mask # BTT
         
         logits = torch.einsum('bhtd,bhkd->bhtk', Q, K)/(self.d ** 0.5) # BHTT
         logits = logits.masked_fill(R.unsqueeze(1)==0, float('-inf'))

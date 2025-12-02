@@ -3,12 +3,13 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 class MHA(nn.Module):
-    def __init__(self, dim, heads):
+    def __init__(self, dim, heads, causal=True):
         super().__init__()
         assert dim % heads == 0
         self.dim = dim
         self.heads = heads
         self.d = dim // heads
+        self.causal = causal
         
         self.WQ = nn.Linear(dim, dim)
         self.WK = nn.Linear(dim, dim)
@@ -23,8 +24,9 @@ class MHA(nn.Module):
         V = self.WV(x).reshape(B,T,self.heads, self.d).transpose(1,2)
         
         logits = torch.einsum('bhtd,bhkd->bhtk', Q, K)/(self.d ** 0.5) # BHTT
-        mask = torch.triu(torch.ones(T,T, dtype=torch.bool, device=x.device), diagonal=1)
-        logits = logits.masked_fill(mask, float('-inf'))
+        if self.causal:
+            mask = torch.triu(torch.ones(T,T, dtype=torch.bool, device=x.device), diagonal=1)
+            logits = logits.masked_fill(mask, float('-inf'))
         
         score = torch.softmax(logits, dim = -1) # BHTT
         out = torch.einsum('bhtk,bhkd->bhtd', score, V)
