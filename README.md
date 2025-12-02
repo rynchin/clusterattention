@@ -6,7 +6,7 @@
 - Gumbel softmax + straight through trick
 - Cluster attention paper and sparse attention paper
 
-## Mechanism
+## Original Idea (SCA)
 Self-attention can be viewed as message passing on a fully connected graph G with self-edges.
 
 Noncausal two-level attention with supernodes block design:
@@ -24,10 +24,11 @@ Noncausal two-level attention with supernodes block design:
 Small Transformer LM comparing attention mechanisms:
 
 - **MHA**: standard causal softmax attention
-- **LinearAttention**: causal kernelized attention
-- **ClusterAttention**: block-based √T clustered attention
-- **LearnedClusterAttention**: learned cluster assignments via Gumbel softmax
-- **ClusterKernelAttention**: cluster-based attention with low-rank cluster mixing (T√T scaling, O(Ck) mixing via low-rank decomposition)
+- **LinearAttention (LA)**: causal kernelized attention
+- **ClusterAttention (CA)**: block-based √T clustered attention
+- **LearnedClusterAttention (LCA)**: learned cluster assignments via Gumbel softmax
+- **ClusterKernelAttention (CKA)**: cluster-based attention with low-rank cluster mixing (T√T scaling, O(Ck) mixing via low-rank decomposition)
+- **SuperClusterAttention (SCA)**: variant of LCA that includes supernodes that mix and broadcast info to tokens before intra-cluster attention
 - **FastCKA**: fast variant of ClusterKernelAttention (use for training)
 
 | Mechanism             | Compute vs T | Memory vs T | Notes                                          |
@@ -35,6 +36,10 @@ Small Transformer LM comparing attention mechanisms:
 | Multi-Head Attention  | O(T²)        | O(T²)       | Exact softmax, most expressive                 |
 | Linear Attention      | O(T)         | O(1) in T   | Kernel prefix sums, single global summary      |
 | Clustered Kernel Attn | O(T^(3/2))   | O(T^(3/2))  | Clusters + low-rank mixing, mid expressiveness |
+
+### Hierarchy
+<img width="449" height="300" alt="image" src="https://github.com/user-attachments/assets/a6585d0d-52d6-40d3-bf78-7059933ea8a7" />
+
 
 ## Data
 
