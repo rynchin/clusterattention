@@ -19,7 +19,8 @@ class ClusterAttention(nn.Module):
         
         self.cluster_proj = nn.Linear(dim, 1)
 
-    def forward(self, x):
+    def forward(self, x, attn_mask=None):
+        # attn_mask: (B, T) boolean mask, True for real tokens, False for padding
         B,T,dim = x.shape
         s = int(self.cluster_scale * (T ** 0.5))
         if s < 1:
@@ -35,6 +36,11 @@ class ClusterAttention(nn.Module):
         V = self.WV(x).reshape(B,T,self.heads, self.d).transpose(1,2)
 
         scores = self.cluster_proj(x).squeeze(-1) # BT
+        
+        # Apply attention mask: set padding positions to very negative scores
+        if attn_mask is not None:
+            scores = scores * attn_mask.float() + (1 - attn_mask.float()) * (-1e9)
+        
         sorted_scores, idx = torch.sort(scores, dim = -1) # idx (BT) contains original indices
         
         # inverse index to unsort
@@ -47,6 +53,12 @@ class ClusterAttention(nn.Module):
         Qs = torch.gather(Q, 2, idx_shape) # BHTD
         Ks = torch.gather(K, 2, idx_shape)
         Vs = torch.gather(V, 2, idx_shape)
+        
+        # Reorder attention mask if provided
+        if attn_mask is not None:
+            mask_reordered = torch.gather(attn_mask.unsqueeze(1).expand(-1, self.heads, -1), 2, idx.unsqueeze(1).expand(-1, self.heads, -1))
+        else:
+            mask_reordered = None
         
         out_s = torch.empty_like(Qs) # BHTD
         for i in range(num_clusters):
@@ -66,6 +78,13 @@ class ClusterAttention(nn.Module):
                 future = (pos[:,None,:] > pos[:,:,None]).bool() # Bss
                 causal_mask = future[:,None,:,:] # B1ss
                 att = att.masked_fill(causal_mask, float('-inf'))
+            
+            # Apply attention mask for padding
+            if mask_reordered is not None:
+                mask_c = mask_reordered[:, :, start:end]  # (B, H, s)
+                mask_2d = mask_c.unsqueeze(2) & mask_c.unsqueeze(3)  # (B, H, s, s)
+                att = att.masked_fill(~mask_2d, float('-inf'))
+            
             att = torch.softmax(att, dim = -1)
             out_c = torch.einsum('bhtk,bhkd->bhtd', att, Vc)
         

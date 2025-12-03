@@ -14,11 +14,12 @@ class TransformerLayer(nn.Module):
         self.fc2 = nn.Linear(ffdim, dim)
 
 
-    def forward(self, h):
+    def forward(self, h, attn_mask=None):
         # h: (B,T,dim)
+        # attn_mask: (B, T) boolean mask, True for real tokens, False for padding
         y = self.ln1(h) # layernorm
 
-        out = self.attn(y)  # B,T,dim
+        out = self.attn(y, attn_mask=attn_mask)  # B,T,dim
 
         # residual
         h = h + out # positional encoding

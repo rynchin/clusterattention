@@ -39,7 +39,8 @@ class FastCKA(nn.Module):
         self.MA = nn.Parameter(torch.randn(C, k) * 0.02)
         self.MB = nn.Parameter(torch.randn(C, k) * 0.02)
 
-    def forward(self, x):
+    def forward(self, x, attn_mask=None):
+        # attn_mask: (B, T) boolean mask, True for real tokens, False for padding
         B, T, D = x.shape
         assert T == self.T
 
@@ -47,11 +48,25 @@ class FastCKA(nn.Module):
         k = self.mix_rank
 
         logits = self.cluster_proj(x) # BTc
+        
+        # Apply attention mask to cluster assignments: set padding positions to uniform distribution
+        if attn_mask is not None:
+            # For padding positions, set cluster logits to very negative values
+            # This will make softmax uniform, effectively ignoring padding
+            mask = attn_mask.unsqueeze(-1).float()  # (B, T, 1)
+            logits = logits * mask + (1 - mask) * (-1e9)
+        
         assign = F.softmax(logits / self.tau, dim=-1) # BTc
 
         Q = phi(self.WQ(x).reshape(B, T, H, r)) # BTHr
         K = phi(self.WK(x).reshape(B, T, H, r))
         V = self.WV(x).reshape(B, T, H, d) # BTHd
+        
+        # Apply attention mask: zero out padding positions
+        if attn_mask is not None:
+            mask = attn_mask.unsqueeze(-1).unsqueeze(-1).float()  # (B, T, 1, 1)
+            K = K * mask  # Zero out padding keys
+            V = V * mask  # Zero out padding values
 
         A = F.softplus(self.MA) # ck, positive
         Bmat = F.softplus(self.MB) # ck

@@ -38,8 +38,9 @@ class LearnedClusterAttention(nn.Module):
         if not self.force_one_cluster:
             self.cluster_proj = nn.Linear(dim, self.num_clusters)
 
-    def _token_attention(self, x, soft_assign=None, idx=None):
+    def _token_attention(self, x, soft_assign=None, idx=None, attn_mask=None):
         """Token-level cluster-masked attention. If force_one_cluster=True, soft_assign and idx are ignored."""
+        # attn_mask: (B, T) boolean mask, True for real tokens, False for padding
         B,T,dim = x.shape
         
         # project
@@ -52,8 +53,8 @@ class LearnedClusterAttention(nn.Module):
         # If forcing one cluster, skip cluster masking and just apply causal mask if needed
         if self.force_one_cluster:
             if self.causal:
-                mask = torch.triu(torch.ones(T, T, dtype=torch.bool, device=x.device), diagonal=1)
-                logits = logits.masked_fill(mask.unsqueeze(0).unsqueeze(0), float('-inf'))
+                causal_mask = torch.triu(torch.ones(T, T, dtype=torch.bool, device=x.device), diagonal=1)
+                logits = logits.masked_fill(causal_mask.unsqueeze(0).unsqueeze(0), float('-inf'))
         else:
             # Use cluster-based masking
             R_soft = torch.einsum('btc,buc->btu', soft_assign, soft_assign)
@@ -68,25 +69,39 @@ class LearnedClusterAttention(nn.Module):
             
             logits = logits.masked_fill(R.unsqueeze(1)==0, float('-inf'))
         
+        # Apply attention mask (padding mask)
+        if attn_mask is not None:
+            # attn_mask: (B, T) -> expand to (B, 1, T, T)
+            mask = attn_mask.unsqueeze(1).unsqueeze(2)  # (B, 1, 1, T)
+            mask = mask & attn_mask.unsqueeze(1).unsqueeze(3)  # (B, 1, T, T)
+            logits = logits.masked_fill(~mask.unsqueeze(1), float('-inf'))  # (B, H, T, T)
+        
         score = torch.softmax(logits, dim = -1) # BHTT
         out = torch.einsum('bhtk,bhkd->bhtd', score, V) # BHTD
         out = out.transpose(1,2).reshape(B,T,dim)
         return self.WO(out)
 
-    def forward(self, x):
+    def forward(self, x, attn_mask=None):
+        # attn_mask: (B, T) boolean mask, True for real tokens, False for padding
         B,T,dim = x.shape
         assert T == self.T
         
         # If forcing one cluster, skip cluster assignment and use ordinary attention
         if self.force_one_cluster:
-            return self._token_attention(x, soft_assign=None, idx=None)
+            return self._token_attention(x, soft_assign=None, idx=None, attn_mask=attn_mask)
         
         # Otherwise, compute cluster assignments
         logits = self.cluster_proj(x) # BTC
+        
+        # Apply attention mask to cluster assignments: set padding positions to uniform distribution
+        if attn_mask is not None:
+            mask = attn_mask.unsqueeze(-1).float()  # (B, T, 1)
+            logits = logits * mask + (1 - mask) * (-1e9)
+        
         soft_assign = F.softmax(logits, dim=-1) # BTC
         idx = soft_assign.argmax(dim=-1) # BT
         
-        return self._token_attention(x, soft_assign, idx)
+        return self._token_attention(x, soft_assign, idx, attn_mask=attn_mask)
 
 if __name__ == '__main__':
     x = torch.randn(2,20,128)

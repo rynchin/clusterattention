@@ -20,12 +20,20 @@ class LinearAttention(nn.Module):
         self.WV = nn.Linear(dim, dim)
         self.WO = nn.Linear(dim, dim)
 
-    def forward(self, x):
+    def forward(self, x, attn_mask=None):
+        # attn_mask: (B, T) boolean mask, True for real tokens, False for padding
         B,T,dim = x.shape
         # for elu R == D
         Q = elu_feature_map(self.WQ(x).reshape(B,T,self.heads, self.d).transpose(1,2)) # BHTR
         K = elu_feature_map(self.WK(x).reshape(B,T,self.heads, self.d).transpose(1,2)) # BHTR
         V = self.WV(x).reshape(B,T,self.heads, self.d).transpose(1,2) # BHTD
+        
+        # Apply attention mask: zero out padding positions
+        if attn_mask is not None:
+            # attn_mask: (B, T) -> (B, 1, T, 1) for broadcasting
+            mask = attn_mask.unsqueeze(1).unsqueeze(-1).float()  # (B, 1, T, 1)
+            K = K * mask  # Zero out padding keys
+            V = V * mask  # Zero out padding values
         
         KV = torch.einsum('bhtr,bhtd->bhtrd', K, V) # outer product, BHTRD
         if self.causal:

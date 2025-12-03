@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from .LearnedClusterAttention import LearnedClusterAttention, gumbel_softmax
+from .LearnedClusterAttention import LearnedClusterAttention
 
 class SuperClusterAttention(LearnedClusterAttention):
     def __init__(self, dim, heads, T, cluster_scale=1.0, tau=1.0, causal=False):
@@ -15,13 +15,21 @@ class SuperClusterAttention(LearnedClusterAttention):
         self.WK_s = nn.Linear(dim, dim)
         self.WV_s = nn.Linear(dim, dim)
 
-    def forward(self, x):
+    def forward(self, x, attn_mask=None):
+        # attn_mask: (B, T) boolean mask, True for real tokens, False for padding
         B,T,dim = x.shape
         assert T == self.T
         
         # cluster assignments
         logits = self.cluster_proj(x) # BTC
-        soft_assign, idx = gumbel_softmax(logits, self.tau) # BTC, BT
+        
+        # Apply attention mask to cluster assignments
+        if attn_mask is not None:
+            mask = attn_mask.unsqueeze(-1).float()  # (B, T, 1)
+            logits = logits * mask + (1 - mask) * (-1e9)
+        
+        soft_assign = F.softmax(logits / self.tau, dim=-1) # BTC
+        idx = soft_assign.argmax(dim=-1) # BT
         cluster_probs = soft_assign.sum(dim=1, keepdim=False)  # BC
         
         # supernodes
@@ -40,7 +48,7 @@ class SuperClusterAttention(LearnedClusterAttention):
         x_aug = x + info # BTD
         
         # Use parent class token attention with augmented input
-        return self._token_attention(x_aug, soft_assign, idx)
+        return self._token_attention(x_aug, soft_assign, idx, attn_mask=attn_mask)
 
 if __name__ == '__main__':
     x = torch.randn(2,20,128)
