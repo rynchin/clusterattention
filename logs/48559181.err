@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/n/home07/canisli/clusterattention/train.py", line 14, in <module>
+    from variants.SuperClusterAttention import SuperClusterAttention
+  File "/n/home07/canisli/clusterattention/variants/SuperClusterAttention.py", line 5, in <module>
+    from LearnedClusterAttention import LearnedClusterAttention, gumbel_softmax
+ModuleNotFoundError: No module named 'LearnedClusterAttention'

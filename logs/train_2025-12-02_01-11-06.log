@@ -1,0 +1,113 @@
+Loading enwik8...
+Total bytes: 100000000
+number of training steps: 50000
+Starting training with runs.noncausal...
+Loaded 4 models from runs.noncausal
+Running noncausal with 4 models
+models: [('MHA', <class 'variants.MHA.MHA'>, {'causal': False}, 2), ('LinearAttention', <class 'variants.LinearAttention.LinearAttention'>, {'eps': 1e-06, 'causal': False}, 2), ('FastCKA_l2_s1', <class 'variants.FastCKA.FastCKA'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'r': 32, 'causal': False}, 2), ('SuperClusterAttention', <class 'variants.SuperClusterAttention.SuperClusterAttention'>, {'T': 512, 'cluster_scale': 4.0, 'tau': 1.0, 'causal': False}, 2)]
+
+----Training MHA----
+MHA: step 500/50000 | loss 2.7989
+MHA: step 1000/50000 | loss 2.6718
+MHA: step 1500/50000 | loss 2.5481
+MHA: step 2000/50000 | loss 2.5937
+MHA: step 2500/50000 | loss 1.6487
+MHA: step 3000/50000 | loss 0.0182
+MHA: step 3500/50000 | loss 0.0098
+MHA: step 4000/50000 | loss 0.0071
+MHA: step 4500/50000 | loss 0.0079
+MHA: step 5000/50000 | loss 0.0056
+MHA: step 5500/50000 | loss 0.0043
+MHA: step 6000/50000 | loss 0.0057
+MHA: step 6500/50000 | loss 0.0059
+MHA: step 7000/50000 | loss 0.0053
+MHA: step 7500/50000 | loss 0.0059
+MHA: step 8000/50000 | loss 0.0053
+MHA: step 8500/50000 | loss 0.0050
+MHA: step 9000/50000 | loss 0.0050
+MHA: step 9500/50000 | loss 0.0054
+MHA: step 10000/50000 | loss 0.0059
+MHA: step 10500/50000 | loss 0.0048
+MHA: step 11000/50000 | loss 0.0046
+MHA: step 11500/50000 | loss 0.0051
+MHA: step 12000/50000 | loss 0.0049
+MHA: step 12500/50000 | loss 0.0058
+MHA: step 13000/50000 | loss 0.0042
+MHA: step 13500/50000 | loss 0.0050
+MHA: step 14000/50000 | loss 0.0046
+MHA: step 14500/50000 | loss 0.0050
+MHA: step 15000/50000 | loss 0.0056
+MHA: step 15500/50000 | loss 0.0044
+MHA: step 16000/50000 | loss 0.0042
+MHA: step 16500/50000 | loss 0.0047
+MHA: step 17000/50000 | loss 0.0049
+MHA: step 17500/50000 | loss 0.0050
+MHA: step 18000/50000 | loss 0.0052
+MHA: step 18500/50000 | loss 0.0047
+MHA: step 19000/50000 | loss 0.0043
+MHA: step 19500/50000 | loss 0.0042
+MHA: step 20000/50000 | loss 0.0036
+MHA: step 20500/50000 | loss 0.0044
+MHA: step 21000/50000 | loss 0.0037
+MHA: step 21500/50000 | loss 0.0044
+MHA: step 22000/50000 | loss 0.0030
+MHA: step 22500/50000 | loss 0.0045
+MHA: step 23000/50000 | loss 0.0053
+MHA: step 23500/50000 | loss 0.0040
+MHA: step 24000/50000 | loss 0.0058
+MHA: step 24500/50000 | loss 0.0042
+MHA: step 25000/50000 | loss 0.0047
+MHA: step 25500/50000 | loss 0.0041
+MHA: step 26000/50000 | loss 0.0047
+MHA: step 26500/50000 | loss 0.0037
+MHA: step 27000/50000 | loss 0.0047
+MHA: step 27500/50000 | loss 0.0045
+MHA: step 28000/50000 | loss 0.0053
+MHA: step 28500/50000 | loss 0.0038
+MHA: step 29000/50000 | loss 0.0039
+MHA: step 29500/50000 | loss 0.0028
+MHA: step 30000/50000 | loss 0.0041
+MHA: step 30500/50000 | loss 0.0042
+MHA: step 31000/50000 | loss 0.0050
+MHA: step 31500/50000 | loss 0.0035
+MHA: step 32000/50000 | loss 0.0039
+MHA: step 32500/50000 | loss 0.0038
+MHA: step 33000/50000 | loss 0.0036
+MHA: step 33500/50000 | loss 0.0031
+MHA: step 34000/50000 | loss 0.0046
+MHA: step 34500/50000 | loss 0.0039
+MHA: step 35000/50000 | loss 0.0047
+MHA: step 35500/50000 | loss 0.0038
+MHA: step 36000/50000 | loss 0.0035
+MHA: step 36500/50000 | loss 0.0034
+MHA: step 37000/50000 | loss 0.0046
+MHA: step 37500/50000 | loss 0.0047
+MHA: step 38000/50000 | loss 0.0035
+MHA: step 38500/50000 | loss 0.0043
+MHA: step 39000/50000 | loss 0.0040
+MHA: step 39500/50000 | loss 0.0037
+MHA: step 40000/50000 | loss 0.0037
+MHA: step 40500/50000 | loss 0.0044
+MHA: step 41000/50000 | loss 0.0040
+MHA: step 41500/50000 | loss 0.0034
+MHA: step 42000/50000 | loss 0.0042
+MHA: step 42500/50000 | loss 0.0034
+MHA: step 43000/50000 | loss 0.0039
+MHA: step 43500/50000 | loss 0.0039
+MHA: step 44000/50000 | loss 0.0040
+MHA: step 44500/50000 | loss 0.0029
+MHA: step 45000/50000 | loss 0.0032
+MHA: step 45500/50000 | loss 0.0041
+MHA: step 46000/50000 | loss 0.0034
+MHA: step 46500/50000 | loss 0.0031
+MHA: step 47000/50000 | loss 0.0030
+MHA: step 47500/50000 | loss 0.0038
+MHA: step 48000/50000 | loss 0.0044
+MHA: step 48500/50000 | loss 0.0035
+MHA: step 49000/50000 | loss 0.0032
+MHA: step 49500/50000 | loss 0.0032
+MHA: step 50000/50000 | loss 0.0034
+MHA: train bpb=0.0054 | val bpb=0.0052
+
+----Training LinearAttention----
+Error during training: expand(torch.cuda.FloatTensor{[32, 8, 1, 32, 1]}, size=[-1, -1, 512, -1]): the number of sizes provided (4) must be greater or equal to the number of dimensions in the tensor (5)

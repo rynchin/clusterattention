@@ -9,9 +9,6 @@ class FastCKA(nn.Module):
     def __init__(self, dim, heads, T, cluster_scale=1.0, tau=1.0, r=32, mix_rank=8, causal=True):
         super().__init__()
         assert dim % heads == 0
-        
-        if not causal:
-            raise NotImplementedError("FastCKA does not yet support non-causal attention (causal=False).")
 
         self.dim = dim
         self.heads = heads
@@ -67,9 +64,17 @@ class FastCKA(nn.Module):
         token_K  = torch.einsum("btk,bthr->btkhr", A_bar, K) # BTkHr
         token_KV = torch.einsum("btk,bthr,bthd->btkhrd", A_bar, K, V) # BTkHrd
 
-        # causal prefix sum
-        tmp_K = torch.cumsum(token_K, dim=1) # BTkHr
-        tmp_KV = torch.cumsum(token_KV, dim=1) # BTkHrd
+        if self.causal:
+            # causal prefix sum
+            tmp_K = torch.cumsum(token_K, dim=1) # BTkHr
+            # assert tmp_K.shape == (B, T, k, H, r)
+            tmp_KV = torch.cumsum(token_KV, dim=1) # BTkHrd
+            # assert tmp_KV.shape == (B, T, k, H, r, d)
+        else:
+            tmp_K_sum = token_K.sum(dim=1, keepdim=True) # B1kHr
+            tmp_KV_sum = token_KV.sum(dim=1, keepdim=True) # B1kHrd
+            tmp_K = tmp_K_sum.expand(-1, T, -1, -1, -1) # BTkHr
+            tmp_KV = tmp_KV_sum.expand(-1, T, -1, -1, -1, -1) # BTkHrd
 
         # project back to tokens
         Kf = torch.einsum("btkhr,btk->bthr", tmp_K, B_bar) # BTHr
@@ -86,7 +91,8 @@ class FastCKA(nn.Module):
 
         return self.WO(h)
 
-x = torch.randn(2, 20, 128)
-layer = FastCKA(dim=128, heads=8, T=20, r=32, mix_rank=8)
-y = layer(x)
-print(y.shape)
+if __name__ == '__main__':
+    x = torch.randn(2, 20, 128)
+    layer = FastCKA(dim=128, heads=8, T=20, r=32, mix_rank=8, causal=True)
+    y = layer(x)
+    print(y.shape)

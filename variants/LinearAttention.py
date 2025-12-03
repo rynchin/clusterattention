@@ -36,13 +36,14 @@ class LinearAttention(nn.Module):
             S_sum = KV.sum(dim=2, keepdim=True) # BH1RD
             Z_sum = K.sum(dim=2, keepdim=True).unsqueeze(-1) # BH1R1
             S = S_sum.expand(-1, -1, T, -1, -1) # BHTRD
-            Z = Z_sum.expand(-1, -1, T, -1) # BHTR1
+            Z = Z_sum.expand(-1, -1, T, -1, -1) # BHTR1
         
         num = torch.einsum('bhtr,bhtrd->bhtd', Q, S) # BHTD
         den = torch.einsum('bhtr,bhtrd->bhtd', Q, Z) # BHT1
         out = num/(den + self.eps)
         return self.WO(out.transpose(1,2).reshape(B,T,dim))
 
-x = torch.randn(2,20,128)
-y = LinearAttention(128, 8, 1e-6)
-print(y(x).shape)
+if __name__ == '__main__':
+    x = torch.randn(2,20,128)
+    y = LinearAttention(128, 8, 1e-6, causal=False)
+    print(y(x).shape)

@@ -1,0 +1,37 @@
+Traceback (most recent call last):
+  File "/n/home07/canisli/clusterattention/train.py", line 145, in <module>
+    run_all_models(runs_name=args.runs)
+  File "/n/home07/canisli/clusterattention/train.py", line 127, in run_all_models
+    model = train(name, attn_class, attn_args, train_data, T, n_layers)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/n/home07/canisli/clusterattention/train.py", line 83, in train
+    _, loss = model(x, y)
+              ^^^^^^^^^^^
+  File "/n/home07/canisli/clusterattention/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/n/home07/canisli/clusterattention/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/n/home07/canisli/clusterattention/transformer/TransformerLM.py", line 36, in forward
+    h = layer(h)  # (B,T,dim)
+        ^^^^^^^^
+  File "/n/home07/canisli/clusterattention/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/n/home07/canisli/clusterattention/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/n/home07/canisli/clusterattention/transformer/TransformerLayer.py", line 21, in forward
+    out = self.attn(y)  # B,T,dim
+          ^^^^^^^^^^^^
+  File "/n/home07/canisli/clusterattention/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/n/home07/canisli/clusterattention/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/n/home07/canisli/clusterattention/variants/LinearAttention.py", line 39, in forward
+    Z = Z_sum.expand(-1, -1, T, -1) # BHTR1
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: expand(torch.cuda.FloatTensor{[32, 8, 1, 32, 1]}, size=[-1, -1, 512, -1]): the number of sizes provided (4) must be greater or equal to the number of dimensions in the tensor (5)

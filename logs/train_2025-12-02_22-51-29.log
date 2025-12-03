@@ -1,0 +1,10 @@
+Loading enwik8...
+Total bytes: 100000000
+number of training steps: 50000
+Starting training with runs.cka_nonmixing...
+Loaded 1 models from runs.cka_nonmixing
+Running cka_nonmixing with 1 models
+models: [('CKA_l1_s1_nonmixing', <class 'variants.ClusterKernelAttention.ClusterKernelAttention'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'r': 32, 'causal': True, 'mixing': False}, 1)]
+
+----Training CKA_l1_s1_nonmixing----
+Error during training: CUDA out of memory. Tried to allocate 12.00 GiB. GPU 0 has a total capacity of 19.62 GiB of which 6.04 GiB is free. Including non-PyTorch memory, this process has 13.47 GiB memory in use. Of the allocated memory 13.25 GiB is allocated by PyTorch, and 9.71 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)

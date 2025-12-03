@@ -35,6 +35,7 @@ class MHA(nn.Module):
         out = self.WO(out)
         return out
 
-x = torch.randn(2,20,128)
-y = MHA(128, 8)
-print(y(x).shape)
+if __name__ == '__main__':
+    x = torch.randn(2,20,128)
+    y = MHA(128, 8)
+    print(y(x).shape)

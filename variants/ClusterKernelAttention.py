@@ -6,12 +6,9 @@ def phi(x):
     return F.elu(x) + 1
 
 class ClusterKernelAttention(nn.Module):
-    def __init__(self, dim, heads, T, cluster_scale=1.0, tau=1.0, r=32, mix_rank=8, causal=True):
+    def __init__(self, dim, heads, T, cluster_scale=1.0, tau=1.0, r=32, mix_rank=8, causal=True, mixing=True):
         super().__init__()
         assert dim % heads == 0
-        
-        if not causal:
-            raise NotImplementedError("ClusterKernelAttention does not yet support non-causal attention (causal=False).")
 
         self.dim = dim
         self.heads = heads
@@ -21,6 +18,7 @@ class ClusterKernelAttention(nn.Module):
         self.tau = tau
         self.mix_rank = mix_rank # low-rank mixing dim
         self.causal = causal
+        self.mixing = mixing
 
         s = int(cluster_scale * T**0.5)
         s = max(1, min(s, T))
@@ -58,18 +56,28 @@ class ClusterKernelAttention(nn.Module):
         delta_K = torch.einsum("btc,bthr->btchr", assign, K) # BTcHr, per cluster per timestep phi(k) 
         delta_KV = torch.einsum("btc,bthr,bthd->btchrd", assign, K, V) # BTcHrd, per cluster per timestep phi(k) * v
 
-        Kc = torch.cumsum(delta_K, dim=1) # cumulative sum for causal
-        KVc = torch.cumsum(delta_KV, dim=1)
+        if self.causal:
+            Kc = torch.cumsum(delta_K, dim=1) # BTcHr
+            KVc = torch.cumsum(delta_KV, dim=1) #BTcHrd
+        else:
+            Kc_sum = delta_K.sum(dim=1, keepdim=True) # B1cHr
+            KVc_sum = delta_KV.sum(dim=1, keepdim=True) # B1cHrd
+            Kc = Kc_sum.expand(-1, T, -1, -1, -1) # BTcHr
+            KVc = KVc_sum.expand(-1, T, -1, -1, -1, -1) # BTcHrd
 
-        A = F.softplus(self.MA) # ck, positive
-        Bmat = F.softplus(self.MB) # ck
+        if self.mixing:
+            A = F.softplus(self.MA) # ck, positive
+            Bmat = F.softplus(self.MB) # ck
 
-        # low-rank mixing O(Ck) instead of O(C^2)
-        temp_K = torch.einsum("btjhr,jk->btkhr", Kc, A) # BTkHr, rank k compression
-        temp_KV = torch.einsum("btjhrd,jk->btkhrd", KVc, A)
+            # low-rank mixing O(Ck) instead of O(C^2)
+            temp_K = torch.einsum("btjhr,jk->btkhr", Kc, A) # BTkHr, rank k compression
+            temp_KV = torch.einsum("btjhrd,jk->btkhrd", KVc, A)
 
-        mix_K = torch.einsum("btkhr,ck->btchr", temp_K, Bmat) # BTcHr
-        mix_KV = torch.einsum("btkhrd,ck->btchrd", temp_KV, Bmat)
+            mix_K = torch.einsum("btkhr,ck->btchr", temp_K, Bmat) # BTcHr
+            mix_KV = torch.einsum("btkhrd,ck->btchrd", temp_KV, Bmat)
+        else:
+            mix_K = Kc
+            mix_KV = KVc
 
         # project mix cluster states to tokens
         Kf = torch.einsum("btc,btchr->bthr", assign, mix_K) # BTHr
@@ -86,8 +94,8 @@ class ClusterKernelAttention(nn.Module):
 
         return self.WO(h)
 
-
-x = torch.randn(2, 20, 128)
-layer = ClusterKernelAttention(dim=128, heads=8, T=20, r=32, mix_rank=8)
-y = layer(x)
-print(y.shape)
+if __name__ == '__main__': 
+    x = torch.randn(2, 20, 128)
+    layer = ClusterKernelAttention(dim=128, heads=8, T=20, r=32, mix_rank=8, causal=False, mixing=False)
+    y = layer(x)
+    print(y.shape)

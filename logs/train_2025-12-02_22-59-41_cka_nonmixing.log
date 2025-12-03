@@ -1,0 +1,59 @@
+Loading enwik8...
+Total bytes: 100000000
+number of training steps: 50000
+Starting training with runs.cka_nonmixing...
+Loaded 1 models from runs.cka_nonmixing
+Running cka_nonmixing with 1 models
+models: [('CKA_l1_s1_nonmixing', <class 'variants.ClusterKernelAttention.ClusterKernelAttention'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'r': 32, 'causal': True, 'mixing': False}, 1)]
+
+----Training CKA_l1_s1_nonmixing----
+CKA_l1_s1_nonmixing: step 500/50000 | loss 2.8879
+CKA_l1_s1_nonmixing: step 1000/50000 | loss 2.8287
+CKA_l1_s1_nonmixing: step 1500/50000 | loss 2.6418
+CKA_l1_s1_nonmixing: step 2000/50000 | loss 2.6438
+CKA_l1_s1_nonmixing: step 2500/50000 | loss 2.5946
+CKA_l1_s1_nonmixing: step 3000/50000 | loss 2.5766
+CKA_l1_s1_nonmixing: step 3500/50000 | loss 2.5348
+CKA_l1_s1_nonmixing: step 4000/50000 | loss 2.5171
+CKA_l1_s1_nonmixing: step 4500/50000 | loss 2.4747
+CKA_l1_s1_nonmixing: step 5000/50000 | loss 2.4988
+CKA_l1_s1_nonmixing: step 5500/50000 | loss 2.4780
+CKA_l1_s1_nonmixing: step 6000/50000 | loss 2.3866
+CKA_l1_s1_nonmixing: step 6500/50000 | loss 2.4888
+CKA_l1_s1_nonmixing: step 7000/50000 | loss 2.4083
+CKA_l1_s1_nonmixing: step 7500/50000 | loss 2.3999
+CKA_l1_s1_nonmixing: step 8000/50000 | loss 2.3840
+CKA_l1_s1_nonmixing: step 8500/50000 | loss 2.2820
+CKA_l1_s1_nonmixing: step 9000/50000 | loss 2.3169
+CKA_l1_s1_nonmixing: step 9500/50000 | loss 2.2592
+CKA_l1_s1_nonmixing: step 10000/50000 | loss 2.3560
+CKA_l1_s1_nonmixing: step 10500/50000 | loss 2.3170
+CKA_l1_s1_nonmixing: step 11000/50000 | loss 2.2736
+CKA_l1_s1_nonmixing: step 11500/50000 | loss 2.1509
+CKA_l1_s1_nonmixing: step 12000/50000 | loss 2.2517
+CKA_l1_s1_nonmixing: step 12500/50000 | loss 2.2287
+CKA_l1_s1_nonmixing: step 13000/50000 | loss 2.0415
+CKA_l1_s1_nonmixing: step 13500/50000 | loss 2.0921
+CKA_l1_s1_nonmixing: step 14000/50000 | loss 1.9901
+CKA_l1_s1_nonmixing: step 14500/50000 | loss 1.9426
+CKA_l1_s1_nonmixing: step 15000/50000 | loss 1.9568
+CKA_l1_s1_nonmixing: step 15500/50000 | loss 1.8616
+CKA_l1_s1_nonmixing: step 16000/50000 | loss 1.9673
+CKA_l1_s1_nonmixing: step 16500/50000 | loss 1.9042
+CKA_l1_s1_nonmixing: step 17000/50000 | loss 1.8864
+CKA_l1_s1_nonmixing: step 17500/50000 | loss 1.7699
+CKA_l1_s1_nonmixing: step 18000/50000 | loss 1.8457
+CKA_l1_s1_nonmixing: step 18500/50000 | loss 1.8100
+CKA_l1_s1_nonmixing: step 19000/50000 | loss 1.8298
+CKA_l1_s1_nonmixing: step 19500/50000 | loss 1.8184
+CKA_l1_s1_nonmixing: step 20000/50000 | loss 1.6932
+CKA_l1_s1_nonmixing: step 20500/50000 | loss 1.8491
+CKA_l1_s1_nonmixing: step 21000/50000 | loss 1.7555
+CKA_l1_s1_nonmixing: step 21500/50000 | loss 1.7188
+CKA_l1_s1_nonmixing: step 22000/50000 | loss 1.7233
+CKA_l1_s1_nonmixing: step 22500/50000 | loss 1.7003
+CKA_l1_s1_nonmixing: step 23000/50000 | loss 1.7613
+CKA_l1_s1_nonmixing: step 23500/50000 | loss 1.7229
+CKA_l1_s1_nonmixing: step 24000/50000 | loss 1.7407
+CKA_l1_s1_nonmixing: step 24500/50000 | loss 1.6685
+CKA_l1_s1_nonmixing: step 25000/50000 | loss 1.7582

@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from LearnedClusterAttention import LearnedClusterAttention, gumbel_softmax
+from .LearnedClusterAttention import LearnedClusterAttention, gumbel_softmax
 
 class SuperClusterAttention(LearnedClusterAttention):
     def __init__(self, dim, heads, T, cluster_scale=1.0, tau=1.0, causal=False):
@@ -42,6 +42,7 @@ class SuperClusterAttention(LearnedClusterAttention):
         # Use parent class token attention with augmented input
         return self._token_attention(x_aug, soft_assign, idx)
 
-x = torch.randn(2,20,128)
-y = SuperClusterAttention(128, 8, 20)
-print(y(x).shape)
+if __name__ == '__main__':
+    x = torch.randn(2,20,128)
+    y = SuperClusterAttention(128, 8, 20)
+    print(y(x).shape)

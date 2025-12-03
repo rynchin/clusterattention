@@ -1,0 +1,10 @@
+Loading enwik8...
+Total bytes: 100000000
+Starting training with runs.lca...
+Loaded 1 models from runs.lca
+Number of training steps: 20000
+Running lca with 1 models
+models: [('LCA', <class 'variants.LearnedClusterAttention.LearnedClusterAttention'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'r': 32, 'causal': True}, 1)]
+
+----Training LCA----
+Error during training: LearnedClusterAttention.__init__() got an unexpected keyword argument 'r'

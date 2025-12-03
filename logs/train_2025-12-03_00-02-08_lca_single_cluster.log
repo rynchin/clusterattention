@@ -1,0 +1,12 @@
+Loading enwik8...
+Total bytes: 100000000
+Starting training with runs.lca_single_cluster...
+Loaded 1 models from runs.lca_single_cluster
+Number of training steps: 20000
+Running lca_single_cluster with 1 models
+models: [('LCA_single_cluster_l1', <class 'variants.LearnedClusterAttention.LearnedClusterAttention'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'causal': True, 'force_one_cluster': True}, 1)]
+
+----Training LCA_single_cluster_l1----
+Checkpoints will be saved to models/lca_single_cluster/LCA_single_cluster_l1
+LCA_single_cluster_l1: step 500/20000 | loss 2.8150
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_500.pt

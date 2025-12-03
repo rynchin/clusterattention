@@ -1,0 +1,92 @@
+Loading enwik8...
+Total bytes: 100000000
+Starting training with runs.lca_single_cluster...
+Loaded 1 models from runs.lca_single_cluster
+Number of training steps: 20000
+Running lca_single_cluster with 1 models
+models: [('LCA_single_cluster_l1', <class 'variants.LearnedClusterAttention.LearnedClusterAttention'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'causal': True, 'force_one_cluster': True}, 1)]
+
+----Training LCA_single_cluster_l1----
+Checkpoints will be saved to models/lca_single_cluster/LCA_single_cluster_l1
+LCA_single_cluster_l1: step 500/20000 | loss 2.8219
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_500.pt
+LCA_single_cluster_l1: step 1000/20000 | loss 2.7111
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_1000.pt
+LCA_single_cluster_l1: step 1500/20000 | loss 2.6595
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_1500.pt
+LCA_single_cluster_l1: step 2000/20000 | loss 2.7360
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_2000.pt
+LCA_single_cluster_l1: step 2500/20000 | loss 2.6437
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_2500.pt
+LCA_single_cluster_l1: step 3000/20000 | loss 2.5619
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_3000.pt
+LCA_single_cluster_l1: step 3500/20000 | loss 2.5173
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_3500.pt
+LCA_single_cluster_l1: step 4000/20000 | loss 2.4626
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_4000.pt
+LCA_single_cluster_l1: step 4500/20000 | loss 2.4621
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_4500.pt
+LCA_single_cluster_l1: step 5000/20000 | loss 2.2495
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_5000.pt
+LCA_single_cluster_l1: step 5500/20000 | loss 2.2920
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_5500.pt
+LCA_single_cluster_l1: step 6000/20000 | loss 2.2318
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_6000.pt
+LCA_single_cluster_l1: step 6500/20000 | loss 2.1992
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_6500.pt
+LCA_single_cluster_l1: step 7000/20000 | loss 2.0939
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_7000.pt
+LCA_single_cluster_l1: step 7500/20000 | loss 2.0341
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_7500.pt
+LCA_single_cluster_l1: step 8000/20000 | loss 2.0429
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_8000.pt
+LCA_single_cluster_l1: step 8500/20000 | loss 1.9856
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_8500.pt
+LCA_single_cluster_l1: step 9000/20000 | loss 1.9759
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_9000.pt
+LCA_single_cluster_l1: step 9500/20000 | loss 1.9651
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_9500.pt
+LCA_single_cluster_l1: step 10000/20000 | loss 1.9128
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_10000.pt
+LCA_single_cluster_l1: step 10500/20000 | loss 1.9202
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_10500.pt
+LCA_single_cluster_l1: step 11000/20000 | loss 1.8813
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_11000.pt
+LCA_single_cluster_l1: step 11500/20000 | loss 1.8662
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_11500.pt
+LCA_single_cluster_l1: step 12000/20000 | loss 1.8654
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_12000.pt
+LCA_single_cluster_l1: step 12500/20000 | loss 1.7690
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_12500.pt
+LCA_single_cluster_l1: step 13000/20000 | loss 1.7918
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_13000.pt
+LCA_single_cluster_l1: step 13500/20000 | loss 1.7205
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_13500.pt
+LCA_single_cluster_l1: step 14000/20000 | loss 1.7440
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_14000.pt
+LCA_single_cluster_l1: step 14500/20000 | loss 1.7566
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_14500.pt
+LCA_single_cluster_l1: step 15000/20000 | loss 1.7310
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_15000.pt
+LCA_single_cluster_l1: step 15500/20000 | loss 1.6551
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_15500.pt
+LCA_single_cluster_l1: step 16000/20000 | loss 1.6512
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_16000.pt
+LCA_single_cluster_l1: step 16500/20000 | loss 1.7046
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_16500.pt
+LCA_single_cluster_l1: step 17000/20000 | loss 1.6796
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_17000.pt
+LCA_single_cluster_l1: step 17500/20000 | loss 1.6324
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_17500.pt
+LCA_single_cluster_l1: step 18000/20000 | loss 1.7348
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_18000.pt
+LCA_single_cluster_l1: step 18500/20000 | loss 1.7206
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_18500.pt
+LCA_single_cluster_l1: step 19000/20000 | loss 1.7172
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_19000.pt
+LCA_single_cluster_l1: step 19500/20000 | loss 1.5842
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_19500.pt
+LCA_single_cluster_l1: step 20000/20000 | loss 1.5635
+Saved checkpoint to models/lca_single_cluster/LCA_single_cluster_l1/checkpoint_step_20000.pt
+LCA_single_cluster_l1: train bpb=2.3240 | val bpb=2.3281
+Training completed successfully!

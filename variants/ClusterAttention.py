@@ -77,6 +77,7 @@ class ClusterAttention(nn.Module):
         out = out.transpose(1,2).reshape(B,T,dim)
         return self.WO(out)
 
-x = torch.randn(2,20,128)
-y = ClusterAttention(128, 8)
-print(y(x).shape)
+if __name__ == '__main__': 
+    x = torch.randn(2,20,128)
+    y = ClusterAttention(128, 8)
+    print(y(x).shape)

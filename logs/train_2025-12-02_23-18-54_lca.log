@@ -1,0 +1,51 @@
+Loading enwik8...
+Total bytes: 100000000
+Starting training with runs.lca...
+Loaded 1 models from runs.lca
+Number of training steps: 20000
+Running lca with 1 models
+models: [('LCA', <class 'variants.LearnedClusterAttention.LearnedClusterAttention'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'causal': True}, 1)]
+
+----Training LCA----
+LCA: step 500/20000 | loss 3.0092
+LCA: step 1000/20000 | loss 2.7531
+LCA: step 1500/20000 | loss 2.7890
+LCA: step 2000/20000 | loss 2.7089
+LCA: step 2500/20000 | loss 2.6445
+LCA: step 3000/20000 | loss 2.7446
+LCA: step 3500/20000 | loss 2.6805
+LCA: step 4000/20000 | loss 2.6395
+LCA: step 4500/20000 | loss 2.6796
+LCA: step 5000/20000 | loss 2.6592
+LCA: step 5500/20000 | loss 2.6897
+LCA: step 6000/20000 | loss 2.6855
+LCA: step 6500/20000 | loss 2.6548
+LCA: step 7000/20000 | loss 2.6780
+LCA: step 7500/20000 | loss 2.6173
+LCA: step 8000/20000 | loss 2.6152
+LCA: step 8500/20000 | loss 2.7150
+LCA: step 9000/20000 | loss 2.6281
+LCA: step 9500/20000 | loss 2.6119
+LCA: step 10000/20000 | loss 2.6889
+LCA: step 10500/20000 | loss 2.6144
+LCA: step 11000/20000 | loss 2.6558
+LCA: step 11500/20000 | loss 2.6665
+LCA: step 12000/20000 | loss 2.6389
+LCA: step 12500/20000 | loss 2.5880
+LCA: step 13000/20000 | loss 2.5739
+LCA: step 13500/20000 | loss 2.6208
+LCA: step 14000/20000 | loss 2.5856
+LCA: step 14500/20000 | loss 2.5718
+LCA: step 15000/20000 | loss 2.6170
+LCA: step 15500/20000 | loss 2.6686
+LCA: step 16000/20000 | loss 2.6002
+LCA: step 16500/20000 | loss 2.6608
+LCA: step 17000/20000 | loss 2.6046
+LCA: step 17500/20000 | loss 2.6702
+LCA: step 18000/20000 | loss 2.6512
+LCA: step 18500/20000 | loss 2.5738
+LCA: step 19000/20000 | loss 2.6771
+LCA: step 19500/20000 | loss 2.6626
+LCA: step 20000/20000 | loss 2.5725
+LCA: train bpb=3.7880 | val bpb=3.7855
+Training completed successfully!

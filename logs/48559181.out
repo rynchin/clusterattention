@@ -1,0 +1,6 @@
+
+Running train.py
+torch.Size([2, 20, 128])
+torch.Size([2, 20, 128])
+torch.Size([2, 20, 128])
+torch.Size([2, 20, 128])

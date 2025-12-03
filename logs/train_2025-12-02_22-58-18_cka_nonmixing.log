@@ -1,0 +1,9 @@
+Loading enwik8...
+Total bytes: 100000000
+number of training steps: 50000
+Starting training with runs.cka_nonmixing...
+Loaded 1 models from runs.cka_nonmixing
+Running cka_nonmixing with 1 models
+models: [('CKA_l1_s1_nonmixing', <class 'variants.ClusterKernelAttention.ClusterKernelAttention'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'r': 32, 'causal': True, 'mixing': False}, 1)]
+
+----Training CKA_l1_s1_nonmixing----

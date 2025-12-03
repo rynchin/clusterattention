@@ -1,0 +1,24 @@
+Loading enwik8...
+Total bytes: 100000000
+Starting training with runs.fastcka_20k...
+Loaded 2 models from runs.fastcka_20k
+Number of training steps: 20000
+Running fastcka_20k with 2 models
+models: [('FastCKA_l4_s1', <class 'variants.FastCKA.FastCKA'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'r': 32, 'causal': True}, 4), ('FastCKA_l8_s1', <class 'variants.FastCKA.FastCKA'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'r': 32, 'causal': True}, 8)]
+
+----Training FastCKA_l4_s1----
+Checkpoints will be saved to models/fastcka_20k/FastCKA_l4_s1
+FastCKA_l4_s1: step 500/20000 | loss 2.8131
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_500.pt
+FastCKA_l4_s1: step 1000/20000 | loss 2.7109
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_1000.pt
+FastCKA_l4_s1: step 1500/20000 | loss 2.5349
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_1500.pt
+FastCKA_l4_s1: step 2000/20000 | loss 2.5429
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_2000.pt
+FastCKA_l4_s1: step 2500/20000 | loss 2.5551
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_2500.pt
+FastCKA_l4_s1: step 3000/20000 | loss 2.4856
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_3000.pt
+FastCKA_l4_s1: step 3500/20000 | loss 2.3706
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_3500.pt
