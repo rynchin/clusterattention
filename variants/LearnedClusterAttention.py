@@ -53,8 +53,8 @@ class LearnedClusterAttention(nn.Module):
         # If forcing one cluster, skip cluster masking and just apply causal mask if needed
         if self.force_one_cluster:
             if self.causal:
-                causal_mask = torch.triu(torch.ones(T, T, dtype=torch.bool, device=x.device), diagonal=1)
-                logits = logits.masked_fill(causal_mask.unsqueeze(0).unsqueeze(0), float('-inf'))
+                mask = torch.triu(torch.ones(T, T, dtype=torch.bool, device=x.device), diagonal=1)
+                logits = logits.masked_fill(mask.unsqueeze(0).unsqueeze(0), float('-inf'))
         else:
             # Use cluster-based masking
             R_soft = torch.einsum('btc,buc->btu', soft_assign, soft_assign)
@@ -62,21 +62,45 @@ class LearnedClusterAttention(nn.Module):
             # straight through trick
             R = R_hard.detach() - R_soft.detach() + R_soft # BTT
             
+            # Ensure padding tokens don't participate in cluster relationships
+            # If either token is padding, set R to 0 (different clusters)
+            if attn_mask is not None:
+                mask_2d = attn_mask.unsqueeze(-1) & attn_mask.unsqueeze(-2)  # (B, T, T)
+                R = R * mask_2d.float()  # Set to 0 if either token is padding
+            
             if self.causal:
                 ar = torch.arange(T, device=x.device)
                 causal_mask = (ar[None,:] <= ar[:,None]).float() # TT
                 R = R * causal_mask # BTT
             
-            logits = logits.masked_fill(R.unsqueeze(1)==0, float('-inf'))
+            # Apply cluster mask, but ensure diagonal is never masked (self-attention always allowed)
+            # This prevents complete masking when all tokens are in different clusters
+            eye = torch.eye(T, device=x.device, dtype=torch.float32).unsqueeze(0).unsqueeze(0)  # (1, 1, T, T)
+            R_with_self = torch.clamp(R.unsqueeze(1) + eye, 0, 1)  # Ensure diagonal is always 1
+            logits = logits.masked_fill(R_with_self == 0, float('-inf'))
         
         # Apply attention mask (padding mask)
         if attn_mask is not None:
             # attn_mask: (B, T) -> expand to (B, 1, T, T)
-            mask = attn_mask.unsqueeze(1).unsqueeze(2)  # (B, 1, 1, T)
-            mask = mask & attn_mask.unsqueeze(1).unsqueeze(3)  # (B, 1, T, T)
-            logits = logits.masked_fill(~mask.unsqueeze(1), float('-inf'))  # (B, H, T, T)
+            mask_q = attn_mask.unsqueeze(1).unsqueeze(2)  # (B, 1, 1, T)
+            mask_k = attn_mask.unsqueeze(1).unsqueeze(3)  # (B, 1, T, 1)
+            mask = mask_q & mask_k  # (B, 1, T, T)
+            logits = logits.masked_fill(~mask, float('-inf'))  # (B, H, T, T)
+        
+        # Safety: if all positions are masked for a query (by cluster mask or padding mask),
+        # set uniform attention to prevent NaN in softmax
+        # Check if any valid (non-inf) position exists for each query
+        has_valid = torch.isfinite(logits).any(dim=-1, keepdim=True)  # (B, H, T, 1)
+        # If no valid positions, set to uniform (zeros before softmax = uniform after softmax)
+        logits = torch.where(has_valid, logits, torch.zeros_like(logits))
         
         score = torch.softmax(logits, dim = -1) # BHTT
+        
+        # Check for NaN in attention scores (safety check)
+        if torch.isnan(score).any():
+            # Replace NaN with uniform distribution
+            score = torch.where(torch.isnan(score), torch.ones_like(score) / T, score)
+        
         out = torch.einsum('bhtk,bhkd->bhtd', score, V) # BHTD
         out = out.transpose(1,2).reshape(B,T,dim)
         return self.WO(out)

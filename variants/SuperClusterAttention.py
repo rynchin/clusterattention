@@ -40,7 +40,22 @@ class SuperClusterAttention(LearnedClusterAttention):
         Vs = self.WV_s(S) #BCD
 
         logits_s = torch.einsum('bcd,bkd->bck', Qs, Ks)/(dim ** 0.5) #BCC
+        
+        # Safety: if all positions are masked for a query, set uniform attention
+        # This prevents NaN in softmax when all logits are -inf
+        # Check if any valid (non-inf) position exists for each query
+        has_valid = torch.isfinite(logits_s).any(dim=-1, keepdim=True)  # (B, C, 1)
+        # If no valid positions, set to uniform (zeros before softmax = uniform after softmax)
+        logits_s = torch.where(has_valid, logits_s, torch.zeros_like(logits_s))
+        
         score_s = torch.softmax(logits_s, dim = -1) #BCC
+        
+        # Check for NaN in attention scores (safety check)
+        if torch.isnan(score_s).any():
+            # Replace NaN with uniform distribution
+            C = logits_s.shape[-1]
+            score_s = torch.where(torch.isnan(score_s), torch.ones_like(score_s) / C, score_s)
+        
         out_s = torch.einsum('bck,bkd->bcd', score_s, Vs) # BCD
         
         # broadcast supernode info to tokens

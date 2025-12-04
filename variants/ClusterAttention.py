@@ -85,7 +85,21 @@ class ClusterAttention(nn.Module):
                 mask_2d = mask_c.unsqueeze(2) & mask_c.unsqueeze(3)  # (B, H, s, s)
                 att = att.masked_fill(~mask_2d, float('-inf'))
             
+            # Safety: if all positions are masked for a query, set uniform attention
+            # This prevents NaN in softmax when all logits are -inf
+            # Check if any valid (non-inf) position exists for each query
+            has_valid = torch.isfinite(att).any(dim=-1, keepdim=True)  # (B, H, s, 1)
+            # If no valid positions, set to uniform (zeros before softmax = uniform after softmax)
+            att = torch.where(has_valid, att, torch.zeros_like(att))
+            
             att = torch.softmax(att, dim = -1)
+            
+            # Check for NaN in attention scores (safety check)
+            if torch.isnan(att).any():
+                # Replace NaN with uniform distribution
+                s_cluster = end - start
+                att = torch.where(torch.isnan(att), torch.ones_like(att) / s_cluster, att)
+            
             out_c = torch.einsum('bhtk,bhkd->bhtd', att, Vc)
         
             out_s[:, :, start:end, :] = out_c

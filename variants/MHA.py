@@ -40,8 +40,20 @@ class MHA(nn.Module):
             mask = mask_q & mask_k  # (B, 1, T, T)
             mask = mask.expand(-1, self.heads, -1, -1)  # (B, H, T, T)
             logits = logits.masked_fill(~mask, float('-inf'))  # (B, H, T, T)
+            
+            # Safety: if all positions are masked for a query, set uniform attention
+            # This prevents NaN in softmax when all logits are -inf
+            # Check if any valid position exists for each query
+            has_valid = mask.any(dim=-1, keepdim=True)  # (B, H, T, 1)
+            logits = torch.where(has_valid, logits, torch.zeros_like(logits))
         
         score = torch.softmax(logits, dim = -1) # BHTT
+        
+        # Check for NaN in attention scores (safety check)
+        if torch.isnan(score).any():
+            # Replace NaN with uniform distribution
+            score = torch.where(torch.isnan(score), torch.ones_like(score) / T, score)
+        
         out = torch.einsum('bhtk,bhkd->bhtd', score, V)
         out = out.transpose(1,2).reshape(B,T,dim)
         
