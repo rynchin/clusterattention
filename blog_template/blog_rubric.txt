@@ -1,0 +1,38 @@
+"Novelty and Significance 20 pts
+
+1. The project is innovative, creative, and interesting. Examples of this would be: a) exposing a previously unknown connection between two different methods, b) exploring a component of current methods that is not well-understood, c) proposing an improvement to an existing method, d) interpreting or analyzing the learned mechanisms and representations in an existing model.
+
+2. The project is a creative/important application of deep learning that provides novel scientific insights into deep learning. Applying an existing method to a new dataset and reporting results is insufficient. Examples of ways to achieve sufficient novelty: a) exposing fundamental limitations of current deep learning methods and experimentally or theoretically analyzing why the method is underperforming, b) exploring how additional structure or knowledge from an application area can be built into deep learning methods to improve results."	
+
+"Technical Soundness and Content 30 pts
+
+1. The methods are sound, the math is correct, conclusions are justified by the results.
+
+2. The experiments / analyses are well designed to test the scientific claims, and are conducted fairly. Uncertainty is properly quantified and any claims of significance are statistically justified. Proper baselines are used and relevant ablation studies and hyperparameter sweeps are performed, if applicable.
+
+3. The project is well-scoped for the course (not too ambitious to be finished within the timeframe and with available resources)."	
+
+"Clarity 20 pts
+
+The project report is well-written and structured, and is made understandable to the reader. The report focuses on a clearly stated central hypothesis. The figures are clear and help the reader to understand your analysis.
+
+Is the motivation clear? Is there an honest discussion of implications and limitations? Is there a clear conclusion based on the experiments in the paper?"	
+
+
+"Literature Review and Positioning of Work 20 pts
+
+Is the proposed project well-motivated by a gap in prior research? Please include citations and analysis of how the project extends, combines, challenges, and/or recontextualizes related work. The project should demonstrate accurate understanding of cited work and discuss their relevant assumptions, strengths, and limitations. "	
+
+"Formatting 10 pts
+
+There should be a coherent structure to the report. Text should be legible and equations should be properly typeset. Figures, and tables should be clear, labelled, and captioned. Please do not add extraneous formatting that makes the blog hard to read and distracts from the content.
+
+Content you should include:
+
+1) An introduction or motivation.
+2) Background and related work with literature cited.
+3) A description of your methods and experiments. 
+4) An analysis of the results of your experiments with figures showing the results.
+5) A conclusion or discussion, with mention of limitations.
+
+The report should not significantly exceed the word limit."	

@@ -1,0 +1,121 @@
+Using device: cuda
+Loading HEP dataset...
+Dataset loaded: train=10000, val=2000, test=2000
+Starting HEP training with runs.hep...
+Loaded 6 models from runs.hep
+Number of training steps: 20000
+Sequence length T: 512
+Running hep with 6 models
+models: [('FastCKA_l2_s1', <class 'variants.FastCKA.FastCKA'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'r': 32, 'causal': False}, 2), ('FastCKA_l4_s1', <class 'variants.FastCKA.FastCKA'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'r': 32, 'causal': False}, 4), ('ClusterAttention_l2_s1', <class 'variants.ClusterAttention.ClusterAttention'>, {'cluster_scale': 1.0, 'causal': False}, 2), ('ClusterAttention_l4_s1', <class 'variants.ClusterAttention.ClusterAttention'>, {'cluster_scale': 1.0, 'causal': False}, 4), ('SuperClusterAttention_l2_s1', <class 'variants.SuperClusterAttention.SuperClusterAttention'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'causal': False}, 2), ('SuperClusterAttention_l4_s1', <class 'variants.SuperClusterAttention.SuperClusterAttention'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'causal': False}, 4)]
+
+----Training FastCKA_l2_s1----
+Checkpoints will be saved to models/hep/FastCKA_l2_s1
+FastCKA_l2_s1: step 500/20000 | loss 5441.0791
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_500.pt
+FastCKA_l2_s1: step 1000/20000 | loss 3500.5078
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_1000.pt
+FastCKA_l2_s1: step 1500/20000 | loss 2807.9658
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_1500.pt
+FastCKA_l2_s1: step 2000/20000 | loss 1241.7343
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_2000.pt
+FastCKA_l2_s1: step 2500/20000 | loss 922.4982
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_2500.pt
+FastCKA_l2_s1: step 3000/20000 | loss 428.7965
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_3000.pt
+FastCKA_l2_s1: step 3500/20000 | loss 157.1561
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_3500.pt
+FastCKA_l2_s1: step 4000/20000 | loss 98.2575
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_4000.pt
+FastCKA_l2_s1: step 4500/20000 | loss 18.5940
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_4500.pt
+FastCKA_l2_s1: step 5000/20000 | loss 16.0893
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_5000.pt
+FastCKA_l2_s1: step 5500/20000 | loss 20.4296
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_5500.pt
+FastCKA_l2_s1: step 6000/20000 | loss 12.1562
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_6000.pt
+FastCKA_l2_s1: step 6500/20000 | loss 16.8691
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_6500.pt
+FastCKA_l2_s1: step 7000/20000 | loss 21.0263
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_7000.pt
+FastCKA_l2_s1: step 7500/20000 | loss 11.4906
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_7500.pt
+FastCKA_l2_s1: step 8000/20000 | loss 22.7924
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_8000.pt
+FastCKA_l2_s1: step 8500/20000 | loss 14.5712
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_8500.pt
+FastCKA_l2_s1: step 9000/20000 | loss 15.9303
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_9000.pt
+FastCKA_l2_s1: step 9500/20000 | loss 8.9668
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_9500.pt
+FastCKA_l2_s1: step 10000/20000 | loss 10.2967
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_10000.pt
+FastCKA_l2_s1: step 10500/20000 | loss 12.7647
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_10500.pt
+FastCKA_l2_s1: step 11000/20000 | loss 13.2587
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_11000.pt
+FastCKA_l2_s1: step 11500/20000 | loss 13.2716
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_11500.pt
+FastCKA_l2_s1: step 12000/20000 | loss 18.6404
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_12000.pt
+FastCKA_l2_s1: step 12500/20000 | loss 22.8566
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_12500.pt
+FastCKA_l2_s1: step 13000/20000 | loss 12.2171
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_13000.pt
+FastCKA_l2_s1: step 13500/20000 | loss 6.1016
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_13500.pt
+FastCKA_l2_s1: step 14000/20000 | loss 16.3829
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_14000.pt
+FastCKA_l2_s1: step 14500/20000 | loss 16.2699
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_14500.pt
+FastCKA_l2_s1: step 15000/20000 | loss 9.6231
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_15000.pt
+FastCKA_l2_s1: step 15500/20000 | loss 16.2209
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_15500.pt
+FastCKA_l2_s1: step 16000/20000 | loss 13.7919
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_16000.pt
+FastCKA_l2_s1: step 16500/20000 | loss 14.9652
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_16500.pt
+FastCKA_l2_s1: step 17000/20000 | loss 10.5415
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_17000.pt
+FastCKA_l2_s1: step 17500/20000 | loss 4.5802
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_17500.pt
+FastCKA_l2_s1: step 18000/20000 | loss 3.7541
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_18000.pt
+FastCKA_l2_s1: step 18500/20000 | loss 4.0750
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_18500.pt
+FastCKA_l2_s1: step 19000/20000 | loss 2.7150
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_19000.pt
+FastCKA_l2_s1: step 19500/20000 | loss 2.2031
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_19500.pt
+FastCKA_l2_s1: step 20000/20000 | loss 4.0359
+Saved checkpoint to models/hep/FastCKA_l2_s1/checkpoint_step_20000.pt
+
+FastCKA_l2_s1 - Training Metrics:
+  Loss: 3.1470
+  MAE: 1.3690
+  RMSE: 1.7740
+  R²: 0.4866
+  MAE per dim: [1.4081688 1.4103429 1.142664  1.5149916]
+  R² per dim: [-6.06775284e-04 -3.17096710e-04  9.48325515e-01  9.99177992e-01]
+
+FastCKA_l2_s1 - Validation Metrics:
+  Loss: 3.5300
+  MAE: 1.4400
+  RMSE: 1.8788
+  R²: 0.4835
+  MAE per dim: [1.4418591 1.4277413 1.2499038 1.6404355]
+  R² per dim: [-0.00369203 -0.00175691  0.94049895  0.9989332 ]
+
+FastCKA_l2_s1 - Test Metrics:
+  Loss: 3.2773
+  MAE: 1.3767
+  RMSE: 1.8103
+  R²: 0.4859
+  MAE per dim: [1.369961  1.3539104 1.1685876 1.6144487]
+  R² per dim: [-9.51528549e-04  8.95500183e-04  9.44755197e-01  9.98983622e-01]
+
+----Training FastCKA_l4_s1----
+Checkpoints will be saved to models/hep/FastCKA_l4_s1
+FastCKA_l4_s1: step 500/20000 | loss 4601.1016
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_500.pt

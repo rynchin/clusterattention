@@ -22,3 +22,155 @@ FastCKA_l4_s1: step 3000/20000 | loss 2.4856
 Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_3000.pt
 FastCKA_l4_s1: step 3500/20000 | loss 2.3706
 Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_3500.pt
+FastCKA_l4_s1: step 4000/20000 | loss 2.4399
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_4000.pt
+FastCKA_l4_s1: step 4500/20000 | loss 2.4268
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_4500.pt
+FastCKA_l4_s1: step 5000/20000 | loss 2.3555
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_5000.pt
+FastCKA_l4_s1: step 5500/20000 | loss 2.3601
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_5500.pt
+FastCKA_l4_s1: step 6000/20000 | loss 2.3223
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_6000.pt
+FastCKA_l4_s1: step 6500/20000 | loss 2.3543
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_6500.pt
+FastCKA_l4_s1: step 7000/20000 | loss 2.2591
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_7000.pt
+FastCKA_l4_s1: step 7500/20000 | loss 2.1291
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_7500.pt
+FastCKA_l4_s1: step 8000/20000 | loss 2.0889
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_8000.pt
+FastCKA_l4_s1: step 8500/20000 | loss 2.0535
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_8500.pt
+FastCKA_l4_s1: step 9000/20000 | loss 1.9368
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_9000.pt
+FastCKA_l4_s1: step 9500/20000 | loss 1.9563
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_9500.pt
+FastCKA_l4_s1: step 10000/20000 | loss 1.9524
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_10000.pt
+FastCKA_l4_s1: step 10500/20000 | loss 1.7967
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_10500.pt
+FastCKA_l4_s1: step 11000/20000 | loss 1.8215
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_11000.pt
+FastCKA_l4_s1: step 11500/20000 | loss 1.8497
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_11500.pt
+FastCKA_l4_s1: step 12000/20000 | loss 1.7588
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_12000.pt
+FastCKA_l4_s1: step 12500/20000 | loss 1.6304
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_12500.pt
+FastCKA_l4_s1: step 13000/20000 | loss 1.6809
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_13000.pt
+FastCKA_l4_s1: step 13500/20000 | loss 1.6728
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_13500.pt
+FastCKA_l4_s1: step 14000/20000 | loss 1.5773
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_14000.pt
+FastCKA_l4_s1: step 14500/20000 | loss 1.6213
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_14500.pt
+FastCKA_l4_s1: step 15000/20000 | loss 1.4738
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_15000.pt
+FastCKA_l4_s1: step 15500/20000 | loss 1.6122
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_15500.pt
+FastCKA_l4_s1: step 16000/20000 | loss 1.6012
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_16000.pt
+FastCKA_l4_s1: step 16500/20000 | loss 1.5651
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_16500.pt
+FastCKA_l4_s1: step 17000/20000 | loss 1.5159
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_17000.pt
+FastCKA_l4_s1: step 17500/20000 | loss 1.4927
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_17500.pt
+FastCKA_l4_s1: step 18000/20000 | loss 1.3983
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_18000.pt
+FastCKA_l4_s1: step 18500/20000 | loss 1.3112
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_18500.pt
+FastCKA_l4_s1: step 19000/20000 | loss 1.4618
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_19000.pt
+FastCKA_l4_s1: step 19500/20000 | loss 1.3544
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_19500.pt
+FastCKA_l4_s1: step 20000/20000 | loss 1.4652
+Saved checkpoint to models/fastcka_20k/FastCKA_l4_s1/checkpoint_step_20000.pt
+FastCKA_l4_s1: train bpb=2.0430 | val bpb=2.0804
+
+----Training FastCKA_l8_s1----
+Checkpoints will be saved to models/fastcka_20k/FastCKA_l8_s1
+FastCKA_l8_s1: step 500/20000 | loss 2.8059
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_500.pt
+FastCKA_l8_s1: step 1000/20000 | loss 2.6259
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_1000.pt
+FastCKA_l8_s1: step 1500/20000 | loss 2.5281
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_1500.pt
+FastCKA_l8_s1: step 2000/20000 | loss 2.4834
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_2000.pt
+FastCKA_l8_s1: step 2500/20000 | loss 2.3883
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_2500.pt
+FastCKA_l8_s1: step 3000/20000 | loss 2.3224
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_3000.pt
+FastCKA_l8_s1: step 3500/20000 | loss 2.3202
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_3500.pt
+FastCKA_l8_s1: step 4000/20000 | loss 2.0904
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_4000.pt
+FastCKA_l8_s1: step 4500/20000 | loss 2.0911
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_4500.pt
+FastCKA_l8_s1: step 5000/20000 | loss 1.9097
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_5000.pt
+FastCKA_l8_s1: step 5500/20000 | loss 1.9756
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_5500.pt
+FastCKA_l8_s1: step 6000/20000 | loss 1.7894
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_6000.pt
+FastCKA_l8_s1: step 6500/20000 | loss 1.7456
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_6500.pt
+FastCKA_l8_s1: step 7000/20000 | loss 1.5926
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_7000.pt
+FastCKA_l8_s1: step 7500/20000 | loss 1.6727
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_7500.pt
+FastCKA_l8_s1: step 8000/20000 | loss 1.5469
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_8000.pt
+FastCKA_l8_s1: step 8500/20000 | loss 1.5632
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_8500.pt
+FastCKA_l8_s1: step 9000/20000 | loss 1.4969
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_9000.pt
+FastCKA_l8_s1: step 9500/20000 | loss 1.4016
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_9500.pt
+FastCKA_l8_s1: step 10000/20000 | loss 1.3827
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_10000.pt
+FastCKA_l8_s1: step 10500/20000 | loss 1.4806
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_10500.pt
+FastCKA_l8_s1: step 11000/20000 | loss 1.4270
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_11000.pt
+FastCKA_l8_s1: step 11500/20000 | loss 1.3713
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_11500.pt
+FastCKA_l8_s1: step 12000/20000 | loss 1.3862
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_12000.pt
+FastCKA_l8_s1: step 12500/20000 | loss 1.3792
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_12500.pt
+FastCKA_l8_s1: step 13000/20000 | loss 1.4066
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_13000.pt
+FastCKA_l8_s1: step 13500/20000 | loss 1.3562
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_13500.pt
+FastCKA_l8_s1: step 14000/20000 | loss 1.3509
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_14000.pt
+FastCKA_l8_s1: step 14500/20000 | loss 1.2907
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_14500.pt
+FastCKA_l8_s1: step 15000/20000 | loss 1.2835
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_15000.pt
+FastCKA_l8_s1: step 15500/20000 | loss 1.2680
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_15500.pt
+FastCKA_l8_s1: step 16000/20000 | loss 1.2971
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_16000.pt
+FastCKA_l8_s1: step 16500/20000 | loss 1.2471
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_16500.pt
+FastCKA_l8_s1: step 17000/20000 | loss 1.3174
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_17000.pt
+FastCKA_l8_s1: step 17500/20000 | loss 1.2169
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_17500.pt
+FastCKA_l8_s1: step 18000/20000 | loss 1.2062
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_18000.pt
+FastCKA_l8_s1: step 18500/20000 | loss 1.2115
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_18500.pt
+FastCKA_l8_s1: step 19000/20000 | loss 1.2702
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_19000.pt
+FastCKA_l8_s1: step 19500/20000 | loss 1.1487
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_19500.pt
+FastCKA_l8_s1: step 20000/20000 | loss 1.1470
+Saved checkpoint to models/fastcka_20k/FastCKA_l8_s1/checkpoint_step_20000.pt
+FastCKA_l8_s1: train bpb=1.7436 | val bpb=1.7837
+Training completed successfully!

@@ -68,6 +68,19 @@ def get_batch(source, batch_size, T, device):
     y = torch.stack([source[i+1:i+T+1] for i in idx]) # B,T
     return x.to(device), y.to(device) # B,T
 
+def count_parameters(model):
+    """Count the number of trainable parameters in a model"""
+    return sum(p.numel() for p in model.parameters() if p.requires_grad)
+
+def format_parameter_count(num_params):
+    """Format parameter count in a human-readable way"""
+    if num_params >= 1e6:
+        return f"{num_params / 1e6:.2f}M"
+    elif num_params >= 1e3:
+        return f"{num_params / 1e3:.2f}K"
+    else:
+        return str(num_params)
+
 def train(name, attn_class, attn_args, data, T, n_layers, steps, runs_name):
     log(f'\n----Training {name}----')
     # Clear CUDA cache before creating new model
@@ -80,6 +93,11 @@ def train(name, attn_class, attn_args, data, T, n_layers, steps, runs_name):
     log(f'Checkpoints will be saved to {checkpoint_dir}')
     
     model = TransformerLM(dim=dim, heads=heads, ffdim=ffdim, V=V, T=T, n_layers=n_layers, attn_class=attn_class, attn_args=attn_args).to(device)
+    
+    # Print model size
+    num_params = count_parameters(model)
+    log(f"{name}: {num_params:,} parameters ({format_parameter_count(num_params)})")
+    
     optimizer = optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
 
     model.train()

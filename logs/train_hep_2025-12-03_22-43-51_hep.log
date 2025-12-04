@@ -1,0 +1,226 @@
+Using device: cuda
+Loading HEP dataset...
+Dataset loaded: train=10000, val=2000, test=2000
+Starting HEP training with runs.hep...
+Loaded 8 models from runs.hep
+Number of training steps: 20000
+Sequence length T: 512
+Running hep with 8 models
+models: [('LCA_l2_s1', <class 'variants.LearnedClusterAttention.LearnedClusterAttention'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'causal': False, 'force_one_cluster': False}, 2), ('LCA_l4_s1', <class 'variants.LearnedClusterAttention.LearnedClusterAttention'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'causal': False, 'force_one_cluster': False}, 4), ('FastCKA_l2_s1', <class 'variants.FastCKA.FastCKA'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'r': 32, 'causal': False}, 2), ('FastCKA_l4_s1', <class 'variants.FastCKA.FastCKA'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'r': 32, 'causal': False}, 4), ('ClusterAttention_l2_s1', <class 'variants.ClusterAttention.ClusterAttention'>, {'cluster_scale': 1.0, 'causal': False}, 2), ('ClusterAttention_l4_s1', <class 'variants.ClusterAttention.ClusterAttention'>, {'cluster_scale': 1.0, 'causal': False}, 4), ('SuperClusterAttention_l2_s1', <class 'variants.SuperClusterAttention.SuperClusterAttention'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'causal': False}, 2), ('SuperClusterAttention_l4_s1', <class 'variants.SuperClusterAttention.SuperClusterAttention'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'causal': False}, 4)]
+
+----Training LCA_l2_s1----
+Checkpoints will be saved to models/hep/LCA_l2_s1
+LCA_l2_s1: step 500/20000 | loss 4693.1216
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_500.pt
+LCA_l2_s1: step 1000/20000 | loss 3409.4980
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_1000.pt
+LCA_l2_s1: step 1500/20000 | loss 2560.7417
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_1500.pt
+LCA_l2_s1: step 2000/20000 | loss 2240.1975
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_2000.pt
+LCA_l2_s1: step 2500/20000 | loss 1242.9358
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_2500.pt
+LCA_l2_s1: step 3000/20000 | loss 731.3353
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_3000.pt
+LCA_l2_s1: step 3500/20000 | loss 224.1268
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_3500.pt
+LCA_l2_s1: step 4000/20000 | loss 135.8352
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_4000.pt
+LCA_l2_s1: step 4500/20000 | loss 62.1667
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_4500.pt
+LCA_l2_s1: step 5000/20000 | loss 42.9174
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_5000.pt
+LCA_l2_s1: step 5500/20000 | loss 24.0298
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_5500.pt
+LCA_l2_s1: step 6000/20000 | loss 20.3582
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_6000.pt
+LCA_l2_s1: step 6500/20000 | loss 19.8050
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_6500.pt
+LCA_l2_s1: step 7000/20000 | loss 18.9747
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_7000.pt
+LCA_l2_s1: step 7500/20000 | loss 22.7201
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_7500.pt
+LCA_l2_s1: step 8000/20000 | loss 14.6167
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_8000.pt
+LCA_l2_s1: step 8500/20000 | loss 22.1010
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_8500.pt
+LCA_l2_s1: step 9000/20000 | loss 11.9678
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_9000.pt
+LCA_l2_s1: step 9500/20000 | loss 14.3108
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_9500.pt
+LCA_l2_s1: step 10000/20000 | loss 17.4569
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_10000.pt
+LCA_l2_s1: step 10500/20000 | loss 18.2814
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_10500.pt
+LCA_l2_s1: step 11000/20000 | loss 7.9764
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_11000.pt
+LCA_l2_s1: step 11500/20000 | loss 5.0052
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_11500.pt
+LCA_l2_s1: step 12000/20000 | loss 8.1145
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_12000.pt
+LCA_l2_s1: step 12500/20000 | loss 8.2928
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_12500.pt
+LCA_l2_s1: step 13000/20000 | loss 5.7310
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_13000.pt
+LCA_l2_s1: step 13500/20000 | loss 3.6814
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_13500.pt
+LCA_l2_s1: step 14000/20000 | loss 4.7782
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_14000.pt
+LCA_l2_s1: step 14500/20000 | loss 4.1419
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_14500.pt
+LCA_l2_s1: step 15000/20000 | loss 4.5798
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_15000.pt
+LCA_l2_s1: step 15500/20000 | loss 3.4198
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_15500.pt
+LCA_l2_s1: step 16000/20000 | loss 3.9060
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_16000.pt
+LCA_l2_s1: step 16500/20000 | loss 3.2360
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_16500.pt
+LCA_l2_s1: step 17000/20000 | loss 3.9851
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_17000.pt
+LCA_l2_s1: step 17500/20000 | loss 5.6024
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_17500.pt
+LCA_l2_s1: step 18000/20000 | loss 1.9702
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_18000.pt
+LCA_l2_s1: step 18500/20000 | loss 2.4555
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_18500.pt
+LCA_l2_s1: step 19000/20000 | loss 3.0125
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_19000.pt
+LCA_l2_s1: step 19500/20000 | loss 3.1276
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_19500.pt
+LCA_l2_s1: step 20000/20000 | loss 2.6051
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_20000.pt
+
+LCA_l2_s1 - Training Metrics:
+  Loss: 2.5032
+  MAE: 1.1955
+  RMSE: 1.5821
+  R²: 0.4866
+  MAE per dim: [1.4132801 1.408824  1.1956676 0.7643212]
+  R² per dim: [-0.00756812  0.00392282  0.95034558  0.99977624]
+
+LCA_l2_s1 - Validation Metrics:
+  Loss: 4.1231
+  MAE: 1.5429
+  RMSE: 2.0305
+  R²: 0.4747
+  MAE per dim: [1.437299  1.4223763 1.7186482 1.5934147]
+  R² per dim: [-0.00195551  0.0064317   0.89532042  0.99890774]
+
+LCA_l2_s1 - Test Metrics:
+  Loss: 3.9051
+  MAE: 1.4894
+  RMSE: 1.9761
+  R²: 0.4714
+  MAE per dim: [1.3792667 1.3554177 1.6647936 1.5580276]
+  R² per dim: [-5.91015816e-03  8.67545605e-04  8.91828835e-01  9.98943686e-01]
+
+----Training LCA_l4_s1----
+Checkpoints will be saved to models/hep/LCA_l4_s1
+LCA_l4_s1: step 500/20000 | loss 3741.6519
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_500.pt
+LCA_l4_s1: step 1000/20000 | loss 3782.1997
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_1000.pt
+LCA_l4_s1: step 1500/20000 | loss 3432.6812
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_1500.pt
+LCA_l4_s1: step 2000/20000 | loss 2559.2146
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_2000.pt
+LCA_l4_s1: step 2500/20000 | loss 1053.0752
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_2500.pt
+LCA_l4_s1: step 3000/20000 | loss 498.6177
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_3000.pt
+LCA_l4_s1: step 3500/20000 | loss 153.8482
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_3500.pt
+LCA_l4_s1: step 4000/20000 | loss 34.6426
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_4000.pt
+LCA_l4_s1: step 4500/20000 | loss 47.7473
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_4500.pt
+LCA_l4_s1: step 5000/20000 | loss 42.2264
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_5000.pt
+LCA_l4_s1: step 5500/20000 | loss 45.9355
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_5500.pt
+LCA_l4_s1: step 6000/20000 | loss 44.0697
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_6000.pt
+LCA_l4_s1: step 6500/20000 | loss 28.8000
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_6500.pt
+LCA_l4_s1: step 7000/20000 | loss 25.4207
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_7000.pt
+LCA_l4_s1: step 7500/20000 | loss 22.0944
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_7500.pt
+LCA_l4_s1: step 8000/20000 | loss 14.6048
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_8000.pt
+LCA_l4_s1: step 8500/20000 | loss 18.2775
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_8500.pt
+LCA_l4_s1: step 9000/20000 | loss 12.6479
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_9000.pt
+LCA_l4_s1: step 9500/20000 | loss 32.2400
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_9500.pt
+LCA_l4_s1: step 10000/20000 | loss 20.6228
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_10000.pt
+LCA_l4_s1: step 10500/20000 | loss 17.1698
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_10500.pt
+LCA_l4_s1: step 11000/20000 | loss 20.4540
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_11000.pt
+LCA_l4_s1: step 11500/20000 | loss 19.6088
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_11500.pt
+LCA_l4_s1: step 12000/20000 | loss 25.8922
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_12000.pt
+LCA_l4_s1: step 12500/20000 | loss 18.1425
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_12500.pt
+LCA_l4_s1: step 13000/20000 | loss 12.8193
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_13000.pt
+LCA_l4_s1: step 13500/20000 | loss 11.6277
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_13500.pt
+LCA_l4_s1: step 14000/20000 | loss 6.9427
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_14000.pt
+LCA_l4_s1: step 14500/20000 | loss 14.5479
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_14500.pt
+LCA_l4_s1: step 15000/20000 | loss 11.8634
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_15000.pt
+LCA_l4_s1: step 15500/20000 | loss 6.3261
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_15500.pt
+LCA_l4_s1: step 16000/20000 | loss 9.3945
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_16000.pt
+LCA_l4_s1: step 16500/20000 | loss 7.4708
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_16500.pt
+LCA_l4_s1: step 17000/20000 | loss 4.5175
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_17000.pt
+LCA_l4_s1: step 17500/20000 | loss 4.1258
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_17500.pt
+LCA_l4_s1: step 18000/20000 | loss 3.7050
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_18000.pt
+LCA_l4_s1: step 18500/20000 | loss 4.6984
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_18500.pt
+LCA_l4_s1: step 19000/20000 | loss 4.3611
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_19000.pt
+LCA_l4_s1: step 19500/20000 | loss 4.6607
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_19500.pt
+LCA_l4_s1: step 20000/20000 | loss 3.7245
+Saved checkpoint to models/hep/LCA_l4_s1/checkpoint_step_20000.pt
+
+LCA_l4_s1 - Training Metrics:
+  Loss: 3.2055
+  MAE: 1.3531
+  RMSE: 1.7904
+  R²: 0.4771
+  MAE per dim: [1.407685  1.4108709 1.5531197 1.0408757]
+  R² per dim: [ 1.19268894e-04 -1.03592873e-04  9.08916712e-01  9.99563754e-01]
+
+LCA_l4_s1 - Validation Metrics:
+  Loss: 4.6744
+  MAE: 1.6122
+  RMSE: 2.1620
+  R²: 0.4650
+  MAE per dim: [1.4398618 1.4265853 1.9089184 1.6734874]
+  R² per dim: [-1.68263912e-03  7.57575035e-04  8.62334967e-01  9.98778284e-01]
+
+LCA_l4_s1 - Test Metrics:
+  Loss: 4.1129
+  MAE: 1.5311
+  RMSE: 2.0280
+  R²: 0.4680
+  MAE per dim: [1.370207  1.3550467 1.7790279 1.6202558]
+  R² per dim: [-1.15036964e-04 -1.60682201e-03  8.74924719e-01  9.98940706e-01]
+
+----Training FastCKA_l2_s1----
+Checkpoints will be saved to models/hep/FastCKA_l2_s1

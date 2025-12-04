@@ -1,0 +1,42 @@
+Using device: cuda
+Loading HEP dataset...
+Dataset loaded: train=10000, val=2000, test=2000
+Starting HEP training with runs.hep...
+Loaded 8 models from runs.hep
+Number of training steps: 20000
+Sequence length T: 512
+Running hep with 8 models
+models: [('LCA_l2_s1', <class 'variants.LearnedClusterAttention.LearnedClusterAttention'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'causal': False, 'force_one_cluster': False}, 2), ('LCA_l4_s1', <class 'variants.LearnedClusterAttention.LearnedClusterAttention'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'causal': False, 'force_one_cluster': False}, 4), ('FastCKA_l2_s1', <class 'variants.FastCKA.FastCKA'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'r': 32, 'causal': False}, 2), ('FastCKA_l4_s1', <class 'variants.FastCKA.FastCKA'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'r': 32, 'causal': False}, 4), ('ClusterAttention_l2_s1', <class 'variants.ClusterAttention.ClusterAttention'>, {'cluster_scale': 1.0, 'causal': False}, 2), ('ClusterAttention_l4_s1', <class 'variants.ClusterAttention.ClusterAttention'>, {'cluster_scale': 1.0, 'causal': False}, 4), ('SuperClusterAttention_l2_s1', <class 'variants.SuperClusterAttention.SuperClusterAttention'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'causal': False}, 2), ('SuperClusterAttention_l4_s1', <class 'variants.SuperClusterAttention.SuperClusterAttention'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'causal': False}, 4)]
+
+----Training LCA_l2_s1----
+Checkpoints will be saved to models/hep/LCA_l2_s1
+LCA_l2_s1: step 500/20000 | loss 1000000.0000
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_500.pt
+LCA_l2_s1: step 1000/20000 | loss 1000000.0000
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_1000.pt
+LCA_l2_s1: step 1500/20000 | loss 1000000.0000
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_1500.pt
+LCA_l2_s1: step 2000/20000 | loss 1000000.0000
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_2000.pt
+LCA_l2_s1: step 2500/20000 | loss 1000000.0000
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_2500.pt
+LCA_l2_s1: step 3000/20000 | loss 1000000.0000
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_3000.pt
+LCA_l2_s1: step 3500/20000 | loss 1000000.0000
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_3500.pt
+LCA_l2_s1: step 4000/20000 | loss 1000000.0000
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_4000.pt
+LCA_l2_s1: step 4500/20000 | loss 1000000.0000
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_4500.pt
+LCA_l2_s1: step 5000/20000 | loss 1000000.0000
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_5000.pt
+LCA_l2_s1: step 5500/20000 | loss 1000000.0000
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_5500.pt
+LCA_l2_s1: step 6000/20000 | loss 1000000.0000
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_6000.pt
+LCA_l2_s1: step 6500/20000 | loss 1000000.0000
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_6500.pt
+LCA_l2_s1: step 7000/20000 | loss 1000000.0000
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_7000.pt
+LCA_l2_s1: step 7500/20000 | loss 1000000.0000
+Saved checkpoint to models/hep/LCA_l2_s1/checkpoint_step_7500.pt

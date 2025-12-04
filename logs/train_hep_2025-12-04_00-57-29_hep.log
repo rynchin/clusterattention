@@ -1,0 +1,14 @@
+Using device: cuda
+Loading HEP dataset...
+Dataset loaded: train=10000, val=2000, test=2000
+Starting HEP training with runs.hep...
+Loaded 2 models from runs.hep
+Number of training steps: 20000
+Sequence length T: 512
+Running hep with 2 models
+models: [('SuperClusterAttention_l2_s1', <class 'variants.SuperClusterAttention.SuperClusterAttention'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'causal': False}, 2), ('SuperClusterAttention_l4_s1', <class 'variants.SuperClusterAttention.SuperClusterAttention'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'causal': False}, 4)]
+
+----Training SuperClusterAttention_l2_s1----
+Checkpoints will be saved to models/hep/SuperClusterAttention_l2_s1
+SuperClusterAttention_l2_s1: step 500/20000 | loss 4285.2734
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_500.pt

@@ -7,20 +7,19 @@ import math
 import argparse
 import importlib
 from datetime import datetime
-from sklearn.metrics import r2_score
 import numpy as np
 
-from transformer.TransformerRegressor import TransformerRegressor
-from data.hep_data import create_hep_dataloaders
+from transformer.TransformerClassifier import TransformerClassifier
+from data.modelnet_data import create_modelnet_dataloaders_with_val, MODELNET40_CLASSES
 
 # Setup logging to file with current date/time
-parser = argparse.ArgumentParser(description='Train HEP regression models')
+parser = argparse.ArgumentParser(description='Train ModelNet40 classification models')
 parser.add_argument('--runs', type=str, required=True,
-                    help='Name of the runs file to import (e.g., hep)')
+                    help='Name of the runs file to import (e.g., modelnet)')
 args = parser.parse_args()
 os.makedirs('logs', exist_ok=True)
 timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-log_file = open(f'logs/train_hep_{timestamp}_{args.runs}.log', 'w')
+log_file = open(f'logs/train_modelnet_{timestamp}_{args.runs}.log', 'w')
 
 def log(*args, **kwargs):
     """Write to log file instead of printing"""
@@ -35,31 +34,32 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu'
 log(f'Using device: {device}')
 
 # Hyperparameters
-feature_dim = 6  # pT, eta, phi, mass, charge, pid
-target_dim = 4  # px, py, pz, E (missing momentum)
+num_points = 1024  # Standard for point cloud benchmarks
+use_normals = False  # Start with xyz only (3D features)
+feature_dim = 6 if use_normals else 3
+num_classes = 40
 dim = 256
 heads = 8
 ffdim = 4 * dim
 batch_size = 32
-lr = 1e-4  # Reduced learning rate for stability
+lr = 1e-4
 weight_decay = 0.01
 grad_clip = 1.0
 
 # Load dataset
-log("Loading HEP dataset...")
-train_loader, val_loader, test_loader, feature_stats = create_hep_dataloaders(
-    n_train=10000,
-    n_val=2000,
-    n_test=2000,
-    min_particles=50,
-    max_particles=500,
-    max_length=512,
+log("Loading ModelNet40 dataset...")
+train_loader, val_loader, test_loader, dataset_stats = create_modelnet_dataloaders_with_val(
+    root='data/ModelNet40',
+    num_points=num_points,
+    use_normals=use_normals,
     batch_size=batch_size,
     normalize=True,
-    device=device,
+    val_split=0.1,
+    num_workers=0,
     seed=42
 )
-log(f"Dataset loaded: train={len(train_loader.dataset)}, val={len(val_loader.dataset)}, test={len(test_loader.dataset)}")
+log(f"Dataset loaded: train={dataset_stats['train_size']}, val={dataset_stats['val_size']}, test={dataset_stats['test_size']}")
+log(f"Feature dim: {dataset_stats['feature_dim']}, Num classes: {dataset_stats['num_classes']}")
 
 # Get sequence length from runs file
 def load_runs(runs_name):
@@ -68,7 +68,7 @@ def load_runs(runs_name):
         runs_module = importlib.import_module(f'runs.{runs_name}')
         models = runs_module.models
         steps = getattr(runs_module, 'steps', 20000)  # Default to 20000 if not specified
-        T = getattr(runs_module, 'T', 512)  # Default sequence length
+        T = getattr(runs_module, 'T', 1024)  # Default sequence length for point clouds
         log(f'Loaded {len(models)} models from runs.{runs_name}')
         log(f'Number of training steps: {steps}')
         log(f'Sequence length T: {T}')
@@ -89,7 +89,7 @@ def train(name, attn_class, attn_args, train_loader, val_loader, T, n_layers, st
     os.makedirs(checkpoint_dir, exist_ok=True)
     log(f'Checkpoints will be saved to {checkpoint_dir}')
     
-    model = TransformerRegressor(
+    model = TransformerClassifier(
         feature_dim=feature_dim,
         dim=dim,
         heads=heads,
@@ -98,9 +98,13 @@ def train(name, attn_class, attn_args, train_loader, val_loader, T, n_layers, st
         n_layers=n_layers,
         attn_class=attn_class,
         attn_args=attn_args,
-        target_dim=target_dim,
+        num_classes=num_classes,
         pooling='mean'
     ).to(device)
+    
+    # Log model parameter count
+    n_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
+    log(f'Model parameters: {n_params:,}')
     
     optimizer = optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
 
@@ -108,37 +112,25 @@ def train(name, attn_class, attn_args, train_loader, val_loader, T, n_layers, st
     step_idx = 0
     
     while step_idx < steps:
-        for features, targets, masks in train_loader:
+        for points, labels, masks in train_loader:
             if step_idx >= steps:
                 break
                 
-            features = features.to(device)  # (B, T, feature_dim)
-            targets = targets.to(device)  # (B, target_dim)
-            masks = masks.to(device)  # (B, T)
+            points = points.to(device)  # (B, num_points, feature_dim)
+            labels = labels.to(device)  # (B,)
+            masks = masks.to(device)    # (B, num_points)
             
             # Check for NaN/Inf in inputs
-            if torch.isnan(features).any() or torch.isinf(features).any():
-                log(f"WARNING: NaN/Inf detected in features at step {step_idx}")
-                continue
-            if torch.isnan(targets).any() or torch.isinf(targets).any():
-                log(f"WARNING: NaN/Inf detected in targets at step {step_idx}")
-                continue
-            
-            # Check for sequences with no real tokens
-            if masks.sum(dim=1).min() == 0:
-                log(f"WARNING: Found sequence with all padding at step {step_idx}")
+            if torch.isnan(points).any() or torch.isinf(points).any():
+                log(f"WARNING: NaN/Inf detected in points at step {step_idx}")
                 continue
             
             optimizer.zero_grad()
-            predictions, loss = model(features, targets, attn_mask=masks)
+            logits, loss = model(points, labels, attn_mask=masks)
             
-            # Check for NaN in predictions or loss
+            # Check for NaN in loss
             if torch.isnan(loss) or torch.isinf(loss):
                 log(f"WARNING: NaN/Inf loss at step {step_idx}")
-                log(f"  Predictions stats: min={predictions.min().item():.4f}, max={predictions.max().item():.4f}, mean={predictions.mean().item():.4f}")
-                log(f"  Targets stats: min={targets.min().item():.4f}, max={targets.max().item():.4f}, mean={targets.mean().item():.4f}")
-                log(f"  Features stats: min={features.min().item():.4f}, max={features.max().item():.4f}, mean={features.mean().item():.4f}")
-                # Skip this batch
                 continue
             
             loss.backward()
@@ -161,7 +153,12 @@ def train(name, attn_class, attn_args, train_loader, val_loader, T, n_layers, st
             step_idx += 1
 
             if step_idx % 500 == 0:
-                log(f"{name}: step {step_idx}/{steps} | loss {loss.item():.4f}")
+                # Compute training accuracy for this batch
+                with torch.no_grad():
+                    preds = logits.argmax(dim=-1)
+                    acc = (preds == labels).float().mean().item()
+                
+                log(f"{name}: step {step_idx}/{steps} | loss {loss.item():.4f} | acc {acc:.4f}")
                 
                 # Save checkpoint
                 checkpoint_path = os.path.join(checkpoint_dir, f'checkpoint_step_{step_idx}.pt')
@@ -178,47 +175,50 @@ def train(name, attn_class, attn_args, train_loader, val_loader, T, n_layers, st
 
     return model
 
-def evaluate_regression(model, data_loader, device):
-    """Evaluate regression model and return metrics."""
+def evaluate_classification(model, data_loader, device):
+    """Evaluate classification model and return metrics."""
     model.eval()
     all_predictions = []
-    all_targets = []
+    all_labels = []
     losses = []
     
     with torch.no_grad():
-        for features, targets, masks in data_loader:
-            features = features.to(device)
-            targets = targets.to(device)
+        for points, labels, masks in data_loader:
+            points = points.to(device)
+            labels = labels.to(device)
             masks = masks.to(device)
             
-            predictions, loss = model(features, targets, attn_mask=masks)
+            logits, loss = model(points, labels, attn_mask=masks)
+            preds = logits.argmax(dim=-1)
             
-            all_predictions.append(predictions.cpu().numpy())
-            all_targets.append(targets.cpu().numpy())
+            all_predictions.append(preds.cpu().numpy())
+            all_labels.append(labels.cpu().numpy())
             losses.append(loss.item())
     
-    all_predictions = np.concatenate(all_predictions, axis=0)  # (N, target_dim)
-    all_targets = np.concatenate(all_targets, axis=0)  # (N, target_dim)
+    all_predictions = np.concatenate(all_predictions)
+    all_labels = np.concatenate(all_labels)
     avg_loss = np.mean(losses)
     
-    # Compute metrics per dimension
-    mae_per_dim = np.mean(np.abs(all_predictions - all_targets), axis=0)  # (target_dim,)
-    rmse_per_dim = np.sqrt(np.mean((all_predictions - all_targets)**2, axis=0))  # (target_dim,)
-    r2_per_dim = np.array([r2_score(all_targets[:, i], all_predictions[:, i]) for i in range(target_dim)])
+    # Overall accuracy
+    accuracy = (all_predictions == all_labels).mean()
     
-    # Overall metrics
-    mae_overall = np.mean(mae_per_dim)
-    rmse_overall = np.sqrt(avg_loss)  # RMSE from MSE loss
-    r2_overall = np.mean(r2_per_dim)
+    # Per-class accuracy
+    per_class_acc = []
+    for c in range(num_classes):
+        mask = all_labels == c
+        if mask.sum() > 0:
+            class_acc = (all_predictions[mask] == all_labels[mask]).mean()
+            per_class_acc.append(class_acc)
+        else:
+            per_class_acc.append(0.0)
+    per_class_acc = np.array(per_class_acc)
+    mean_class_acc = per_class_acc.mean()
     
     return {
         'loss': avg_loss,
-        'mae': mae_overall,
-        'mae_per_dim': mae_per_dim,
-        'rmse': rmse_overall,
-        'rmse_per_dim': rmse_per_dim,
-        'r2': r2_overall,
-        'r2_per_dim': r2_per_dim,
+        'accuracy': accuracy,
+        'mean_class_accuracy': mean_class_acc,
+        'per_class_accuracy': per_class_acc,
     }
 
 def run_all_models(runs_name):
@@ -230,34 +230,31 @@ def run_all_models(runs_name):
     for name, attn_class, attn_args, n_layers in models:
         model = train(name, attn_class, attn_args, train_loader, val_loader, T, n_layers, steps, runs_name)
         
-        # Evaluate on train and validation sets
-        train_metrics = evaluate_regression(model, train_loader, device)
-        val_metrics = evaluate_regression(model, val_loader, device)
-        test_metrics = evaluate_regression(model, test_loader, device)
+        # Evaluate on train, validation, and test sets
+        train_metrics = evaluate_classification(model, train_loader, device)
+        val_metrics = evaluate_classification(model, val_loader, device)
+        test_metrics = evaluate_classification(model, test_loader, device)
         
         log(f"\n{name} - Training Metrics:")
         log(f"  Loss: {train_metrics['loss']:.4f}")
-        log(f"  MAE: {train_metrics['mae']:.4f}")
-        log(f"  RMSE: {train_metrics['rmse']:.4f}")
-        log(f"  R²: {train_metrics['r2']:.4f}")
-        log(f"  MAE per dim: {train_metrics['mae_per_dim']}")
-        log(f"  R² per dim: {train_metrics['r2_per_dim']}")
+        log(f"  Accuracy: {train_metrics['accuracy']:.4f}")
+        log(f"  Mean Class Accuracy: {train_metrics['mean_class_accuracy']:.4f}")
         
         log(f"\n{name} - Validation Metrics:")
         log(f"  Loss: {val_metrics['loss']:.4f}")
-        log(f"  MAE: {val_metrics['mae']:.4f}")
-        log(f"  RMSE: {val_metrics['rmse']:.4f}")
-        log(f"  R²: {val_metrics['r2']:.4f}")
-        log(f"  MAE per dim: {val_metrics['mae_per_dim']}")
-        log(f"  R² per dim: {val_metrics['r2_per_dim']}")
+        log(f"  Accuracy: {val_metrics['accuracy']:.4f}")
+        log(f"  Mean Class Accuracy: {val_metrics['mean_class_accuracy']:.4f}")
         
         log(f"\n{name} - Test Metrics:")
         log(f"  Loss: {test_metrics['loss']:.4f}")
-        log(f"  MAE: {test_metrics['mae']:.4f}")
-        log(f"  RMSE: {test_metrics['rmse']:.4f}")
-        log(f"  R²: {test_metrics['r2']:.4f}")
-        log(f"  MAE per dim: {test_metrics['mae_per_dim']}")
-        log(f"  R² per dim: {test_metrics['r2_per_dim']}")
+        log(f"  Accuracy: {test_metrics['accuracy']:.4f}")
+        log(f"  Mean Class Accuracy: {test_metrics['mean_class_accuracy']:.4f}")
+        
+        # Log worst performing classes
+        worst_classes = np.argsort(test_metrics['per_class_accuracy'])[:5]
+        log(f"  Worst 5 classes:")
+        for c in worst_classes:
+            log(f"    {MODELNET40_CLASSES[c]}: {test_metrics['per_class_accuracy'][c]:.4f}")
         
         results[name] = {
             'train': train_metrics,
@@ -268,7 +265,7 @@ def run_all_models(runs_name):
     return results
 
 if __name__ == '__main__':
-    log(f'Starting HEP training with runs.{args.runs}...')
+    log(f'Starting ModelNet40 training with runs.{args.runs}...')
     try:
         run_all_models(runs_name=args.runs)
         log('Training completed successfully!')

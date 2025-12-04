@@ -1,0 +1,117 @@
+Using device: cuda
+Loading HEP dataset...
+Dataset loaded: train=10000, val=2000, test=2000
+Starting HEP training with runs.hep...
+Loaded 1 models from runs.hep
+Number of training steps: 20000
+Sequence length T: 512
+Running hep with 1 models
+models: [('MHA_l2', <class 'variants.MHA.MHA'>, {'causal': False}, 2)]
+
+----Training MHA_l2----
+Checkpoints will be saved to models/hep/MHA_l2
+MHA_l2: step 500/20000 | loss 3413.8921
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_500.pt
+MHA_l2: step 1000/20000 | loss 4310.6387
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_1000.pt
+MHA_l2: step 1500/20000 | loss 2049.5117
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_1500.pt
+MHA_l2: step 2000/20000 | loss 1882.6467
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_2000.pt
+MHA_l2: step 2500/20000 | loss 1009.9340
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_2500.pt
+MHA_l2: step 3000/20000 | loss 524.7316
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_3000.pt
+MHA_l2: step 3500/20000 | loss 206.9545
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_3500.pt
+MHA_l2: step 4000/20000 | loss 86.5870
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_4000.pt
+MHA_l2: step 4500/20000 | loss 18.6342
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_4500.pt
+MHA_l2: step 5000/20000 | loss 28.9337
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_5000.pt
+MHA_l2: step 5500/20000 | loss 13.3394
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_5500.pt
+MHA_l2: step 6000/20000 | loss 20.2014
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_6000.pt
+MHA_l2: step 6500/20000 | loss 15.7635
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_6500.pt
+MHA_l2: step 7000/20000 | loss 16.4317
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_7000.pt
+MHA_l2: step 7500/20000 | loss 14.7477
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_7500.pt
+MHA_l2: step 8000/20000 | loss 10.9951
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_8000.pt
+MHA_l2: step 8500/20000 | loss 24.2839
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_8500.pt
+MHA_l2: step 9000/20000 | loss 14.9092
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_9000.pt
+MHA_l2: step 9500/20000 | loss 12.3457
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_9500.pt
+MHA_l2: step 10000/20000 | loss 3.7832
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_10000.pt
+MHA_l2: step 10500/20000 | loss 5.4233
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_10500.pt
+MHA_l2: step 11000/20000 | loss 4.0159
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_11000.pt
+MHA_l2: step 11500/20000 | loss 2.8570
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_11500.pt
+MHA_l2: step 12000/20000 | loss 2.8268
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_12000.pt
+MHA_l2: step 12500/20000 | loss 2.3227
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_12500.pt
+MHA_l2: step 13000/20000 | loss 3.5894
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_13000.pt
+MHA_l2: step 13500/20000 | loss 2.3742
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_13500.pt
+MHA_l2: step 14000/20000 | loss 4.1208
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_14000.pt
+MHA_l2: step 14500/20000 | loss 2.1761
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_14500.pt
+MHA_l2: step 15000/20000 | loss 2.3226
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_15000.pt
+MHA_l2: step 15500/20000 | loss 2.3005
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_15500.pt
+MHA_l2: step 16000/20000 | loss 3.3321
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_16000.pt
+MHA_l2: step 16500/20000 | loss 2.1873
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_16500.pt
+MHA_l2: step 17000/20000 | loss 1.8937
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_17000.pt
+MHA_l2: step 17500/20000 | loss 2.2715
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_17500.pt
+MHA_l2: step 18000/20000 | loss 3.2712
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_18000.pt
+MHA_l2: step 18500/20000 | loss 1.8723
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_18500.pt
+MHA_l2: step 19000/20000 | loss 2.1666
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_19000.pt
+MHA_l2: step 19500/20000 | loss 1.5376
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_19500.pt
+MHA_l2: step 20000/20000 | loss 2.1047
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_20000.pt
+
+MHA_l2 - Training Metrics:
+  Loss: 2.0790
+  MAE: 1.0536
+  RMSE: 1.4419
+  R²: 0.4969
+  MAE per dim: [1.411618   1.4043177  0.6289953  0.76942176]
+  R² per dim: [-0.00509739  0.00728679  0.98558158  0.99977946]
+
+MHA_l2 - Validation Metrics:
+  Loss: 2.5561
+  MAE: 1.2052
+  RMSE: 1.5988
+  R²: 0.4954
+  MAE per dim: [1.4371022  1.4213545  0.80600315 1.156505  ]
+  R² per dim: [-5.17725945e-04  6.67166710e-03  9.76129174e-01  9.99442160e-01]
+
+MHA_l2 - Test Metrics:
+  Loss: 2.3703
+  MAE: 1.1614
+  RMSE: 1.5396
+  R²: 0.4950
+  MAE per dim: [1.3764827 1.3477488 0.7920252 1.1292288]
+  R² per dim: [-0.00318241  0.00818169  0.97532594  0.99949563]
+Training completed successfully!

@@ -1,0 +1,14 @@
+Using device: cpu
+Loading HEP dataset...
+Dataset loaded: train=10000, val=2000, test=2000
+Starting HEP training with runs.hep...
+Loaded 1 models from runs.hep
+Number of training steps: 20000
+Sequence length T: 512
+Running hep with 1 models
+models: [('MHA_l2', <class 'variants.MHA.MHA'>, {'causal': False}, 2)]
+
+----Training MHA_l2----
+Checkpoints will be saved to models/hep/MHA_l2
+MHA_l2: step 500/20000 | loss nan
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_500.pt

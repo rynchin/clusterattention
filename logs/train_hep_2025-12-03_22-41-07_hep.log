@@ -1,0 +1,16 @@
+Using device: cuda
+Loading HEP dataset...
+Dataset loaded: train=10000, val=2000, test=2000
+Starting HEP training with runs.hep...
+Loaded 9 models from runs.hep
+Number of training steps: 20000
+Sequence length T: 512
+Running hep with 9 models
+models: [('MHA_l2', <class 'variants.MHA.MHA'>, {'causal': False}, 2), ('LCA_l2_s1', <class 'variants.LearnedClusterAttention.LearnedClusterAttention'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'causal': False, 'force_one_cluster': False}, 2), ('LCA_l4_s1', <class 'variants.LearnedClusterAttention.LearnedClusterAttention'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'causal': False, 'force_one_cluster': False}, 4), ('FastCKA_l2_s1', <class 'variants.FastCKA.FastCKA'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'r': 32, 'causal': False}, 2), ('FastCKA_l4_s1', <class 'variants.FastCKA.FastCKA'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'r': 32, 'causal': False}, 4), ('ClusterAttention_l2_s1', <class 'variants.ClusterAttention.ClusterAttention'>, {'cluster_scale': 1.0, 'causal': False}, 2), ('ClusterAttention_l4_s1', <class 'variants.ClusterAttention.ClusterAttention'>, {'cluster_scale': 1.0, 'causal': False}, 4), ('SuperClusterAttention_l2_s1', <class 'variants.SuperClusterAttention.SuperClusterAttention'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'causal': False}, 2), ('SuperClusterAttention_l4_s1', <class 'variants.SuperClusterAttention.SuperClusterAttention'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'causal': False}, 4)]
+
+----Training MHA_l2----
+Checkpoints will be saved to models/hep/MHA_l2
+MHA_l2: step 500/20000 | loss 3413.8921
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_500.pt
+MHA_l2: step 1000/20000 | loss 4310.6387
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_1000.pt

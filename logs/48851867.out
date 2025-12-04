@@ -1,0 +1,547 @@
+
+Running train_hep.py
+Using device: cuda
+Loading HEP dataset...
+Dataset loaded: train=10000, val=2000, test=2000
+Starting HEP training with runs.hep...
+Loaded 5 models from runs.hep
+Number of training steps: 20000
+Sequence length T: 512
+Running hep with 5 models
+models: [('FastCKA_l4_s1', <class 'variants.FastCKA.FastCKA'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'r': 32, 'causal': False}, 4), ('ClusterAttention_l2_s1', <class 'variants.ClusterAttention.ClusterAttention'>, {'cluster_scale': 1.0, 'causal': False}, 2), ('ClusterAttention_l4_s1', <class 'variants.ClusterAttention.ClusterAttention'>, {'cluster_scale': 1.0, 'causal': False}, 4), ('SuperClusterAttention_l2_s1', <class 'variants.SuperClusterAttention.SuperClusterAttention'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'causal': False}, 2), ('SuperClusterAttention_l4_s1', <class 'variants.SuperClusterAttention.SuperClusterAttention'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'causal': False}, 4)]
+
+----Training FastCKA_l4_s1----
+Checkpoints will be saved to models/hep/FastCKA_l4_s1
+FastCKA_l4_s1: step 500/20000 | loss 4556.8398
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_500.pt
+FastCKA_l4_s1: step 1000/20000 | loss 2706.3599
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_1000.pt
+FastCKA_l4_s1: step 1500/20000 | loss 3081.8374
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_1500.pt
+FastCKA_l4_s1: step 2000/20000 | loss 2427.8696
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_2000.pt
+FastCKA_l4_s1: step 2500/20000 | loss 1188.7588
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_2500.pt
+FastCKA_l4_s1: step 3000/20000 | loss 557.9387
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_3000.pt
+FastCKA_l4_s1: step 3500/20000 | loss 176.6966
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_3500.pt
+FastCKA_l4_s1: step 4000/20000 | loss 57.2447
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_4000.pt
+FastCKA_l4_s1: step 4500/20000 | loss 20.9164
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_4500.pt
+FastCKA_l4_s1: step 5000/20000 | loss 21.0700
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_5000.pt
+FastCKA_l4_s1: step 5500/20000 | loss 17.4797
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_5500.pt
+FastCKA_l4_s1: step 6000/20000 | loss 18.7490
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_6000.pt
+FastCKA_l4_s1: step 6500/20000 | loss 20.6961
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_6500.pt
+FastCKA_l4_s1: step 7000/20000 | loss 15.4279
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_7000.pt
+FastCKA_l4_s1: step 7500/20000 | loss 12.4466
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_7500.pt
+FastCKA_l4_s1: step 8000/20000 | loss 22.8633
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_8000.pt
+FastCKA_l4_s1: step 8500/20000 | loss 11.8945
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_8500.pt
+FastCKA_l4_s1: step 9000/20000 | loss 18.1840
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_9000.pt
+FastCKA_l4_s1: step 9500/20000 | loss 13.1158
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_9500.pt
+FastCKA_l4_s1: step 10000/20000 | loss 21.1260
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_10000.pt
+FastCKA_l4_s1: step 10500/20000 | loss 14.7315
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_10500.pt
+FastCKA_l4_s1: step 11000/20000 | loss 15.6127
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_11000.pt
+FastCKA_l4_s1: step 11500/20000 | loss 7.6713
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_11500.pt
+FastCKA_l4_s1: step 12000/20000 | loss 24.0113
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_12000.pt
+FastCKA_l4_s1: step 12500/20000 | loss 17.8885
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_12500.pt
+FastCKA_l4_s1: step 13000/20000 | loss 12.9609
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_13000.pt
+FastCKA_l4_s1: step 13500/20000 | loss 11.3659
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_13500.pt
+FastCKA_l4_s1: step 14000/20000 | loss 13.8758
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_14000.pt
+FastCKA_l4_s1: step 14500/20000 | loss 10.7732
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_14500.pt
+FastCKA_l4_s1: step 15000/20000 | loss 5.0828
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_15000.pt
+FastCKA_l4_s1: step 15500/20000 | loss 4.0406
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_15500.pt
+FastCKA_l4_s1: step 16000/20000 | loss 4.6483
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_16000.pt
+FastCKA_l4_s1: step 16500/20000 | loss 3.5665
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_16500.pt
+FastCKA_l4_s1: step 17000/20000 | loss 2.8242
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_17000.pt
+FastCKA_l4_s1: step 17500/20000 | loss 3.0341
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_17500.pt
+FastCKA_l4_s1: step 18000/20000 | loss 4.1690
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_18000.pt
+FastCKA_l4_s1: step 18500/20000 | loss 2.9702
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_18500.pt
+FastCKA_l4_s1: step 19000/20000 | loss 2.7669
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_19000.pt
+FastCKA_l4_s1: step 19500/20000 | loss 5.6521
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_19500.pt
+FastCKA_l4_s1: step 20000/20000 | loss 3.4635
+Saved checkpoint to models/hep/FastCKA_l4_s1/checkpoint_step_20000.pt
+
+FastCKA_l4_s1 - Training Metrics:
+  Loss: 2.9480
+  MAE: 1.3085
+  RMSE: 1.7170
+  R²: 0.4873
+  MAE per dim: [1.4090918 1.4136885 1.0567915 1.3543864]
+  R² per dim: [-0.00178289 -0.00490165  0.95666003  0.99927801]
+
+FastCKA_l4_s1 - Validation Metrics:
+  Loss: 3.3099
+  MAE: 1.3814
+  RMSE: 1.8193
+  R²: 0.4844
+  MAE per dim: [1.4441972 1.4305804 1.1763827 1.4742473]
+  R² per dim: [-0.0062803  -0.00320637  0.94820631  0.99906588]
+
+FastCKA_l4_s1 - Test Metrics:
+  Loss: 3.1334
+  MAE: 1.3320
+  RMSE: 1.7701
+  R²: 0.4847
+  MAE per dim: [1.37004   1.3570222 1.1050862 1.4956827]
+  R² per dim: [-0.00194061 -0.00894165  0.95054722  0.99905527]
+
+----Training ClusterAttention_l2_s1----
+Checkpoints will be saved to models/hep/ClusterAttention_l2_s1
+ClusterAttention_l2_s1: step 500/20000 | loss 6125.5801
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_500.pt
+ClusterAttention_l2_s1: step 1000/20000 | loss 3810.4001
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_1000.pt
+ClusterAttention_l2_s1: step 1500/20000 | loss 3224.0811
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_1500.pt
+ClusterAttention_l2_s1: step 2000/20000 | loss 2078.8728
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_2000.pt
+ClusterAttention_l2_s1: step 2500/20000 | loss 1054.1438
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_2500.pt
+ClusterAttention_l2_s1: step 3000/20000 | loss 508.8621
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_3000.pt
+ClusterAttention_l2_s1: step 3500/20000 | loss 240.9041
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_3500.pt
+ClusterAttention_l2_s1: step 4000/20000 | loss 95.6231
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_4000.pt
+ClusterAttention_l2_s1: step 4500/20000 | loss 29.1822
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_4500.pt
+ClusterAttention_l2_s1: step 5000/20000 | loss 57.4664
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_5000.pt
+ClusterAttention_l2_s1: step 5500/20000 | loss 29.5775
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_5500.pt
+ClusterAttention_l2_s1: step 6000/20000 | loss 26.0720
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_6000.pt
+ClusterAttention_l2_s1: step 6500/20000 | loss 21.9616
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_6500.pt
+ClusterAttention_l2_s1: step 7000/20000 | loss 16.7688
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_7000.pt
+ClusterAttention_l2_s1: step 7500/20000 | loss 13.6205
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_7500.pt
+ClusterAttention_l2_s1: step 8000/20000 | loss 12.7908
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_8000.pt
+ClusterAttention_l2_s1: step 8500/20000 | loss 14.8843
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_8500.pt
+ClusterAttention_l2_s1: step 9000/20000 | loss 22.8665
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_9000.pt
+ClusterAttention_l2_s1: step 9500/20000 | loss 22.0395
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_9500.pt
+ClusterAttention_l2_s1: step 10000/20000 | loss 18.5565
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_10000.pt
+ClusterAttention_l2_s1: step 10500/20000 | loss 7.9156
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_10500.pt
+ClusterAttention_l2_s1: step 11000/20000 | loss 17.0075
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_11000.pt
+ClusterAttention_l2_s1: step 11500/20000 | loss 17.4755
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_11500.pt
+ClusterAttention_l2_s1: step 12000/20000 | loss 25.0555
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_12000.pt
+ClusterAttention_l2_s1: step 12500/20000 | loss 18.4062
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_12500.pt
+ClusterAttention_l2_s1: step 13000/20000 | loss 11.6922
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_13000.pt
+ClusterAttention_l2_s1: step 13500/20000 | loss 8.1698
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_13500.pt
+ClusterAttention_l2_s1: step 14000/20000 | loss 9.0164
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_14000.pt
+ClusterAttention_l2_s1: step 14500/20000 | loss 6.4500
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_14500.pt
+ClusterAttention_l2_s1: step 15000/20000 | loss 3.7603
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_15000.pt
+ClusterAttention_l2_s1: step 15500/20000 | loss 3.9910
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_15500.pt
+ClusterAttention_l2_s1: step 16000/20000 | loss 4.4990
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_16000.pt
+ClusterAttention_l2_s1: step 16500/20000 | loss 5.1034
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_16500.pt
+ClusterAttention_l2_s1: step 17000/20000 | loss 3.4165
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_17000.pt
+ClusterAttention_l2_s1: step 17500/20000 | loss 3.6137
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_17500.pt
+ClusterAttention_l2_s1: step 18000/20000 | loss 2.6353
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_18000.pt
+ClusterAttention_l2_s1: step 18500/20000 | loss 2.8330
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_18500.pt
+ClusterAttention_l2_s1: step 19000/20000 | loss 2.3142
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_19000.pt
+ClusterAttention_l2_s1: step 19500/20000 | loss 2.8418
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_19500.pt
+ClusterAttention_l2_s1: step 20000/20000 | loss 3.3037
+Saved checkpoint to models/hep/ClusterAttention_l2_s1/checkpoint_step_20000.pt
+
+ClusterAttention_l2_s1 - Training Metrics:
+  Loss: 2.7917
+  MAE: 1.2747
+  RMSE: 1.6708
+  R²: 0.4914
+  MAE per dim: [1.4077456 1.407418  0.997891  1.2855729]
+  R² per dim: [1.13189220e-04 3.64476442e-03 9.62482512e-01 9.99354601e-01]
+
+ClusterAttention_l2_s1 - Validation Metrics:
+  Loss: 3.8949
+  MAE: 1.5044
+  RMSE: 1.9736
+  R²: 0.4860
+  MAE per dim: [1.4391422 1.4243025 1.2581851 1.8958101]
+  R² per dim: [-0.00108051  0.00318217  0.94335681  0.99853438]
+
+ClusterAttention_l2_s1 - Test Metrics:
+  Loss: 3.5979
+  MAE: 1.4379
+  RMSE: 1.8968
+  R²: 0.4860
+  MAE per dim: [1.3703345 1.3522156 1.227876  1.8012334]
+  R² per dim: [4.85122204e-04 3.29512358e-03 9.41667616e-01 9.98701334e-01]
+
+----Training ClusterAttention_l4_s1----
+Checkpoints will be saved to models/hep/ClusterAttention_l4_s1
+ClusterAttention_l4_s1: step 500/20000 | loss 4898.1016
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_500.pt
+ClusterAttention_l4_s1: step 1000/20000 | loss 2654.5049
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_1000.pt
+ClusterAttention_l4_s1: step 1500/20000 | loss 2658.2334
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_1500.pt
+ClusterAttention_l4_s1: step 2000/20000 | loss 2196.3052
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_2000.pt
+ClusterAttention_l4_s1: step 2500/20000 | loss 1181.4357
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_2500.pt
+ClusterAttention_l4_s1: step 3000/20000 | loss 637.3814
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_3000.pt
+ClusterAttention_l4_s1: step 3500/20000 | loss 217.7812
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_3500.pt
+ClusterAttention_l4_s1: step 4000/20000 | loss 113.4157
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_4000.pt
+ClusterAttention_l4_s1: step 4500/20000 | loss 44.3836
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_4500.pt
+ClusterAttention_l4_s1: step 5000/20000 | loss 22.7207
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_5000.pt
+ClusterAttention_l4_s1: step 5500/20000 | loss 15.2926
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_5500.pt
+ClusterAttention_l4_s1: step 6000/20000 | loss 20.1764
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_6000.pt
+ClusterAttention_l4_s1: step 6500/20000 | loss 18.0694
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_6500.pt
+ClusterAttention_l4_s1: step 7000/20000 | loss 11.3330
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_7000.pt
+ClusterAttention_l4_s1: step 7500/20000 | loss 13.1248
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_7500.pt
+ClusterAttention_l4_s1: step 8000/20000 | loss 12.6118
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_8000.pt
+ClusterAttention_l4_s1: step 8500/20000 | loss 15.5230
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_8500.pt
+ClusterAttention_l4_s1: step 9000/20000 | loss 15.0344
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_9000.pt
+ClusterAttention_l4_s1: step 9500/20000 | loss 14.8282
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_9500.pt
+ClusterAttention_l4_s1: step 10000/20000 | loss 12.4909
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_10000.pt
+ClusterAttention_l4_s1: step 10500/20000 | loss 5.5369
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_10500.pt
+ClusterAttention_l4_s1: step 11000/20000 | loss 4.6575
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_11000.pt
+ClusterAttention_l4_s1: step 11500/20000 | loss 5.5657
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_11500.pt
+ClusterAttention_l4_s1: step 12000/20000 | loss 4.3829
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_12000.pt
+ClusterAttention_l4_s1: step 12500/20000 | loss 3.0738
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_12500.pt
+ClusterAttention_l4_s1: step 13000/20000 | loss 6.5097
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_13000.pt
+ClusterAttention_l4_s1: step 13500/20000 | loss 4.0386
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_13500.pt
+ClusterAttention_l4_s1: step 14000/20000 | loss 4.6732
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_14000.pt
+ClusterAttention_l4_s1: step 14500/20000 | loss 3.2704
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_14500.pt
+ClusterAttention_l4_s1: step 15000/20000 | loss 2.1508
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_15000.pt
+ClusterAttention_l4_s1: step 15500/20000 | loss 2.7875
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_15500.pt
+ClusterAttention_l4_s1: step 16000/20000 | loss 2.7074
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_16000.pt
+ClusterAttention_l4_s1: step 16500/20000 | loss 3.1337
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_16500.pt
+ClusterAttention_l4_s1: step 17000/20000 | loss 2.9725
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_17000.pt
+ClusterAttention_l4_s1: step 17500/20000 | loss 3.4713
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_17500.pt
+ClusterAttention_l4_s1: step 18000/20000 | loss 3.1760
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_18000.pt
+ClusterAttention_l4_s1: step 18500/20000 | loss 2.0337
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_18500.pt
+ClusterAttention_l4_s1: step 19000/20000 | loss 2.5487
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_19000.pt
+ClusterAttention_l4_s1: step 19500/20000 | loss 2.4040
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_19500.pt
+ClusterAttention_l4_s1: step 20000/20000 | loss 2.0676
+Saved checkpoint to models/hep/ClusterAttention_l4_s1/checkpoint_step_20000.pt
+
+ClusterAttention_l4_s1 - Training Metrics:
+  Loss: 2.2243
+  MAE: 1.1141
+  RMSE: 1.4914
+  R²: 0.4896
+  MAE per dim: [1.4152871  1.4114145  0.95260966 0.67713875]
+  R² per dim: [-0.00998628 -0.00163937  0.97012031  0.9998244 ]
+
+ClusterAttention_l4_s1 - Validation Metrics:
+  Loss: 2.9590
+  MAE: 1.3246
+  RMSE: 1.7202
+  R²: 0.4828
+  MAE per dim: [1.4533129 1.4270408 1.2336278 1.1842294]
+  R² per dim: [-1.62805319e-02  6.99222088e-04  9.47326779e-01  9.99422312e-01]
+
+ClusterAttention_l4_s1 - Test Metrics:
+  Loss: 2.7703
+  MAE: 1.2729
+  RMSE: 1.6644
+  R²: 0.4830
+  MAE per dim: [1.3754551 1.3548747 1.1848992 1.1764584]
+  R² per dim: [-0.0108273  -0.00497687  0.94836247  0.99942809]
+
+----Training SuperClusterAttention_l2_s1----
+Checkpoints will be saved to models/hep/SuperClusterAttention_l2_s1
+SuperClusterAttention_l2_s1: step 500/20000 | loss 5205.5400
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_500.pt
+SuperClusterAttention_l2_s1: step 1000/20000 | loss 3943.3569
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_1000.pt
+SuperClusterAttention_l2_s1: step 1500/20000 | loss 3938.4385
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_1500.pt
+SuperClusterAttention_l2_s1: step 2000/20000 | loss 1447.8689
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_2000.pt
+SuperClusterAttention_l2_s1: step 2500/20000 | loss 961.4901
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_2500.pt
+SuperClusterAttention_l2_s1: step 3000/20000 | loss 856.2997
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_3000.pt
+SuperClusterAttention_l2_s1: step 3500/20000 | loss 218.1261
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_3500.pt
+SuperClusterAttention_l2_s1: step 4000/20000 | loss 31.2940
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_4000.pt
+SuperClusterAttention_l2_s1: step 4500/20000 | loss 38.7630
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_4500.pt
+SuperClusterAttention_l2_s1: step 5000/20000 | loss 25.8482
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_5000.pt
+SuperClusterAttention_l2_s1: step 5500/20000 | loss 20.0559
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_5500.pt
+SuperClusterAttention_l2_s1: step 6000/20000 | loss 17.2554
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_6000.pt
+SuperClusterAttention_l2_s1: step 6500/20000 | loss 17.3100
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_6500.pt
+SuperClusterAttention_l2_s1: step 7000/20000 | loss 11.7838
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_7000.pt
+SuperClusterAttention_l2_s1: step 7500/20000 | loss 16.0419
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_7500.pt
+SuperClusterAttention_l2_s1: step 8000/20000 | loss 10.8339
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_8000.pt
+SuperClusterAttention_l2_s1: step 8500/20000 | loss 15.1758
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_8500.pt
+SuperClusterAttention_l2_s1: step 9000/20000 | loss 12.4400
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_9000.pt
+SuperClusterAttention_l2_s1: step 9500/20000 | loss 18.3059
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_9500.pt
+SuperClusterAttention_l2_s1: step 10000/20000 | loss 13.4050
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_10000.pt
+SuperClusterAttention_l2_s1: step 10500/20000 | loss 10.0036
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_10500.pt
+SuperClusterAttention_l2_s1: step 11000/20000 | loss 6.7331
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_11000.pt
+SuperClusterAttention_l2_s1: step 11500/20000 | loss 6.3992
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_11500.pt
+SuperClusterAttention_l2_s1: step 12000/20000 | loss 5.7939
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_12000.pt
+SuperClusterAttention_l2_s1: step 12500/20000 | loss 4.2539
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_12500.pt
+SuperClusterAttention_l2_s1: step 13000/20000 | loss 4.5431
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_13000.pt
+SuperClusterAttention_l2_s1: step 13500/20000 | loss 5.0898
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_13500.pt
+SuperClusterAttention_l2_s1: step 14000/20000 | loss 6.1783
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_14000.pt
+SuperClusterAttention_l2_s1: step 14500/20000 | loss 4.0632
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_14500.pt
+SuperClusterAttention_l2_s1: step 15000/20000 | loss 2.6587
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_15000.pt
+SuperClusterAttention_l2_s1: step 15500/20000 | loss 2.7884
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_15500.pt
+SuperClusterAttention_l2_s1: step 16000/20000 | loss 4.1761
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_16000.pt
+SuperClusterAttention_l2_s1: step 16500/20000 | loss 3.3386
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_16500.pt
+SuperClusterAttention_l2_s1: step 17000/20000 | loss 3.4404
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_17000.pt
+SuperClusterAttention_l2_s1: step 17500/20000 | loss 3.8105
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_17500.pt
+SuperClusterAttention_l2_s1: step 18000/20000 | loss 2.0021
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_18000.pt
+SuperClusterAttention_l2_s1: step 18500/20000 | loss 2.5458
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_18500.pt
+SuperClusterAttention_l2_s1: step 19000/20000 | loss 2.9687
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_19000.pt
+SuperClusterAttention_l2_s1: step 19500/20000 | loss 3.2998
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_19500.pt
+SuperClusterAttention_l2_s1: step 20000/20000 | loss 2.3000
+Saved checkpoint to models/hep/SuperClusterAttention_l2_s1/checkpoint_step_20000.pt
+
+SuperClusterAttention_l2_s1 - Training Metrics:
+  Loss: 2.2024
+  MAE: 1.1032
+  RMSE: 1.4840
+  R²: 0.4981
+  MAE per dim: [1.4094987 1.3969859 0.7809728 0.8253533]
+  R² per dim: [-0.00277662  0.01840997  0.97719544  0.99974447]
+
+SuperClusterAttention_l2_s1 - Validation Metrics:
+  Loss: 2.8710
+  MAE: 1.2838
+  RMSE: 1.6944
+  R²: 0.4901
+  MAE per dim: [1.4462911 1.4125859 1.09069   1.1854646]
+  R² per dim: [-0.00869381  0.01512325  0.95457435  0.99939984]
+
+SuperClusterAttention_l2_s1 - Test Metrics:
+  Loss: 2.6200
+  MAE: 1.2195
+  RMSE: 1.6186
+  R²: 0.4927
+  MAE per dim: [1.3703948 1.3443733 1.0293432 1.1338928]
+  R² per dim: [-0.00327647  0.01771021  0.95677429  0.99945819]
+
+----Training SuperClusterAttention_l4_s1----
+Checkpoints will be saved to models/hep/SuperClusterAttention_l4_s1
+SuperClusterAttention_l4_s1: step 500/20000 | loss 4327.7075
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_500.pt
+SuperClusterAttention_l4_s1: step 1000/20000 | loss 3650.2434
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_1000.pt
+SuperClusterAttention_l4_s1: step 1500/20000 | loss 2395.0928
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_1500.pt
+SuperClusterAttention_l4_s1: step 2000/20000 | loss 1973.8865
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_2000.pt
+SuperClusterAttention_l4_s1: step 2500/20000 | loss 700.5937
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_2500.pt
+SuperClusterAttention_l4_s1: step 3000/20000 | loss 466.4762
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_3000.pt
+SuperClusterAttention_l4_s1: step 3500/20000 | loss 137.9046
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_3500.pt
+SuperClusterAttention_l4_s1: step 4000/20000 | loss 42.1229
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_4000.pt
+SuperClusterAttention_l4_s1: step 4500/20000 | loss 22.1982
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_4500.pt
+SuperClusterAttention_l4_s1: step 5000/20000 | loss 24.4999
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_5000.pt
+SuperClusterAttention_l4_s1: step 5500/20000 | loss 12.8963
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_5500.pt
+SuperClusterAttention_l4_s1: step 6000/20000 | loss 18.4798
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_6000.pt
+SuperClusterAttention_l4_s1: step 6500/20000 | loss 15.0937
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_6500.pt
+SuperClusterAttention_l4_s1: step 7000/20000 | loss 16.1813
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_7000.pt
+SuperClusterAttention_l4_s1: step 7500/20000 | loss 16.5174
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_7500.pt
+SuperClusterAttention_l4_s1: step 8000/20000 | loss 18.7113
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_8000.pt
+SuperClusterAttention_l4_s1: step 8500/20000 | loss 17.0706
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_8500.pt
+SuperClusterAttention_l4_s1: step 9000/20000 | loss 6.5290
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_9000.pt
+SuperClusterAttention_l4_s1: step 9500/20000 | loss 10.5276
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_9500.pt
+SuperClusterAttention_l4_s1: step 10000/20000 | loss 16.5243
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_10000.pt
+SuperClusterAttention_l4_s1: step 10500/20000 | loss 13.0144
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_10500.pt
+SuperClusterAttention_l4_s1: step 11000/20000 | loss 19.9044
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_11000.pt
+SuperClusterAttention_l4_s1: step 11500/20000 | loss 17.7335
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_11500.pt
+SuperClusterAttention_l4_s1: step 12000/20000 | loss 22.3102
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_12000.pt
+SuperClusterAttention_l4_s1: step 12500/20000 | loss 12.6111
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_12500.pt
+SuperClusterAttention_l4_s1: step 13000/20000 | loss 17.1017
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_13000.pt
+SuperClusterAttention_l4_s1: step 13500/20000 | loss 13.5989
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_13500.pt
+SuperClusterAttention_l4_s1: step 14000/20000 | loss 13.4267
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_14000.pt
+SuperClusterAttention_l4_s1: step 14500/20000 | loss 13.0594
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_14500.pt
+SuperClusterAttention_l4_s1: step 15000/20000 | loss 6.3408
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_15000.pt
+SuperClusterAttention_l4_s1: step 15500/20000 | loss 5.2079
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_15500.pt
+SuperClusterAttention_l4_s1: step 16000/20000 | loss 6.6050
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_16000.pt
+SuperClusterAttention_l4_s1: step 16500/20000 | loss 2.1780
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_16500.pt
+SuperClusterAttention_l4_s1: step 17000/20000 | loss 2.6623
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_17000.pt
+SuperClusterAttention_l4_s1: step 17500/20000 | loss 2.7419
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_17500.pt
+SuperClusterAttention_l4_s1: step 18000/20000 | loss 2.2041
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_18000.pt
+SuperClusterAttention_l4_s1: step 18500/20000 | loss 3.1138
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_18500.pt
+SuperClusterAttention_l4_s1: step 19000/20000 | loss 1.7205
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_19000.pt
+SuperClusterAttention_l4_s1: step 19500/20000 | loss 3.6263
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_19500.pt
+SuperClusterAttention_l4_s1: step 20000/20000 | loss 4.1710
+Saved checkpoint to models/hep/SuperClusterAttention_l4_s1/checkpoint_step_20000.pt
+
+SuperClusterAttention_l4_s1 - Training Metrics:
+  Loss: 2.7342
+  MAE: 1.2628
+  RMSE: 1.6535
+  R²: 0.4839
+  MAE per dim: [1.4076071 1.4089754 1.4027472 0.8319309]
+  R² per dim: [3.66270542e-04 1.76477432e-03 9.33671355e-01 9.99736369e-01]
+
+SuperClusterAttention_l4_s1 - Validation Metrics:
+  Loss: 3.3675
+  MAE: 1.4021
+  RMSE: 1.8351
+  R²: 0.4795
+  MAE per dim: [1.4384725 1.4268109 1.5245849 1.2183949]
+  R² per dim: [-2.27689743e-05  1.45161152e-03  9.17268813e-01  9.99386728e-01]
+
+SuperClusterAttention_l4_s1 - Test Metrics:
+  Loss: 3.1940
+  MAE: 1.3624
+  RMSE: 1.7872
+  R²: 0.4791
+  MAE per dim: [1.370791  1.3535568 1.4921091 1.2329756]
+  R² per dim: [6.54757023e-04 5.37455082e-04 9.15915608e-01 9.99368429e-01]
+Training completed successfully!

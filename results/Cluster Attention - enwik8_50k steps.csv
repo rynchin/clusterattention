@@ -1,0 +1,30 @@
+,Train bpb,,,,,,Val bpb,,,,,,,,,,
+,MHA,Linear Attention,Cluster Attention,LCA,CKA (no mixing),CKA,MHA,Linear Attention,Cluster Attention,LCA,CKA (no mixing),CKA,Configs,Comments,Link (not public),LCA links,CKA links
+Layers = 1,2.1169,2.2734,,,2.1979,2.2553,2.1268,2.3009,,,2.2297,2.2887,"V = 256
+T = 512
+dim = 256
+heads = 8
+ffdim = 4 * dim
+batch_size = 32
+steps = 20000
+cluster_scale=1",,,,
+Layers = 2,,1.867459866,,,,1.8689,,1.916595975,,,,1.9177,,,,,
+Layers = 4,1.5092,1.6748,,,,1.6763,1.5608,1.7431,,,,1.7203,,,,,
+Layers = 6,,,,,,,,,,,,,,,,,
+Layers = 8,1.4159,1.5294,,,,1.535,1.4822,1.6051,,,,1.58,,,,,
+,,,,,,,,,,,,,,,,,
+Scale = 1,,,,,,,,,,,,,"V = 256
+T = 512
+dim = 256
+heads = 8
+ffdim = 4 * dim
+batch_size = 32
+steps = 20000
+n_layers = 2",,,,
+Scale = 2,,,,,,,,,,,,,,,,,
+Scale = 4,,,,,,,,,,,,,,,,,
+Scale = 6,,,,,,,,,,,,,,,,,
+Scale = 8,,,,,,,,,,,,,,,,,
+Scale = 16,,,,,,,,,,,,,,,,,
+Scale = 32,,,,,,,,,,,,,,,,,
+Scale = 64,,,,,,,,,,,,,,,,,

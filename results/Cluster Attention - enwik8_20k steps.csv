@@ -1,0 +1,43 @@
+,Train bpb,,,,,Val bpb,,,,,,,,,
+,MHA,Linear Attention,Cluster Attention,LCA,CKA,MHA,Linear Attention,Cluster Attention,LCA,CKA,Configs,Comments,Link (not public),LCA links,CKA links
+Layers = 1,2.699098005,3.549477303,3.841833886,3.781602493,2.7718,2.723983602,3.564822138,3.866262965,3.801569937,2.7794,"V = 256
+T = 512
+dim = 256
+heads = 8
+ffdim = 4 * dim
+batch_size = 32
+steps = 20000
+cluster_scale=1",only intracluster attention due to layer=1,run,run,
+Layers = 2,1.874629441,2.389868822,3.695189219,3.701458389,2.374,1.898265467,2.397733139,3.71565372,3.707970457,2.3596,,sqrt(n) attention is too small,run,run,
+Layers = 4,1.736575856,2.037696485,3.607922759,3.613947689,2.0306,1.763390287,2.037696485,3.612803386,3.634846612,2.066,,,run,run,
+Layers = 6,1.666769949,1.867299804,3.530638461,3.530051587,,1.687279401,1.896348666,3.536541009,3.552629755,,,,run,run,
+Layers = 8,1.595295675,1.757774264,3.472248394,3.457027534,,1.620372137,1.796636494,3.477910197,3.479011911,,,,run,run,
+,,,,,,,,,,,,,,,
+Scale = 1,1.874629441,2.389868822,3.695189219,3.701458389,2.374,1.898265467,2.397733139,3.71565372,3.707970457,2.3596,"V = 256
+T = 512
+dim = 256
+heads = 8
+ffdim = 4 * dim
+batch_size = 32
+steps = 20000
+n_layers = 2",sqrt(n) attention is too small,run,run,
+Scale = 2,-,-,3.574746036,,2.3845,-,-,3.591843385,,2.3866,,,run,,
+Scale = 4,-,-,3.402363601,3.412785244,2.331730774,-,-,3.40705125,3.419454773,2.339888644,,,run,run,run
+Scale = 6,-,-,3.214235711,,,-,-,3.240712072,,,,,run,,
+Scale = 8,-,-,3.064057468,,2.3595,-,-,3.090607634,,2.3774,,clearly bottleneck is by how many tokens we attend to,run,,
+Scale = 16,-,-,2.52988282,,,-,-,2.536043637,,,,,run,,
+Scale = 32,-,-,1.876264805,,,-,-,1.876264805,,,,essentially full attention,run,,
+Scale = 64,-,-,1.888183127,,,-,-,1.895107954,,,,essentially full attention,run,,
+,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+,,,,,we can frame novelty as low-rank mixing of causal clusters,,,,,,,,,,
+,,,,,,,,,,,,,,,
+,,,,,priorities:,,,,,,,,,,
+,,,,,"l2, s1",,,,,,,,,,
+,,,,,"l2,s2",,,,,,,,,,
+,,,,,"l1,s1",,,,,,,,,,
+,,,,,"l4, s1",,,,,,,,,,
+,,,,,"l2,s8",,,,,,,,,,
+,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+,,,,,so scale doesn't actually matter for CKA,,,,,,,,,,

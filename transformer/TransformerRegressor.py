@@ -58,8 +58,11 @@ class TransformerRegressor(nn.Module):
         # Final layer norm
         self.ln_f = nn.LayerNorm(dim)
 
-        # Regression head
+        # Regression head - initialize with small weights
         self.reg_head = nn.Linear(dim, target_dim)
+        # Initialize regression head with small weights to avoid large initial predictions
+        nn.init.normal_(self.reg_head.weight, mean=0.0, std=0.01)
+        nn.init.zeros_(self.reg_head.bias)
 
     def forward(self, x, targets=None, attn_mask=None):
         """
@@ -94,7 +97,10 @@ class TransformerRegressor(nn.Module):
             # Mean pooling with mask
             if attn_mask is not None:
                 mask = attn_mask.unsqueeze(-1).float()  # (B, T_seq, 1)
-                h_pooled = (h * mask).sum(dim=1) / (mask.sum(dim=1) + 1e-8)  # (B, dim)
+                mask_sum = mask.sum(dim=1)  # (B, 1)
+                # Ensure we don't divide by zero
+                mask_sum = torch.clamp(mask_sum, min=1.0)
+                h_pooled = (h * mask).sum(dim=1) / mask_sum  # (B, dim)
             else:
                 h_pooled = h.mean(dim=1)  # (B, dim)
         elif self.pooling == 'pt_weighted':
@@ -126,8 +132,17 @@ class TransformerRegressor(nn.Module):
         if targets is None:
             return predictions
 
-        # Compute loss (MSE)
+        # Compute loss (MSE) with numerical stability
+        # Check for NaN/Inf in predictions before computing loss
+        if torch.isnan(predictions).any() or torch.isinf(predictions).any():
+            # Return a large but finite loss to avoid NaN propagation
+            return predictions, torch.tensor(1e6, device=predictions.device, requires_grad=True)
+        
         loss = F.mse_loss(predictions, targets)
+        
+        # Clamp loss to avoid Inf
+        loss = torch.clamp(loss, min=0.0, max=1e6)
+        
         return predictions, loss
 
 

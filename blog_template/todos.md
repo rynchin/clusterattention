@@ -1,0 +1,1 @@
+- Check if the physics model is just guessing zero and hard coding the energy.

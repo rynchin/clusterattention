@@ -1,0 +1,487 @@
+
+Running train_hep.py
+Using device: cuda
+Loading HEP dataset...
+Dataset loaded: train=10000, val=2000, test=2000
+Starting HEP training with runs.hep...
+Loaded 12 models from runs.hep
+Number of training steps: 20000
+Sequence length T: 512
+Running hep with 12 models
+models: [('MHA_l2', <class 'variants.MHA.MHA'>, {'causal': False}, 2), ('MHA_l4', <class 'variants.MHA.MHA'>, {'causal': False}, 4), ('LinearAttention_l2', <class 'variants.LinearAttention.LinearAttention'>, {'eps': 1e-06, 'causal': False}, 2), ('LinearAttention_l4', <class 'variants.LinearAttention.LinearAttention'>, {'eps': 1e-06, 'causal': False}, 4), ('LCA_l2_s1', <class 'variants.LearnedClusterAttention.LearnedClusterAttention'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'causal': False, 'force_one_cluster': False}, 2), ('LCA_l4_s1', <class 'variants.LearnedClusterAttention.LearnedClusterAttention'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'causal': False, 'force_one_cluster': False}, 4), ('FastCKA_l2_s1', <class 'variants.FastCKA.FastCKA'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'r': 32, 'causal': False}, 2), ('FastCKA_l4_s1', <class 'variants.FastCKA.FastCKA'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'r': 32, 'causal': False}, 4), ('ClusterAttention_l2_s1', <class 'variants.ClusterAttention.ClusterAttention'>, {'cluster_scale': 1.0, 'causal': False}, 2), ('ClusterAttention_l4_s1', <class 'variants.ClusterAttention.ClusterAttention'>, {'cluster_scale': 1.0, 'causal': False}, 4), ('SuperClusterAttention_l2_s1', <class 'variants.SuperClusterAttention.SuperClusterAttention'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'causal': False}, 2), ('SuperClusterAttention_l4_s1', <class 'variants.SuperClusterAttention.SuperClusterAttention'>, {'T': 512, 'cluster_scale': 1.0, 'tau': 1.0, 'causal': False}, 4)]
+
+----Training MHA_l2----
+Checkpoints will be saved to models/hep/MHA_l2
+MHA_l2: step 500/20000 | loss 3413.8923
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_500.pt
+MHA_l2: step 1000/20000 | loss 4310.6387
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_1000.pt
+MHA_l2: step 1500/20000 | loss 2049.5117
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_1500.pt
+MHA_l2: step 2000/20000 | loss 1882.6467
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_2000.pt
+MHA_l2: step 2500/20000 | loss 1012.8525
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_2500.pt
+MHA_l2: step 3000/20000 | loss 536.6125
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_3000.pt
+MHA_l2: step 3500/20000 | loss 215.8358
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_3500.pt
+MHA_l2: step 4000/20000 | loss 82.5923
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_4000.pt
+MHA_l2: step 4500/20000 | loss 14.1577
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_4500.pt
+MHA_l2: step 5000/20000 | loss 26.5333
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_5000.pt
+MHA_l2: step 5500/20000 | loss 13.5152
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_5500.pt
+MHA_l2: step 6000/20000 | loss 18.9968
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_6000.pt
+MHA_l2: step 6500/20000 | loss 14.3414
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_6500.pt
+MHA_l2: step 7000/20000 | loss 16.9087
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_7000.pt
+MHA_l2: step 7500/20000 | loss 15.0173
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_7500.pt
+MHA_l2: step 8000/20000 | loss 10.8219
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_8000.pt
+MHA_l2: step 8500/20000 | loss 22.3995
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_8500.pt
+MHA_l2: step 9000/20000 | loss 8.7814
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_9000.pt
+MHA_l2: step 9500/20000 | loss 5.9457
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_9500.pt
+MHA_l2: step 10000/20000 | loss 3.4468
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_10000.pt
+MHA_l2: step 10500/20000 | loss 4.7362
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_10500.pt
+MHA_l2: step 11000/20000 | loss 4.1666
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_11000.pt
+MHA_l2: step 11500/20000 | loss 2.9039
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_11500.pt
+MHA_l2: step 12000/20000 | loss 2.3744
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_12000.pt
+MHA_l2: step 12500/20000 | loss 2.2979
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_12500.pt
+MHA_l2: step 13000/20000 | loss 3.1628
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_13000.pt
+MHA_l2: step 13500/20000 | loss 2.4933
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_13500.pt
+MHA_l2: step 14000/20000 | loss 4.2200
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_14000.pt
+MHA_l2: step 14500/20000 | loss 2.3988
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_14500.pt
+MHA_l2: step 15000/20000 | loss 2.5016
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_15000.pt
+MHA_l2: step 15500/20000 | loss 2.3643
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_15500.pt
+MHA_l2: step 16000/20000 | loss 3.4789
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_16000.pt
+MHA_l2: step 16500/20000 | loss 2.3821
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_16500.pt
+MHA_l2: step 17000/20000 | loss 1.8673
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_17000.pt
+MHA_l2: step 17500/20000 | loss 2.7884
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_17500.pt
+MHA_l2: step 18000/20000 | loss 3.0595
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_18000.pt
+MHA_l2: step 18500/20000 | loss 1.9080
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_18500.pt
+MHA_l2: step 19000/20000 | loss 2.3506
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_19000.pt
+MHA_l2: step 19500/20000 | loss 1.6851
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_19500.pt
+MHA_l2: step 20000/20000 | loss 2.1476
+Saved checkpoint to models/hep/MHA_l2/checkpoint_step_20000.pt
+
+MHA_l2 - Training Metrics:
+  Loss: 2.1866
+  MAE: 1.0987
+  RMSE: 1.4787
+  R²: 0.4963
+  MAE per dim: [1.4088997 1.4086598 0.6566795 0.9204449]
+  R² per dim: [-0.0013181   0.00242192  0.98438597  0.99969059]
+
+MHA_l2 - Validation Metrics:
+  Loss: 2.8725
+  MAE: 1.2897
+  RMSE: 1.6949
+  R²: 0.4935
+  MAE per dim: [1.436958  1.4250166 0.9050427 1.3917497]
+  R² per dim: [6.17265701e-04 2.91812420e-03 9.71449137e-01 9.99190390e-01]
+
+MHA_l2 - Test Metrics:
+  Loss: 2.7195
+  MAE: 1.2408
+  RMSE: 1.6491
+  R²: 0.4929
+  MAE per dim: [1.3731169 1.3527439 0.8540042 1.383524 ]
+  R² per dim: [-7.87615776e-04  9.03606415e-04  9.72189665e-01  9.99205470e-01]
+
+----Training MHA_l4----
+Checkpoints will be saved to models/hep/MHA_l4
+MHA_l4: step 500/20000 | loss 3622.4358
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_500.pt
+MHA_l4: step 1000/20000 | loss 2792.3174
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_1000.pt
+MHA_l4: step 1500/20000 | loss 2041.5759
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_1500.pt
+MHA_l4: step 2000/20000 | loss 1561.1726
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_2000.pt
+MHA_l4: step 2500/20000 | loss 973.4636
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_2500.pt
+MHA_l4: step 3000/20000 | loss 538.2212
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_3000.pt
+MHA_l4: step 3500/20000 | loss 248.2763
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_3500.pt
+MHA_l4: step 4000/20000 | loss 87.8223
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_4000.pt
+MHA_l4: step 4500/20000 | loss 19.3527
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_4500.pt
+MHA_l4: step 5000/20000 | loss 18.9950
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_5000.pt
+MHA_l4: step 5500/20000 | loss 33.7927
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_5500.pt
+MHA_l4: step 6000/20000 | loss 20.2553
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_6000.pt
+MHA_l4: step 6500/20000 | loss 13.0981
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_6500.pt
+MHA_l4: step 7000/20000 | loss 13.8399
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_7000.pt
+MHA_l4: step 7500/20000 | loss 17.6070
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_7500.pt
+MHA_l4: step 8000/20000 | loss 18.4717
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_8000.pt
+MHA_l4: step 8500/20000 | loss 16.5839
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_8500.pt
+MHA_l4: step 9000/20000 | loss 18.1165
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_9000.pt
+MHA_l4: step 9500/20000 | loss 15.1088
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_9500.pt
+MHA_l4: step 10000/20000 | loss 13.2279
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_10000.pt
+MHA_l4: step 10500/20000 | loss 9.2613
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_10500.pt
+MHA_l4: step 11000/20000 | loss 15.5008
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_11000.pt
+MHA_l4: step 11500/20000 | loss 14.5750
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_11500.pt
+MHA_l4: step 12000/20000 | loss 6.8886
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_12000.pt
+MHA_l4: step 12500/20000 | loss 3.0644
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_12500.pt
+MHA_l4: step 13000/20000 | loss 3.3572
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_13000.pt
+MHA_l4: step 13500/20000 | loss 3.5231
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_13500.pt
+MHA_l4: step 14000/20000 | loss 3.3571
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_14000.pt
+MHA_l4: step 14500/20000 | loss 3.1953
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_14500.pt
+MHA_l4: step 15000/20000 | loss 2.2399
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_15000.pt
+MHA_l4: step 15500/20000 | loss 4.2049
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_15500.pt
+MHA_l4: step 16000/20000 | loss 2.4057
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_16000.pt
+MHA_l4: step 16500/20000 | loss 1.9773
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_16500.pt
+MHA_l4: step 17000/20000 | loss 2.4769
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_17000.pt
+MHA_l4: step 17500/20000 | loss 2.2770
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_17500.pt
+MHA_l4: step 18000/20000 | loss 2.2751
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_18000.pt
+MHA_l4: step 18500/20000 | loss 2.2731
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_18500.pt
+MHA_l4: step 19000/20000 | loss 1.5311
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_19000.pt
+MHA_l4: step 19500/20000 | loss 2.5660
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_19500.pt
+MHA_l4: step 20000/20000 | loss 1.7982
+Saved checkpoint to models/hep/MHA_l4/checkpoint_step_20000.pt
+
+MHA_l4 - Training Metrics:
+  Loss: 2.3593
+  MAE: 1.1609
+  RMSE: 1.5360
+  R²: 0.4916
+  MAE per dim: [1.4087249  1.4142951  0.81994784 1.0005417 ]
+  R² per dim: [-0.00141394 -0.00615442  0.97438872  0.99964345]
+
+MHA_l4 - Validation Metrics:
+  Loss: 2.7986
+  MAE: 1.2848
+  RMSE: 1.6729
+  R²: 0.4887
+  MAE per dim: [1.443853  1.4314091 0.960265  1.3036742]
+  R² per dim: [-0.00560784 -0.00384355  0.9649753   0.9993552 ]
+
+MHA_l4 - Test Metrics:
+  Loss: 2.6468
+  MAE: 1.2336
+  RMSE: 1.6269
+  R²: 0.4876
+  MAE per dim: [1.3702518  1.3577412  0.93649566 1.269861  ]
+  R² per dim: [-0.00241244 -0.01039529  0.96371949  0.99937046]
+
+----Training LinearAttention_l2----
+Checkpoints will be saved to models/hep/LinearAttention_l2
+LinearAttention_l2: step 500/20000 | loss 5235.5596
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_500.pt
+LinearAttention_l2: step 1000/20000 | loss 3293.2881
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_1000.pt
+LinearAttention_l2: step 1500/20000 | loss 2801.8530
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_1500.pt
+LinearAttention_l2: step 2000/20000 | loss 1360.1255
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_2000.pt
+LinearAttention_l2: step 2500/20000 | loss 1574.1685
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_2500.pt
+LinearAttention_l2: step 3000/20000 | loss 349.1740
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_3000.pt
+LinearAttention_l2: step 3500/20000 | loss 137.6796
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_3500.pt
+LinearAttention_l2: step 4000/20000 | loss 73.6722
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_4000.pt
+LinearAttention_l2: step 4500/20000 | loss 24.4281
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_4500.pt
+LinearAttention_l2: step 5000/20000 | loss 18.8021
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_5000.pt
+LinearAttention_l2: step 5500/20000 | loss 12.2486
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_5500.pt
+LinearAttention_l2: step 6000/20000 | loss 6.6193
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_6000.pt
+LinearAttention_l2: step 6500/20000 | loss 6.0623
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_6500.pt
+LinearAttention_l2: step 7000/20000 | loss 5.5472
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_7000.pt
+LinearAttention_l2: step 7500/20000 | loss 3.3142
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_7500.pt
+LinearAttention_l2: step 8000/20000 | loss 4.4110
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_8000.pt
+LinearAttention_l2: step 8500/20000 | loss 3.3590
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_8500.pt
+LinearAttention_l2: step 9000/20000 | loss 5.9307
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_9000.pt
+LinearAttention_l2: step 9500/20000 | loss 2.4861
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_9500.pt
+LinearAttention_l2: step 10000/20000 | loss 2.3072
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_10000.pt
+LinearAttention_l2: step 10500/20000 | loss 2.3219
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_10500.pt
+LinearAttention_l2: step 11000/20000 | loss 2.3566
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_11000.pt
+LinearAttention_l2: step 11500/20000 | loss 3.7207
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_11500.pt
+LinearAttention_l2: step 12000/20000 | loss 3.5343
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_12000.pt
+LinearAttention_l2: step 12500/20000 | loss 1.8245
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_12500.pt
+LinearAttention_l2: step 13000/20000 | loss 1.9313
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_13000.pt
+LinearAttention_l2: step 13500/20000 | loss 1.4716
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_13500.pt
+LinearAttention_l2: step 14000/20000 | loss 2.1866
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_14000.pt
+LinearAttention_l2: step 14500/20000 | loss 2.0810
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_14500.pt
+LinearAttention_l2: step 15000/20000 | loss 2.0959
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_15000.pt
+LinearAttention_l2: step 15500/20000 | loss 1.6257
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_15500.pt
+LinearAttention_l2: step 16000/20000 | loss 1.1134
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_16000.pt
+LinearAttention_l2: step 16500/20000 | loss 1.8500
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_16500.pt
+LinearAttention_l2: step 17000/20000 | loss 1.4416
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_17000.pt
+LinearAttention_l2: step 17500/20000 | loss 1.6350
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_17500.pt
+LinearAttention_l2: step 18000/20000 | loss 1.7117
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_18000.pt
+LinearAttention_l2: step 18500/20000 | loss 1.6672
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_18500.pt
+LinearAttention_l2: step 19000/20000 | loss 1.4281
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_19000.pt
+LinearAttention_l2: step 19500/20000 | loss 1.2122
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_19500.pt
+LinearAttention_l2: step 20000/20000 | loss 1.1316
+Saved checkpoint to models/hep/LinearAttention_l2/checkpoint_step_20000.pt
+
+LinearAttention_l2 - Training Metrics:
+  Loss: 1.5707
+  MAE: 0.9307
+  RMSE: 1.2533
+  R²: 0.6517
+  MAE per dim: [1.4088585  0.8805438  0.4439937  0.98947597]
+  R² per dim: [2.32398510e-04 6.14299119e-01 9.92655277e-01 9.99690473e-01]
+
+LinearAttention_l2 - Validation Metrics:
+  Loss: 1.8265
+  MAE: 1.0187
+  RMSE: 1.3515
+  R²: 0.6434
+  MAE per dim: [1.4409913  0.90467423 0.59994006 1.1291362 ]
+  R² per dim: [-5.34892082e-04  5.88803887e-01  9.85973656e-01  9.99554455e-01]
+
+LinearAttention_l2 - Test Metrics:
+  Loss: 1.7167
+  MAE: 0.9858
+  RMSE: 1.3102
+  R²: 0.6441
+  MAE per dim: [1.3719983 0.873795  0.5786898 1.1188306]
+  R² per dim: [-0.00374222  0.5941962   0.98655772  0.99956107]
+
+----Training LinearAttention_l4----
+Checkpoints will be saved to models/hep/LinearAttention_l4
+LinearAttention_l4: step 500/20000 | loss 3784.6978
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_500.pt
+LinearAttention_l4: step 1000/20000 | loss 3943.4883
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_1000.pt
+LinearAttention_l4: step 1500/20000 | loss 2621.4946
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_1500.pt
+LinearAttention_l4: step 2000/20000 | loss 1556.8896
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_2000.pt
+LinearAttention_l4: step 2500/20000 | loss 1188.8979
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_2500.pt
+LinearAttention_l4: step 3000/20000 | loss 171.6541
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_3000.pt
+LinearAttention_l4: step 3500/20000 | loss 197.1588
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_3500.pt
+LinearAttention_l4: step 4000/20000 | loss 59.7116
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_4000.pt
+LinearAttention_l4: step 4500/20000 | loss 29.6697
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_4500.pt
+LinearAttention_l4: step 5000/20000 | loss 23.7948
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_5000.pt
+LinearAttention_l4: step 5500/20000 | loss 18.1809
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_5500.pt
+LinearAttention_l4: step 6000/20000 | loss 13.1573
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_6000.pt
+LinearAttention_l4: step 6500/20000 | loss 10.0672
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_6500.pt
+LinearAttention_l4: step 7000/20000 | loss 11.1796
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_7000.pt
+LinearAttention_l4: step 7500/20000 | loss 11.2461
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_7500.pt
+LinearAttention_l4: step 8000/20000 | loss 22.9389
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_8000.pt
+LinearAttention_l4: step 8500/20000 | loss 15.7177
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_8500.pt
+LinearAttention_l4: step 9000/20000 | loss 14.8623
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_9000.pt
+LinearAttention_l4: step 9500/20000 | loss 15.2062
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_9500.pt
+LinearAttention_l4: step 10000/20000 | loss 13.8309
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_10000.pt
+LinearAttention_l4: step 10500/20000 | loss 9.9578
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_10500.pt
+LinearAttention_l4: step 11000/20000 | loss 9.0987
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_11000.pt
+LinearAttention_l4: step 11500/20000 | loss 18.7730
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_11500.pt
+LinearAttention_l4: step 12000/20000 | loss 13.4945
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_12000.pt
+LinearAttention_l4: step 12500/20000 | loss 22.1899
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_12500.pt
+LinearAttention_l4: step 13000/20000 | loss 6.8214
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_13000.pt
+LinearAttention_l4: step 13500/20000 | loss 15.6020
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_13500.pt
+LinearAttention_l4: step 14000/20000 | loss 20.4009
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_14000.pt
+LinearAttention_l4: step 14500/20000 | loss 19.4047
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_14500.pt
+LinearAttention_l4: step 15000/20000 | loss 11.9809
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_15000.pt
+LinearAttention_l4: step 15500/20000 | loss 13.7280
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_15500.pt
+LinearAttention_l4: step 16000/20000 | loss 2.5947
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_16000.pt
+LinearAttention_l4: step 16500/20000 | loss 3.8978
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_16500.pt
+LinearAttention_l4: step 17000/20000 | loss 3.3560
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_17000.pt
+LinearAttention_l4: step 17500/20000 | loss 2.7811
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_17500.pt
+LinearAttention_l4: step 18000/20000 | loss 2.9312
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_18000.pt
+LinearAttention_l4: step 18500/20000 | loss 2.8417
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_18500.pt
+LinearAttention_l4: step 19000/20000 | loss 3.2521
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_19000.pt
+LinearAttention_l4: step 19500/20000 | loss 2.4947
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_19500.pt
+LinearAttention_l4: step 20000/20000 | loss 3.0095
+Saved checkpoint to models/hep/LinearAttention_l4/checkpoint_step_20000.pt
+
+LinearAttention_l4 - Training Metrics:
+  Loss: 2.7444
+  MAE: 1.2597
+  RMSE: 1.6566
+  R²: 0.4868
+  MAE per dim: [1.4097524 1.4099945 1.1486052 1.0704832]
+  R² per dim: [-2.22289562e-03  2.82227993e-04  9.49467182e-01  9.99553680e-01]
+
+LinearAttention_l4 - Validation Metrics:
+  Loss: 3.0895
+  MAE: 1.3376
+  RMSE: 1.7577
+  R²: 0.4854
+  MAE per dim: [1.4379137 1.4272158 1.2305906 1.2545112]
+  R² per dim: [-1.34706497e-04 -8.57949257e-04  9.43066239e-01  9.99335825e-01]
+
+LinearAttention_l4 - Test Metrics:
+  Loss: 2.8812
+  MAE: 1.2874
+  RMSE: 1.6974
+  R²: 0.4857
+  MAE per dim: [1.37444   1.352963  1.180774  1.2414153]
+  R² per dim: [-1.69289112e-03  8.98897648e-04  9.44258094e-01  9.99357820e-01]
+
+----Training LCA_l2_s1----
+Checkpoints will be saved to models/hep/LCA_l2_s1
+Error during training: einsum(): the number of subscripts in the equation (4) does not match the number of dimensions (5) for operand 0 and no ellipsis was given
+Traceback (most recent call last):
+  File "/n/home07/canisli/clusterattention/train_hep.py", line 273, in <module>
+    run_all_models(runs_name=args.runs)
+  File "/n/home07/canisli/clusterattention/train_hep.py", line 231, in run_all_models
+    model = train(name, attn_class, attn_args, train_loader, val_loader, T, n_layers, steps, runs_name)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/n/home07/canisli/clusterattention/train_hep.py", line 133, in train
+    predictions, loss = model(features, targets, attn_mask=masks)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/n/home07/canisli/clusterattention/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/n/home07/canisli/clusterattention/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/n/home07/canisli/clusterattention/transformer/TransformerRegressor.py", line 90, in forward
+    h = layer(h, attn_mask=attn_mask)  # (B, T_seq, dim)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/n/home07/canisli/clusterattention/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/n/home07/canisli/clusterattention/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/n/home07/canisli/clusterattention/transformer/TransformerLayer.py", line 22, in forward
+    out = self.attn(y, attn_mask=attn_mask)  # B,T,dim
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/n/home07/canisli/clusterattention/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/n/home07/canisli/clusterattention/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/n/home07/canisli/clusterattention/variants/LearnedClusterAttention.py", line 104, in forward
+    return self._token_attention(x, soft_assign, idx, attn_mask=attn_mask)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/n/home07/canisli/clusterattention/variants/LearnedClusterAttention.py", line 80, in _token_attention
+    out = torch.einsum('bhtk,bhkd->bhtd', score, V) # BHTD
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/n/home07/canisli/clusterattention/venv/lib/python3.12/site-packages/torch/functional.py", line 373, in einsum
+    return _VF.einsum(equation, operands)  # type: ignore[attr-defined]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: einsum(): the number of subscripts in the equation (4) does not match the number of dimensions (5) for operand 0 and no ellipsis was given
+
