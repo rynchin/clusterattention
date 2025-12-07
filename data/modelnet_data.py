@@ -339,3 +339,4 @@ if __name__ == '__main__':
         print(f"  Class names: {[MODELNET40_CLASSES[l] for l in labels.tolist()]}")
         break
 
+

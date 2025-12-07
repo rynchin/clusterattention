@@ -25,5 +25,5 @@ export NUMBA_DISABLE_JIT=1
 export HYDRA_FULL_ERROR=1
 cd ~/clusterattention
 
-echo "Running train_hep.py"
-python train_hep.py --runs hep
+echo "Running train_modelnet.py"
+python train_modelnet.py --runs modelnet

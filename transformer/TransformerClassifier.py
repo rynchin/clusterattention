@@ -19,7 +19,8 @@ class TransformerClassifier(nn.Module):
         attn_class,
         attn_args: dict,
         num_classes: int = 1,
-        pooling: str = 'mean'
+        pooling: str = 'mean',
+        dropout: float = 0.0
     ):
         """
         Args:
@@ -41,9 +42,11 @@ class TransformerClassifier(nn.Module):
         self.T = T
         self.num_classes = num_classes
         self.pooling = pooling
+        self.dropout = dropout
 
         # Project input features to model dimension
         self.feature_proj = nn.Linear(feature_dim, dim)
+        self.input_dropout = nn.Dropout(dropout)
         
         # Positional encoding (learned)
         self.pos_emb = nn.Embedding(T, dim)
@@ -56,7 +59,7 @@ class TransformerClassifier(nn.Module):
         layers = []
         for _ in range(n_layers):
             attn_module = attn_class(dim=dim, heads=heads, **attn_args)
-            layers.append(TransformerLayer(dim, heads, ffdim, attn_module))
+            layers.append(TransformerLayer(dim, heads, ffdim, attn_module, dropout=dropout))
         self.layers = nn.ModuleList(layers)
 
         # Final layer norm
@@ -66,7 +69,7 @@ class TransformerClassifier(nn.Module):
         self.classifier = nn.Sequential(
             nn.Linear(dim, dim // 2),
             nn.GELU(),
-            nn.Dropout(0.1),
+            nn.Dropout(dropout * 1.5),  # Slightly higher dropout in classifier
             nn.Linear(dim // 2, num_classes)
         )
 
@@ -86,6 +89,7 @@ class TransformerClassifier(nn.Module):
 
         # Project features
         h = self.feature_proj(x)  # (B, T_seq, dim)
+        h = self.input_dropout(h)  # Apply dropout to input
         
         # Add CLS token if using cls pooling
         if self.pooling == 'cls':

@@ -46,15 +46,16 @@ heads = 8
 ffdim = 4 * dim
 batch_size = 32
 lr = 3e-4
-weight_decay = 0.01
+weight_decay = 0.1  # Increased from 0.01 to reduce overfitting
 grad_clip = 1.0
+dropout = 0.2  # Dropout rate for transformer layers
 
 # Load dataset
 log("Loading jet tagging dataset...")
 train_loader, val_loader, test_loader, stats = create_jet_tagging_dataloaders(
-    n_train=10000,
-    n_val=2000,
-    n_test=2000,
+    n_train=50000,  # Increased from 10k to reduce overfitting
+    n_val=10000,    # Increased from 2k
+    n_test=10000,   # Increased from 2k
     n_particles_per_jet=50,
     max_length=128,
     batch_size=batch_size,
@@ -106,7 +107,8 @@ def train(name, attn_class, attn_args, train_loader, val_loader, T, n_layers, st
         attn_class=attn_class,
         attn_args=attn_args,
         num_classes=1,  # Binary classification
-        pooling='mean'
+        pooling='mean',
+        dropout=dropout
     ).to(device)
     
     optimizer = optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)

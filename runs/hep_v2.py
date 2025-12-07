@@ -41,3 +41,4 @@ models = [
     ('SuperClusterAttention_l4_s1', SuperClusterAttention, {'T': T, 'cluster_scale': 1.0, 'tau': 1.0, 'causal': False}, 4),
 ]
 
+

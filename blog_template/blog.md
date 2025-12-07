@@ -2,145 +2,78 @@ Title: Subquadratic self-attention with clustering
 
 # Introduction
 
-Self-attention can be viewed as message passing on a complete directed graph with self-loops. With $n$ tokens you have $n^2$ edges and an $O(n^2)$ cost. Several existing methods reduce this cost by altering the graph structure or the attention kernel. For example:
+A useful way to reframe self-attention is to interpret it as a graph neural network operating over the complete graph $G=(V,E)$ on $n=|V|$. Every token attends to every other token, which is exactly message passing on a complete graph with self-edges. This is quadratic in the number of tokens, as the number of messages passed is $O(E) = O(n^2)$. Several existing methods reduce this cost that can be categorized as altering the graph structure or the attention kernel. For example:
 
-* **Performer: Linear attention.** Replace the softmax kernel with a feature map $\phi(\cdot)$. Compute $(QK^\top)V$ as $Q(\phi(K)^\top V)$. Cost $O(n d^2)$ instead of $O(n^2 d)$. Quality depends on the kernel approximation.
-* **Cluster attention** [Rae & Razavi, 2020]. Group tokens into clusters. Compute attention inside each cluster plus attention between cluster summaries. Cost depends on the number of clusters $C$. Uses locality-sensitive hashing (LSH) to form clusters based on query-key similarity, achieving $O(n \log n)$ complexity.
-* **Sparse attention** [Child et al., 2019]. Replace the complete graph with a sparse adjacency pattern. Sparse Transformers use fixed strided patterns or learned sparsity masks. Longformer and BigBird extend this with sliding windows and global tokens. Cost becomes $O(n \sqrt{n})$ to $O(n)$ or better depending on the schedule.
-* **Reformer** [Kitaev et al., 2020]. Combines LSH-based clustering with reversible layers and chunked feed-forward networks. Uses LSH attention where queries and keys are hashed into buckets, and attention is computed only within buckets. Achieves $O(n \log n)$ complexity and reduces memory usage through reversible residual connections.
+* **Linear attention.** Replace the softmax kernel with a feature map $\phi(\cdot)$ [2, 3]. Compute $(QK^\top)V$ as $Q(\phi(K)^\top V)$. Cost $O(n d^2)$ instead of $O(n^2 d)$. Quality depends on the kernel approximation.
+* **Cluster attention** [6]. Group tokens into clusters. Compute attention inside each cluster plus attention between cluster summaries. Cost depends on the number of clusters $C$. Uses locality-sensitive hashing (LSH) to form clusters based on query-key similarity, achieving $O(n \log n)$ complexity. Reformer [4] combines LSH-based clustering with reversible layers and chunked feed-forward networks to reduce memory usage.
+* **Sparse attention.** Replace the complete graph with a sparse adjacency pattern. Sparse Transformers [5] use fixed strided patterns or learned sparsity masks. Longformer [7] and BigBird [8] extend this with sliding windows and global tokens. Cost becomes $O(n \sqrt{n})$ to $O(n)$ or better depending on the schedule.
 
-This blog develops a sequence of architectures built around clustering, motivated by graph neural networks. We introduce two directions: (i) `ClusterKernelAttention`, a hybrid that combines linear attention on top of cluster structure, and (ii) `SuperClusterAttention`: purely clustered models that rely on supernodes to summarize and route information between learned clusters. We apply these architectures to two domains: language modeling (enwik8) and physics regression (HEP events).
+This blog develops a sequence of architectures centered on clustering, motivated by graph neural networks. Our work culminates in two main directions:
+ 
+1. `SuperClusterAttention` an attention mechanism that restricts self-attention to within learned clusters and uses supernodes to route information between clusters.
+2. `ClusterKernelAttention`, a hybrid that combines linear attention on top of cluster structure. We apply these architectures to three domains: language modeling (enwik8), physics regression (HEP events), and 3D object recognition (modelnet). 
+
+We hypothesize that these proposed techniques are particularly effective when the underlying data exhibit latent cluster structure, making clustering an appropriate inductive bias.
 
 
 # Proposed Architectures
 
-## ClusterKernelAttention
-
-`ClusterKernelAttention` is a hybrid architecture that combines the benefits of clustering with linear (kernelized) attention. The key insight is to use clustering to structure the computation, then apply efficient linear attention within and between clusters, avoiding the quadratic cost of standard softmax attention while maintaining expressiveness.
-
-### Architecture overview
-
-The method operates in three main stages:
-
-1. **Soft cluster assignment**: Assign tokens to clusters using learned projections
-2. **Kernelized attention within clusters**: Use linear attention with a feature map $\phi$ to compute cluster summaries
-3. **Low-rank mixing between clusters**: Efficiently mix information across clusters using low-rank matrices
-
-### Cluster assignment
-
-Similar to `LearnedClusterAttention`, we project each token $x_i$ to cluster logits:
-
-$$ \text{logits}_i = W_{\text{cluster}} x_i \in \mathbb{R}^C $$
-
-where $C \approx \sqrt{n}$ is the number of clusters. We then compute soft assignments:
-
-$$ \alpha_{ic} = \text{softmax}(\text{logits}_i / \tau)_c $$
-
-where $\tau$ is a temperature parameter. This gives us a soft membership matrix $\alpha \in \mathbb{R}^{n \times C}$ where each token belongs partially to each cluster.
-
-### Kernelized attention with clustering
-
-Instead of computing full attention, we use a feature map $\phi(x) = \text{ELU}(x) + 1$ to enable linear attention. For each cluster $c$, we aggregate kernelized key-value pairs:
-
-$$ K_c = \sum_{i=1}^n \alpha_{ic} \phi(K_i), \quad KV_c = \sum_{i=1}^n \alpha_{ic} \phi(K_i) \otimes V_i $$
-
-where $K_i = W_K x_i$ and $V_i = W_V x_i$ are the key and value projections. For causal attention, we use prefix sums; for noncausal, we sum over all tokens.
-
-### Low-rank cluster mixing
-
-The key efficiency gain comes from mixing information between clusters. Naively, computing attention between all $C$ clusters would cost $O(C^2)$. Instead, we use low-rank mixing matrices $A, B \in \mathbb{R}^{C \times k}$ where $k \ll C$ (typically $k=8$):
-
-First, we compress the $C$ cluster summaries into rank-$k$ space:
-$$ \tilde{K}_\ell = \sum_{j=1}^C A_{j\ell} K_j \quad \text{for } \ell \in \{1, \ldots, k\} $$
-
-Then we project back to cluster space:
-$$ \tilde{K}_c = \sum_{\ell=1}^k B_{c\ell} \tilde{K}_\ell = \sum_{\ell=1}^k B_{c\ell} \sum_{j=1}^C A_{j\ell} K_j $$
-
-This reduces the mixing cost from $O(C^2)$ to $O(Ck)$, where $k$ is the mixing rank (typically $k=8$ or $k=32$). The matrices $A$ and $B$ are learned parameters (constrained to be positive via softplus) initialized with small random values. This low-rank factorization allows clusters to communicate efficiently while maintaining expressiveness.
-
-### Final attention computation
-
-For each token $i$, we compute its output by:
-1. Projecting the mixed cluster states back to token space using its cluster assignments
-2. Applying kernelized attention: $\text{output}_i = Q_i \cdot \frac{\sum_c \alpha_{ic} KV_c}{\sum_c \alpha_{ic} K_c}$
-
-### Computational complexity
-
-The total cost is:
-- Cluster assignment: $O(nC) = O(n\sqrt{n})$
-- Per-cluster aggregation: $O(nr)$ where $r$ is the feature dimension (typically $r=32$)
-- Low-rank mixing: $O(Ck)$ where $k \ll C$
-- Final projection: $O(nC)$
-
-**Total: $O(n\sqrt{n} + nr + Ck)$** which is $O(n\sqrt{n})$ when $r$ and $k$ are treated as constants.
-
-### FastCKA variant
-
-`FastCKA` is an optimized variant that reorders operations to fuse computations more efficiently, achieving the same asymptotic complexity but with better constant factors. The key difference is that it projects cluster assignments into the low-rank space earlier, reducing intermediate tensor sizes.
-
-### Advantages
-
-- **Subquadratic cost**: $O(n\sqrt{n})$ instead of $O(n^2)$
-- **Differentiable**: Soft cluster assignments allow gradients to flow
-- **Flexible**: Works for both causal and noncausal attention
-- **No kernel approximation error**: Unlike pure linear attention, clustering preserves local structure
-
-### Limitations
-
-- Requires knowing sequence length $T$ at initialization (for cluster count $C$)
-- Cluster assignments may not align perfectly with semantic boundaries
-- Low-rank mixing may limit expressiveness for very complex inter-cluster interactions
-
 ## SuperClusterAttention
 
-We interpret the transformer block as a GNN over the complete graph $G=(V,E)$. Partition $V$ into $C$ cliques and add a new set of representatives (supernodes). Each supernode aggregates information from its clique and then communicates with other supernodes through a reduced complete graph. Subsequent inter-clique attention for each clique allows information sharing between cliques. Choosing $C \approx \sqrt{n}$ to balance costs, yielding $O(n \sqrt{n})$ runtime, as we will show below.
+SuperClusterAttention replaces full self-attention with a two–stage process that first routes information through a small set of cluster “supernodes” and then performs local attention inside each cluster. The steps are:
 
-### Partition step
+0. Tokens are assigned to clusters
+1. Each cluster produces a supernode, defined by a learned aggregation of its members. The $9$ supernodes attend to each other (a 
+C×C
+C×C complete graph). The resulting messages are then broadcast back to tokens using the same cluster weights
+3. Each cluster runs self-attention within itself. 
 
-In order for self-attention to be permutation equivariant, we must use a permutation-invariant rule to assign tokens to clusters. One $O(n \log n)$ sorting-based mechanism we came up with was:
+Every token receives local information from its cluster and global information routed through its supernode, which is 
+
+### Cluster Assignment
+
+To remain permutation-equivariant with respect to token order, we must use a permutation-invariant rule to assign tokens to clusters. A simple approach based on sorting token scores gives contiguous blocks in $O(n \log⁡ n)$, but sorting is non-differentiable and breaks end-to-end training of the cluster projection.
 
 1. Project each token to a scalar $s_i = w^\top x_i$.
 2. Sort tokens by $s_i$.
 3. Split the sorted sequence into $k=\sqrt{n}$ contiguous blocks.
 
-However, the sorting and partitioning step is not differentiable, so we instead tried
+However, the sorting and partitioning step is not differentiable, making backprop unable to reach the learned cluster embedding. Instead, we use the "straight through trick" from the literature:
 
 1. Project each token to C dimensions, softmax, to get soft cluster assignments
 2. Argmax to get hard cluster assignments.
-3. Let `R` be the one hot cluster assignments. Use straight through trick: `R = R_hard.detach() - R_soft.detach() + R_soft`. This works because `R` is correlated with `R_soft`.
+3. Let `R` be the one hot cluster assignments. Use straight through trick: `R = R_hard.detach() - R_soft.detach() + R_soft`. This works because `R` is correlated with `R_soft`. TODO: cite
 
 ### Supernode construction
 
-Each clique produces one supernode. The simplest choice is a learned linear pool:
+Each cluster produces one supernode. We define its feature vector as a learned linear pool over the cluster:
 
 $$ u_j = \sum_{i \in C_j} \alpha_{ij} x_i $$
 
-with $\alpha$ coming from intra-clique attention.
+with $\alpha$ coming from the cluster assignment step.
 
-### Intra-clique attention
+### Remarks
+* This technique is not compatible with causal masking.
+* In our benchmarks, we define two ablations:
+  +  `LearnedClusterAttention`, which is this idea but without supernodes (i.e. no inter-cluster communication).
+  +  `ClusterAttention`, which uses our initial sort-based partition idea. The cluster assignment remains random each block.
 
-Tokens in a clique attend only to their supernode instead of all other tokens. This replaces each local dense subgraph with a star shaped pattern mediated by the supernode. Cost: $O(C (N/C)^2) = O(N^2/C)$.
+## ClusterKernelAttention
+**TODO**: Ryan
+// leave empty for now
 
-### Inter-clique (supernode) attention
 
-Supernodes attend to one another through a complete graph. Size is $C$ so the cost is $O(C^2)$. TODO: mention Causal mask cannot be enforced with supernodes.
+### FastCKA variant
+// leave empty for now
 
-This yields a noncausal attention block with subquadratic cost and no approximation of the softmax kernel.
-
+### Remarks
+// leave empty for now
 
 # Experiments
-## Setup
-We summarize our experiments below.
-- Datasets:
-    - enwik8: language modeling (causal)
-    - HEP events: regression (noncausal)
-- Metrics:
-    - Language: bits-per-byte / perplexity
-    - Regression: MAE, RMSE, R²
-- Baselines: MHA, LinearAttention
-- Variants tested: different layer counts, cluster scales
 
-## Language modeling task
+We evaluate our cluster-based attention architectures on three diverse tasks: character-level language modeling, high-energy physics jet tagging, and 3D object recognition. These tasks differ in sequence length, structure, and supervision: language modeling uses long 1D byte sequences with causal dependencies, jet tagging uses short variable-length physics events with full-context classification, and ModelNet40 uses fixed-size 3D point clouds with geometric invariances.
+
+## Language Modeling (enwik8)
 
 We evaluate our architectures on character-level language modeling using the enwik8 dataset, which consists of the first 100 million bytes of Wikipedia. The task is to predict the next character given the previous context, making this a causal (autoregressive) prediction problem.
 
@@ -161,19 +94,27 @@ We evaluate our architectures on character-level language modeling using the enw
 - Batch size: 32
 - Learning rate: $3 \times 10^{-4}$
 - Random sequence sampling: each batch samples random 512-token windows from the corpus
-- Models trained for up to 50,000 steps
+- Models trained for up to 50,000 steps (with some ablations at 20,000 steps)
 
-## Physics regression task
+**Architectures tested:**
+- MHA: Multi-head attention baseline
+- LinearAttention: Linear attention with feature map
+- ClusterAttention: Hard clustering with sort-based partition
+- LCA: Learned cluster attention with soft assignments
+- CKA: ClusterKernelAttention (hybrid clustering + linear attention)
+- FastCKA: Optimized variant of CKA
 
-We apply our architectures to a high-energy physics (HEP) event-level regression task. Each event contains a variable-length sequence of detected particles, and the goal is to predict the missing momentum 4-vector (representing undetected particles like neutrinos).
+## High-Energy Physics Jet Tagging
+
+We apply our architectures to a high-energy physics jet tagging task. Each event contains a variable-length sequence of detected particles, and the goal is to classify jets as either gluon-initiated or quark-initiated (binary classification).
 
 **Dataset details:**
 - Synthetic particle physics events with realistic distributions
 - Variable sequence lengths: 50-500 particles per event
-- Training: 10,000 events
-- Validation: 2,000 events
-- Test: 2,000 events
-- Maximum sequence length: $T = 512$ (sequences are padded or truncated)
+- Training: 50,000 events
+- Validation: 10,000 events
+- Test: 10,000 events
+- Maximum sequence length: $T = 128$ (sequences are padded or truncated)
 
 **Input features per particle:**
 Each particle is represented by 6 features:
@@ -184,223 +125,145 @@ Each particle is represented by 6 features:
 - charge: electric charge ($-1, 0, +1$)
 - PID: particle ID encoding (0-5 for photon, electron, muon, pion, kaon, proton)
 
-**Target:**
-Missing momentum 4-vector $[p_x, p_y, p_z, E]$ representing the negative sum of all visible particle momenta. This is a common task in HEP analysis where neutrinos or other invisible particles carry away momentum.
-
 **Model architecture:**
 - Input: $(B, T, 6)$ tensor of particle features (padded sequences)
 - Attention mask: $(B, T)$ boolean mask indicating real particles vs padding
-- Processing: transformer layers process the sequence
+- Processing: transformer layers process the sequence with noncausal attention (full event context available)
 - Pooling: mean pooling over sequence (masked) to get event-level representation
-- Output: $(B, 4)$ regression predictions
-- Loss: mean squared error (MSE)
+- Output: $(B, 1)$ binary classification logits
+- Loss: binary cross-entropy
 
 **Metrics:**
-- **MAE**: mean absolute error per dimension and overall
-- **RMSE**: root mean squared error
-- **R²**: coefficient of determination (higher is better)
+- **Accuracy**: Overall classification accuracy
+- **F1**: F1 score (harmonic mean of precision and recall)
+- **AUC**: Area under the ROC curve
 
 **Training:**
 - Batch size: 32
-- Learning rate: $10^{-4}$
-- Noncausal attention: full event context available (no masking)
+- Learning rate: $3 \times 10^{-4}$
+- Weight decay: 0.1
+- Dropout: 0.2
+- Cosine annealing learning rate scheduler
 - Models trained for 20,000 steps
 
+## 3D Object Recognition (ModelNet40)
+
+We evaluate our architectures on 3D object classification using the ModelNet40 dataset, which contains 40 categories of 3D objects represented as point clouds.
+
+**Dataset details:**
+- ModelNet40: 40 object categories
+- Point clouds: 1024 points per object
+- Features: 3D coordinates $(x, y, z)$
+- Training/validation/test split: standard ModelNet40 splits
+
+**Model architecture:**
+- Input: $(B, 1024, 3)$ tensor of point coordinates
+- Attention mask: $(B, 1024)$ boolean mask (all ones for fixed-size point clouds)
+- Processing: transformer layers process the sequence with noncausal attention
+- Pooling: mean pooling over sequence to get object-level representation
+- Output: $(B, 40)$ classification logits
+- Loss: cross-entropy over 40 classes
+
+**Metrics:**
+- **Accuracy**: Overall classification accuracy
+- **Mean Class Accuracy**: Average per-class accuracy (handles class imbalance)
+
+**Training:**
+- Batch size: 32
+- Learning rate: $1 \times 10^{-4}$
+- Weight decay: 0.01
+- Models trained for 20,000 steps
 
 # Results
 
 ## Language Modeling Results
 
-We evaluate our architectures on the enwik8 character-level language modeling task. All models are trained for 50,000 steps with causal masking, using the same hyperparameters (batch size 32, learning rate $3 \times 10^{-4}$).
+We evaluate our architectures on the enwik8 character-level language modeling task. All models are trained with causal masking, using the same hyperparameters (batch size 32, learning rate $3 \times 10^{-4}$).
 
-### Main Results
+### Main Results (50,000 steps)
 
 Table 1 shows validation bits-per-byte (bpb) for different architectures across varying layer depths:
 
 | Architecture | Layers | Val bpb | Notes |
-|--------------|--------|--------|-------|
+|--------------|--------|---------|-------|
 | MHA | 1 | 2.13 | Baseline |
 | MHA | 4 | 1.56 | Baseline |
 | MHA | 8 | 1.48 | Baseline (best) |
 | LinearAttention | 1 | 2.30 | Linear kernel |
 | LinearAttention | 4 | 1.74 | Linear kernel |
 | LinearAttention | 8 | 1.61 | Linear kernel |
-| FastCKA | 1 | 2.29 | Cluster + linear |
-| FastCKA | 4 | 1.72 | Cluster + linear |
-| FastCKA | 8 | 1.58 | Cluster + linear |
-
-**Key findings:**
-
-1. **MHA achieves the best performance** at 8 layers (1.48 bpb), as expected given its full quadratic attention mechanism.
-
-2. **FastCKA closely matches LinearAttention** performance, achieving 1.58 bpb vs 1.61 bpb at 8 layers. This demonstrates that clustering does not significantly degrade performance compared to pure linear attention, while providing the structural benefits of cluster-based computation.
-
-3. **All architectures benefit from depth**: Performance improves substantially from 1 to 4 layers, with diminishing returns from 4 to 8 layers.
-
-4. **FastCKA maintains efficiency**: Despite using clustering, FastCKA achieves $O(n\sqrt{n})$ complexity compared to MHA's $O(n^2)$, representing a significant computational savings for long sequences.
-
-### Ablations
-
-#### Effect of Cluster Scale
-
-We investigate how the number of clusters affects performance by varying the cluster scale parameter $s$ where $C = s \cdot \sqrt{n}$. Results for FastCKA with 2 layers:
-
-| Cluster Scale | C (approx) | Val bpb |
-|---------------|------------|--------|
-| 0.5 | ~11 | 2.38 |
-| 1.0 | ~23 | 1.92 |
-| 2.0 | ~45 | 2.03 |
-| 8.0 | ~181 | 2.36 |
-
-**Finding**: Cluster scale of 1.0 (corresponding to $C \approx \sqrt{n}$) provides the best balance between expressiveness and efficiency. Too few clusters (scale 0.5) limits expressiveness, while too many clusters (scale 8.0) approaches the cost of full attention without the benefits.
-
-#### Low-Rank Mixing Analysis
-
-We compare ClusterKernelAttention with and without low-rank mixing:
-
-| Variant | Mixing Rank | Val bpb (1 layer) |
-|---------|-------------|------------------|
-| CKA (no mixing) | N/A | ~2.15 |
-| CKA (with mixing) | 8 | ~2.20 |
-
-**Finding**: Low-rank mixing slightly degrades performance but provides significant computational savings ($O(Ck)$ vs $O(C^2)$). The trade-off is acceptable for long sequences where the quadratic cluster mixing cost would dominate.
-
-#### Learned vs Hard Clustering
-
-We compare `LearnedClusterAttention` (soft assignments) with hard clustering variants:
-
-| Architecture | Val bpb (1 layer) |
-|--------------|------------------|
-| LCA (soft) | 3.79 |
-| ClusterAttention (hard sort) | ~3.80 |
-
-**Finding**: Both approaches achieve similar performance, suggesting that the differentiable soft assignments do not provide a significant advantage over hard clustering for this task. However, soft assignments may be more beneficial for tasks requiring fine-grained gradient flow.
-
-#### Single Cluster Baseline
-
-As an ablation, we test `LearnedClusterAttention` with `force_one_cluster=True`, effectively reducing it to standard attention within a single cluster:
-
-| Variant | Val bpb |
-|---------|--------|
-| LCA (single cluster) | 2.33 |
-| LCA (multi-cluster) | 3.79 |
-
-**Finding**: The single-cluster variant performs significantly better, suggesting that the learned multi-cluster assignment may be introducing noise or suboptimal partitions. This indicates room for improvement in cluster assignment strategies.
-
-### Discussion
-
-The results show that **cluster-based attention can achieve competitive performance** with linear attention while providing structural benefits. FastCKA achieves within 7% of MHA's performance (1.58 vs 1.48 bpb) at 8 layers while maintaining subquadratic complexity.
-
-However, **learned clustering strategies (LCA) underperform** compared to the hybrid approach (FastCKA). This suggests that combining clustering with linear attention kernels is more effective than pure cluster-based attention for language modeling.
-
-The ablations reveal that:
-- Optimal cluster count is around $\sqrt{n}$ as theoretically predicted
-- Low-rank mixing provides efficiency gains with minimal quality loss
-- Soft vs hard clustering makes little difference for this task
-- Current learned clustering may need refinement to match hard clustering performance
-
-## Physics Regression Results
-
-We evaluate our architectures on the HEP event-level regression task. All models are trained for 20,000 steps with noncausal attention (full event context available).
-
-### Main Results
-
-Table 2 shows test set performance metrics for different architectures:
-
-| Architecture | Layers | MAE | RMSE | R² | Notes |
-|--------------|--------|-----|------|----|-------|
-| MHA | 2 | 0.XX | 0.XX | 0.XX | Baseline |
-| MHA | 4 | 0.XX | 0.XX | 0.XX | Baseline |
-| LinearAttention | 2 | 0.XX | 0.XX | 0.XX | Linear kernel |
-| LinearAttention | 4 | 0.XX | 0.XX | 0.XX | Linear kernel |
-| LCA | 2 | 0.XX | 0.XX | 0.XX | Learned clusters |
-| LCA | 4 | 0.XX | 0.XX | 0.XX | Learned clusters |
-| FastCKA | 2 | 0.XX | 0.XX | 0.XX | Cluster + linear |
-| FastCKA | 4 | 0.XX | 0.XX | 0.XX | Cluster + linear |
-| ClusterAttention | 2 | 0.XX | 0.XX | 0.XX | Hard clusters |
-| ClusterAttention | 4 | 0.XX | 0.XX | 0.XX | Hard clusters |
-| SuperClusterAttention | 2 | 0.XX | 0.XX | 0.XX | Supernodes |
-| SuperClusterAttention | 4 | 0.XX | 0.XX | 0.XX | Supernodes |
-
-Here is the **updated test-only table** with **LCA_l4_s1** added.
-
-### Test-Only Metrics
-
-| Model                  | Loss       | MAE        | RMSE       | R²         | MAE per dim                      | R² per dim                         |
-| ---------------------- | ---------- | ---------- | ---------- | ---------- | -------------------------------- | ---------------------------------- |
-| **MHA_l2**             | 2.7195     | 1.2408     | 1.6491     | 0.4929     | [1.3731, 1.3527, 0.8540, 1.3835] | [-0.0008, 0.0009, 0.9722, 0.9992]  |
-| **MHA_l4**             | 2.6468     | 1.2336     | 1.6269     | 0.4876     | [1.3703, 1.3577, 0.9365, 1.2699] | [-0.0024, -0.0104, 0.9637, 0.9994] |
-| **LinearAttention_l2** | 1.7167     | 0.9858     | 1.3102     | 0.6441     | [1.3720, 0.8738, 0.5787, 1.1188] | [-0.0037, 0.5942, 0.9866, 0.9996]  |
-| **LinearAttention_l4** | 2.8812     | 1.2874     | 1.6974     | 0.4857     | [1.3744, 1.3530, 1.1808, 1.2414] | [-0.0017, 0.0009, 0.9443, 0.9994]  |
-| **LCA_l2_s1**          | 3.9051     | 1.4894     | 1.9761     | 0.4714     | [1.3793, 1.3554, 1.6648, 1.5580] | [-0.0059, 0.0009, 0.8918, 0.9990]  |
-| **LCA_l4_s1**          | **4.1129** | **1.5311** | **2.0280** | **0.4680** | [1.3702, 1.3550, 1.7790, 1.6203] | [-0.0001, -0.0016, 0.8749, 0.9990] |
-
-If you want a ranked comparison, PCA-style aggregation, or a heatmap-ready CSV, specify the format.
+| CKA | 1 | 2.29 | Cluster + linear |
+| CKA | 4 | 1.72 | Cluster + linear |
+| CKA | 8 | 1.58 | Cluster + linear |
 
 
-*Note: Results are placeholders. Actual results will be populated from training logs.*
+CKA shows minimal improvement over linear attention
 
-### Ablations
+### Cluster Scale Ablation (20,000 steps)
 
-#### Effect of Layer Depth
+We investigate how the number of clusters of `ClusterAttention` affects performance by varying the cluster scale parameter $s$ where $C = s \cdot \sqrt{n}$. Results for 2-layer models:
 
-[Placeholder for layer depth ablation results]
+| Cluster Scale | C (approx) | ClusterAttention Val bpb | LCA Val bpb | CKA Val bpb |
+|---------------|------------|--------------------------|-------------|-------------|
+| 1 | ~23 | 3.72 | 3.71 | 2.36 |
+| 2 | ~45 | 3.59 | - | 2.39 |
+| 4 | ~91 | 3.41 | 3.42 | 2.34 |
+| 6 | ~136 | 3.24 | - | - |
+| 8 | ~181 | 3.09 | - | 2.38 |
+| 16 | ~362 | 2.54 | - | - |
+| 32 | ~724 | 1.88 | - | - |
+| 64 | ~1448 | 1.90 | - | - |
 
-#### Cluster Scale Sensitivity
 
-[Placeholder for cluster scale ablation on HEP data]
+## High-Energy Physics Jet Tagging Results
 
-#### Causal vs Noncausal
+We evaluate our architectures on the HEP jet tagging task. All models are trained for 20,000 steps with noncausal attention (full event context available). Table 2 shows test set performance metrics:
 
-[Placeholder for comparison - though HEP task uses noncausal by design]
+| Model | Layers | Test Loss | Test Acc | Test F1 | Test AUC |
+|-------|--------|-----------|----------|---------|----------|
+| ClusterAttention | 2 | 0.5788 | 0.6954 | 0.6763 | 0.7694 |
+| SuperClusterAttention | 2 | 0.5810 | 0.6927 | 0.6659 | 0.7702 |
+| LCA | 2 | 0.5826 | 0.6903 | 0.6678 | 0.7648 |
+| MHA | 2 | 0.5884 | 0.6892 | 0.6697 | 0.7658 |
+| SuperClusterAttention | 4 | 0.5817 | 0.6923 | 0.6692 | 0.7677 |
+| ClusterAttention | 4 | 0.5849 | 0.6904 | 0.6680 | 0.7656 |
+| MHA | 4 | 0.5904 | 0.6931 | 0.6755 | 0.7652 |
+| LCA | 4 | 0.5849 | 0.6846 | 0.6633 | 0.7621 |
+| LinearAttention | 2 | 0.6019 | 0.6742 | 0.6655 | 0.7384 |
+| FastCKA | 2 | 0.6026 | 0.6740 | 0.6653 | 0.7384 |
+| FastCKA | 4 | 0.6035 | 0.6751 | 0.6660 | 0.7381 |
+| LinearAttention | 4 | 0.6040 | 0.6754 | 0.6663 | 0.7379 |
 
-### Discussion
+## ModelNet40 Results
 
-[Placeholder for discussion of HEP results once actual numbers are available]
+We evaluate our architectures on the ModelNet40 3D object classification task. All models are trained for 20,000 steps with noncausal attention. Table 3 shows test set performance metrics:
 
-The HEP regression task provides a different testbed where:
-- **Noncausal attention** is natural (full event context available)
-- **Variable-length sequences** test robustness to padding
-- **Structured features** (physics-motivated) may benefit from cluster-based attention differently than language
-
-Preliminary observations suggest that cluster-based attention may be particularly well-suited for this task, as particle events naturally exhibit cluster structure (jets, tracks, etc.).
+| Model | Layers | Test Loss | Test Acc | Test MeanClassAcc |
+|-------|--------|-----------|----------|-------------------|
+| LinearAttention | 4 | 1.2072 | 0.7804 | 0.7355 |
+| LinearAttention | 2 | 1.2941 | 0.7549 | 0.6702 |
+| FastCKA | 2 | 1.3013 | 0.7342 | 0.6594 |
+| FastCKA | 4 | 1.6009 | 0.7358 | 0.6794 |
+| ClusterAttention | 4 | 1.7576 | 0.7451 | 0.6941 |
+| ClusterAttention | 2 | 1.7780 | 0.7293 | 0.6666 |
+| MHA | 4 | 2.5582 | 0.7261 | 0.6588 |
+| SuperClusterAttention | 4 | 2.1732 | 0.7034 | 0.6383 |
+| SuperClusterAttention | 2 | 2.1059 | 0.6868 | 0.6255 |
+| LCA | 4 | 2.2155 | 0.7054 | 0.6391 |
+| LCA | 2 | 2.6562 | 0.6827 | 0.6066 |
+| MHA | 2 | 3.1728 | 0.6787 | 0.6150 |
 
 # Conclusion
+Hello let's talk about stuff.
 
-We have developed and evaluated several cluster-based attention architectures that achieve subquadratic complexity while maintaining competitive performance with standard attention mechanisms.
-
-**Key contributions:**
-
-1. **ClusterKernelAttention / FastCKA**: A hybrid architecture combining clustering with linear attention, achieving $O(n\sqrt{n})$ complexity and performance within 7% of full attention on language modeling.
-
-2. **SuperClusterAttention**: A two-level architecture using supernodes to route information between clusters, providing an alternative approach for noncausal settings.
-
-3. **Comprehensive evaluation**: We demonstrate these architectures on both language modeling (causal) and physics regression (noncausal) tasks, showing their versatility.
-
-**Main findings:**
-
-- **FastCKA matches LinearAttention performance** while providing structural benefits of clustering
-- **Optimal cluster count** is around $\sqrt{n}$ as theoretically predicted
-- **Learned clustering** (LCA) underperforms compared to hybrid approaches, suggesting room for improvement
-- **Low-rank mixing** provides efficiency gains with minimal quality degradation
-
-**Limitations and future work:**
-
-- Learned cluster assignments may need refinement to match hard clustering performance
-- Current architectures require knowing sequence length at initialization
-- SuperClusterAttention is limited to noncausal settings
-- Further investigation needed on longer sequences and different domains
-
-**Broader impact:**
-
-These architectures provide a path toward efficient transformers that can scale to longer sequences while maintaining the expressiveness of attention mechanisms. The cluster-based approach offers interpretability benefits (cluster assignments can be visualized) and may be particularly suited for domains with natural cluster structure (e.g., particle physics, graph data).
 
 # References
 
 1. Vaswani, A., et al. "Attention is all you need." NeurIPS 2017.
 2. Katharopoulos, A., et al. "Transformers are RNNs: Fast autoregressive transformers with linear attention." ICML 2020.
-3. Kitaev, N., Kaiser, Ł., & Levskaya, A. "Reformer: The efficient transformer." ICLR 2020.
-4. Child, R., Gray, S., Radford, A., & Sutskever, I. "Generating long sequences with sparse transformers." arXiv:1904.10509, 2019.
-5. Rae, J. W., & Razavi, A. "Do transformers need deep long-range memory?" arXiv:2007.04825, 2020.
-6. Beltagy, I., Peters, M. E., & Cohan, A. "Longformer: The long-document transformer." arXiv:2004.05150, 2020.
-7. Zaheer, M., et al. "Big bird: Transformers for longer sequences." NeurIPS 2020.
+3. Choromanski, K., et al. "Rethinking attention with performers." ICLR 2021.
+4. Kitaev, N., Kaiser, Ł., & Levskaya, A. "Reformer: The efficient transformer." ICLR 2020.
+5. Child, R., Gray, S., Radford, A., & Sutskever, I. "Generating long sequences with sparse transformers." arXiv:1904.10509, 2019.
+6. Rae, J. W., & Razavi, A. "Do transformers need deep long-range memory?" arXiv:2007.04825, 2020.
+7. Beltagy, I., Peters, M. E., & Cohan, A. "Longformer: The long-document transformer." arXiv:2004.05150, 2020.
+8. Zaheer, M., et al. "Big bird: Transformers for longer sequences." NeurIPS 2020.

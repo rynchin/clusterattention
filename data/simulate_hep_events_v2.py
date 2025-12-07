@@ -287,16 +287,30 @@ def generate_jet_tagging_dataset(
     for _ in range(n_events):
         is_gluon = torch.rand(1).item() > 0.5
         
+        # Make particle counts overlap COMPLETELY - same range for both
+        # This forces model to learn from particle relationships, not counting
+        n_particles = int(n_particles_per_jet * (0.6 + 0.8 * torch.rand(1).item()))  # 30-70 for both
+        
         if is_gluon:
-            # Gluon jet: more particles, wider, softer
-            n_particles = int(n_particles_per_jet * (1.0 + 0.5 * torch.rand(1).item()))
-            width = 0.4 + 0.2 * torch.rand(1).item()
-            pt_scale = 3.0
+            # Gluon jet: slightly wider, slightly softer
+            # Make differences MUCH smaller and add noise
+            base_width = 0.25 + 0.15 * torch.rand(1).item()  # 0.25-0.40
+            width = base_width + torch.randn(1).item() * 0.1  # Add noise
+            width = torch.clamp(torch.tensor(width), 0.15, 0.45).item()
+            
+            base_pt_scale = 3.5 + 0.5 * torch.rand(1).item()  # 3.5-4.0
+            pt_scale = base_pt_scale + torch.randn(1).item() * 0.3  # Add noise
+            pt_scale = max(2.5, pt_scale)
         else:
-            # Quark jet: fewer particles, narrower, harder
-            n_particles = int(n_particles_per_jet * (0.6 + 0.4 * torch.rand(1).item()))
-            width = 0.2 + 0.1 * torch.rand(1).item()
-            pt_scale = 5.0
+            # Quark jet: slightly narrower, slightly harder
+            # Make differences MUCH smaller and add noise
+            base_width = 0.20 + 0.10 * torch.rand(1).item()  # 0.20-0.30
+            width = base_width + torch.randn(1).item() * 0.1  # Add noise
+            width = torch.clamp(torch.tensor(width), 0.15, 0.45).item()
+            
+            base_pt_scale = 4.0 + 0.5 * torch.rand(1).item()  # 4.0-4.5
+            pt_scale = base_pt_scale + torch.randn(1).item() * 0.3  # Add noise
+            pt_scale = max(2.5, pt_scale)
         
         # Jet axis
         jet_eta = torch.randn(1, device=device) * 2.0
@@ -305,18 +319,23 @@ def generate_jet_tagging_dataset(
         particles = []
         for _ in range(n_particles):
             # Particle position relative to jet axis
-            delta_eta = torch.randn(1, device=device) * width
-            delta_phi = torch.randn(1, device=device) * width
+            # Add extra noise to make relationships harder to learn
+            delta_eta = torch.randn(1, device=device).item() * width
+            delta_phi = torch.randn(1, device=device).item() * width
             
-            pt = torch.abs(torch.randn(1, device=device)) * pt_scale + 0.5
-            eta = jet_eta + delta_eta
-            phi = (jet_phi + delta_phi) % (2 * np.pi)
+            # Add noise to pT distribution
+            pt_noise_factor = 1.0 + torch.randn(1).item() * 0.2  # ±20% noise
+            pt = torch.abs(torch.randn(1, device=device)).item() * pt_scale * pt_noise_factor + 0.5
+            pt = max(0.1, pt)  # Clamp minimum
+            
+            eta = jet_eta.item() + delta_eta
+            phi = (jet_phi.item() + delta_phi) % (2 * np.pi)
             
             mass = torch.tensor([0.14], device=device)  # pion mass
             charge = torch.sign(torch.randn(1, device=device))
             pid = torch.tensor([3.0], device=device)  # pion
             
-            particle = torch.cat([pt, eta, phi, mass, charge, pid])
+            particle = torch.tensor([pt, eta, phi, mass.item(), charge.item(), pid.item()], device=device)
             particles.append(particle)
         
         events.append(torch.stack(particles))
