@@ -11,7 +11,9 @@ A useful way to reframe self-attention is to interpret it as a graph neural netw
 This blog develops a sequence of architectures centered on clustering, motivated by graph neural networks. Our work culminates in two main directions:
  
 1. `SuperClusterAttention` an attention mechanism that restricts self-attention to within learned clusters and uses supernodes to route information between clusters.
-2. `ClusterKernelAttention`, a hybrid that combines linear attention on top of cluster structure. 
+2. `ClusterKernelAttention`, which uses learned soft clusters and low-rank cluster mixing within linear attention to capture global context efficiently.
+
+
 
 We apply these architectures to three domains: language modeling (enwik8), physics regression (HEP events), and 3D object recognition (modelnet). 
 
@@ -38,7 +40,7 @@ To remain permutation-equivariant with respect to token order, we must use a per
 2. Sort the sequence of scalars.
 3. Split the sorted sequence into $C$ contiguous blocks, representing cluster assignments.
 
-However, the sorting and partitioning step is not differentiable, making backprop unable to reach the learned cluster embedding. Instead, we use the "straight through trick":
+However, the sorting and partitioning step is not differentiable, making backprop unable to reach the learned cluster embedding. Instead, we use the "straight through trick" [9]:
 
 1. Project each token into $C$ logits and apply a softmax to obtain soft cluster memberships `R_soft`.
 2. Take an argmax over those logits to produce hard assignments `R_hard`.
@@ -67,7 +69,7 @@ The procedure is as follows:
 4. Cluster states are mixed through a learned low-rank transformation so information flows across clusters without paying a full $C^2$ cost.
 5. Tokens read back a mixed cluster summary using their soft assignments and form a standard linear-attention update.
 
-For a more detailed mechanism and full code, refer to the Appendix [#TODO link appendix] and [GitHub repo](https://github.com/rynchin/clusterattention/blob/master/variants/ClusterKernelAttention.py).
+For a more detailed mechanism and full code, refer to the Appendix and [GitHub repo](https://github.com/rynchin/clusterattention/blob/master/variants/ClusterKernelAttention.py).
 
 ### FastCKA variant
 FastCKA implements the same update but reorganizes the algebra so that most operations happen in the reduced rank. This removes large intermediate cluster tensors and lowers matmul cost, resulting in an observed 2× training speed improvement while producing the same outputs.
@@ -116,7 +118,9 @@ CKA shows minimal improvement over linear attention
 
 We investigate how the number of clusters of `ClusterAttention` affects performance by varying the cluster scale parameter $s$ where $C = s \cdot \sqrt{n}$. Results for 2-layer models:
 
-| Cluster Scale | C (approx) | ClusterAttention Val bpb | LCA Val bpb | CKA Val bpb |
+![ablation](ablation.jpeg)
+
+<!-- | Cluster Scale | C (approx) | ClusterAttention Val bpb | LCA Val bpb | CKA Val bpb |
 |---------------|------------|--------------------------|-------------|-------------|
 | 1 | ~23 | 3.72 | 3.71 | 2.36 |
 | 2 | ~45 | 3.59 | - | 2.39 |
@@ -125,7 +129,7 @@ We investigate how the number of clusters of `ClusterAttention` affects performa
 | 8 | ~181 | 3.09 | - | 2.38 |
 | 16 | ~362 | 2.54 | - | - |
 | 32 | ~724 | 1.88 | - | - |
-| 64 | ~1448 | 1.90 | - | - |
+| 64 | ~1448 | 1.90 | - | - | -->
 
 
 ## High-Energy Physics Jet Tagging Results
@@ -201,6 +205,7 @@ Moving forward, we would like to see attention mechanisms that adapt the number 
 6. Rae, J. W., & Razavi, A. "Do transformers need deep long-range memory?" arXiv:2007.04825, 2020.
 7. Beltagy, I., Peters, M. E., & Cohan, A. "Longformer: The long-document transformer." arXiv:2004.05150, 2020.
 8. Zaheer, M., et al. "Big bird: Transformers for longer sequences." NeurIPS 2020.
+9. Courbariaux, M., Hubara, I., Soudry, D., El-Yaniv, R., & Bengio, Y. "Binarized Neural Networks: Training Neural Networks with Weights and Activations Constrained to +1 or −1." arXiv:1602.02830, 2016.
 
 # Appendix
 ## ClusterKernelAttention Derivation

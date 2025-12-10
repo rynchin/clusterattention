@@ -6,6 +6,7 @@ import torch.nn.functional as F
 import math
 import argparse
 import importlib
+import random
 from datetime import datetime
 from sklearn.metrics import r2_score
 import numpy as np
@@ -45,21 +46,8 @@ lr = 1e-4  # Reduced learning rate for stability
 weight_decay = 0.01
 grad_clip = 1.0
 
-# Load dataset
-log("Loading HEP dataset...")
-train_loader, val_loader, test_loader, feature_stats = create_hep_dataloaders(
-    n_train=10000,
-    n_val=2000,
-    n_test=2000,
-    min_particles=50,
-    max_particles=500,
-    max_length=512,
-    batch_size=batch_size,
-    normalize=True,
-    device=device,
-    seed=42
-)
-log(f"Dataset loaded: train={len(train_loader.dataset)}, val={len(val_loader.dataset)}, test={len(test_loader.dataset)}")
+# Base seed for reproducibility (can be overridden per model)
+base_seed = 42
 
 # Get sequence length from runs file
 def load_runs(runs_name):
@@ -78,8 +66,24 @@ def load_runs(runs_name):
     except AttributeError as e:
         raise AttributeError(f"runs.{runs_name} does not have a 'models' attribute. Error: {e}")
 
-def train(name, attn_class, attn_args, train_loader, val_loader, T, n_layers, steps, runs_name):
+def set_seed(seed):
+    """Set random seeds for reproducibility"""
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed(seed)
+        torch.cuda.manual_seed_all(seed)
+    # For deterministic behavior (may slow down training)
+    # torch.backends.cudnn.deterministic = True
+    # torch.backends.cudnn.benchmark = False
+
+def train(name, attn_class, attn_args, train_loader, val_loader, T, n_layers, steps, runs_name, seed=None):
     log(f'\n----Training {name}----')
+    if seed is not None:
+        log(f'Using random seed: {seed}')
+        set_seed(seed)
+    
     # Clear CUDA cache before creating new model
     if torch.cuda.is_available():
         torch.cuda.empty_cache()
@@ -225,10 +229,30 @@ def run_all_models(runs_name):
     models, steps, T = load_runs(runs_name)
     log(f'Running {runs_name} with {len(models)} models')
     log('models:', models)
+    log(f'Base seed: {base_seed}')
 
     results = {}
-    for name, attn_class, attn_args, n_layers in models:
-        model = train(name, attn_class, attn_args, train_loader, val_loader, T, n_layers, steps, runs_name)
+    for idx, (name, attn_class, attn_args, n_layers) in enumerate(models):
+        # Use different seed for each model run
+        # This ensures different random initialization and training randomness
+        model_seed = base_seed + idx
+        log(f'Model {idx+1}/{len(models)}: {name} will use seed {model_seed}')
+        
+        # Load dataset with this seed (different data generation/shuffling)
+        train_loader, val_loader, test_loader, feature_stats = create_hep_dataloaders(
+            n_train=10000,
+            n_val=2000,
+            n_test=2000,
+            min_particles=50,
+            max_particles=500,
+            max_length=T,
+            batch_size=batch_size,
+            normalize=True,
+            device=device,
+            seed=model_seed
+        )
+        
+        model = train(name, attn_class, attn_args, train_loader, val_loader, T, n_layers, steps, runs_name, seed=model_seed)
         
         # Evaluate on train and validation sets
         train_metrics = evaluate_regression(model, train_loader, device)
