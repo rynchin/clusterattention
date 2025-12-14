@@ -12,8 +12,8 @@ A useful way to reframe self-attention is to interpret it as a graph neural netw
 
 This blog develops a sequence of architectures centered on clustering. Our architectures build on linear and cluster attention as templates, but introduce different aggregation mechanisms (mixing clusters, supernodes) to obtain $O(n\sqrt{n})$ cost. Our work culminates in two main directions:
  
-1. `SuperClusterAttention`: an attention mechanism that restricts self-attention to within learned clusters and uses supernodes to route information between clusters.
-2. `ClusterKernelAttention`: which uses learned soft clusters and low-rank cluster mixing within linear attention to capture global context efficiently.
+1. **SuperClusterAttention**: an attention mechanism that restricts self-attention to within learned clusters and uses supernodes to route information between clusters.
+2. **ClusterKernelAttention**: which uses learned soft clusters and low-rank cluster mixing within linear attention to capture global context efficiently.
 
 We apply these architectures to three domains: language modeling (enwik8), physics regression (HEP events), and 3D object recognition (ModelNet40). 
 
@@ -118,7 +118,8 @@ To investigate why RCA performs poorly, we vary the cluster scale parameter $s$ 
 
 For 2-layer models:
 
-![IMG_6249](https://hackmd.io/_uploads/ry3pXNHMWx.jpg)
+<!-- ![IMG_6249](https://hackmd.io/_uploads/ry3pXNHMWx.jpg) -->
+![IMG_6249](images/cluster_scale_ablation.jpeg)
 
 Since cluster assignments here are random (not learned), even clusters roughly half the sequence length perform similarly to linear attention, showing that learned clustering is crucial if we want improvements beyond simple random partitioning.
 
@@ -126,12 +127,17 @@ Since cluster assignments here are random (not learned), even clusters roughly h
 
 While cluster scale controls how coarse the routing is, CKA also introduces an independent source of capacity through low-rank cross-cluster mixing. We next vary the mixing-rank dimension $k$ to isolate its contribution.
 
-![image](https://hackmd.io/_uploads/rk8u2lLG-x.png)
+<!-- ![image](https://hackmd.io/_uploads/rk8u2lLG-x.png) -->
+![mixing_ablation](images/mixing_ablation.png)
+
 
 Increasing $k$ leads to consistently lower training loss by 20k steps, with the separation emerging most clearly in the mid-to-late training regime. This pattern suggests that richer cross-cluster interaction subspaces provide additional useful modeling capacity in this setting. Because this is a short-horizon, single-run ablation, we present the result as directional evidence rather than a definitive statement about scaling behavior.
 
-To check whether this extra capacity is actually used, we tracked the norm and structure of the learned low-rank mixing matrices (MA/MB) during training.
-![image](https://hackmd.io/_uploads/Skh0T-8z-g.png)
+To check whether this extra capacity is actually used, we tracked the Frobenius norm and structure of the learned low-rank mixing matrices (MA/MB) during training.
+
+![MAMB](images/MAMB.png)
+Caption: Left: Progresion in Frobenius norm of MA, MB, query projection matrix (WQ), cluster assignment projection matrix. Right: Weights of MA matrix at step 1,000 versus 20,000.
+
 The MA/MB weights start tiny at 1k steps and grow to a similar scale as other attention weights by 20k, especially in layers 0–2. Their patterns also change shape rather than just getting scaled up.
 
 
@@ -139,7 +145,8 @@ The MA/MB weights start tiny at 1k steps and grow to a similar scale as other at
 
 We evaluate our architectures on the HEP jet-tagging task using noncausal attention, which provides each event with full context. All models are trained for 20,000 steps under identical schedules. Table 2 reports test accuracy, F1, and AUC, sorted by accuracy.
 
-![Screenshot 2025-12-09 at 3.14.50 PM](https://hackmd.io/_uploads/SkBBm-LM-e.png)
+![HEP_results](images/HEP_results.png)
+<!-- ![Screenshot 2025-12-09 at 3.14.50 PM](https://hackmd.io/_uploads/SkBBm-LM-e.png) -->
 
 
 Caption: Colors indicate relative ranking within each metric (green best, then yellow, orange, red).
@@ -148,9 +155,10 @@ RandomClusterAttention ranks first in accuracy despite using random partitions, 
 
 ## ModelNet40 Results
 
-We evaluate our architectures on the ModelNet40 3D object classification task using noncausal attention. All models are trained for 20 000 steps under identical settings. Table 3 reports test accuracy and mean-class accuracy, sorted by mean-class accuracy.
+We evaluate our architectures on the ModelNet40 3D object classification task using noncausal attention. All models are trained for 20 000 steps under identical settings. Table 3 reports test accuracy and mean-class accuracy, sorted by overall accuracy.
 
-![Screenshot 2025-12-09 at 3.15.15 PM](https://hackmd.io/_uploads/r17wXW8fZe.png)
+![modelnet_results](images/modelnet_results.png)
+<!-- ![Screenshot 2025-12-09 at 3.15.15 PM](https://hackmd.io/_uploads/r17wXW8fZe.png) -->
 
 
 LinearAttention leads across metrics, while clustered variants lag. This implies that arbitrary clustering disrupts local geometric neighborhoods in point clouds, so 3D object recognition does not benefit from global cluster routing.
@@ -179,14 +187,14 @@ Moving forward, we would like to see attention mechanisms that adapt the number 
 
 # References
 
-1. Katharopoulos, A., et al. "Transformers are RNNs: Fast autoregressive transformers with linear attention." ICML 2020.
-2. Choromanski, K., et al. "Rethinking attention with performers." ICLR 2021.
-3. Kitaev, N., Kaiser, Ł., & Levskaya, A. "Reformer: The efficient transformer." ICLR 2020.
-4. Vyas, A., Katharopoulos, A., & Fleuret, F. “Fast Transformers with Clustered Attention.” NeurIPS 2020.
-5. Child, R., Gray, S., Radford, A., & Sutskever, I. "Generating long sequences with sparse transformers." arXiv:1904.10509, 2019.
-6. Beltagy, I., Peters, M. E., & Cohan, A. "Longformer: The long-document transformer." arXiv:2004.05150, 2020.
-7. Zaheer, M., et al. "Big bird: Transformers for longer sequences." NeurIPS 2020.
-8. Courbariaux, M., Hubara, I., Soudry, D., El-Yaniv, R., & Bengio, Y. "Binarized Neural Networks: Training Neural Networks with Weights and Activations Constrained to +1 or −1." arXiv:1602.02830, 2016.
+1. Katharopoulos, A., Vyas, A., Pappas, N., & Fleuret, F. (2020). Transformers are RNNs: Fast autoregressive transformers with linear attention. In Proceedings of the 37th International Conference on Machine Learning (ICML).
+2. Choromanski, K., Likhosherstov, V., Dohan, D., Song, X., Gane, A., Sarlós, T., et al. (2021). Rethinking attention with performers. In Proceedings of the International Conference on Learning Representations (ICLR).
+3. Kitaev, N., Kaiser, Ł., & Levskaya, A. (2020). Reformer: The efficient transformer. In Proceedings of the International Conference on Learning Representations (ICLR).
+4. Vyas, A., Katharopoulos, A., & Fleuret, F. (2020). Fast transformers with clustered attention. In Advances in Neural Information Processing Systems (NeurIPS).
+5. Child, R., Gray, S., Radford, A., & Sutskever, I. (2019). Generating long sequences with sparse transformers. arXiv preprint arXiv:1904.10509.
+6. Beltagy, I., Peters, M. E., & Cohan, A. (2020). Longformer: The long-document transformer. arXiv preprint arXiv:2004.05150.
+7. Zaheer, M., Guruganesh, G., Dubey, A., Ainslie, J., Alberti, C., Ontañón, S., et al. (2020). Big bird: Transformers for longer sequences. In Advances in Neural Information Processing Systems (NeurIPS).
+8. Courbariaux, M., Hubara, I., Soudry, D., El-Yaniv, R., & Bengio, Y. (2016). Binarized neural networks: Training neural networks with weights and activations constrained to +1 or −1. arXiv preprint arXiv:1602.02830.
 
 
 # Appendix
